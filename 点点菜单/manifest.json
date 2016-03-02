@@ -1,0 +1,143 @@
+{"id":"H5945228C","name":"点点菜单","version":{"name":"1.3.0","code":"83"},"description":"","icons":{"72":"icon.png"},"launch_path":"index.html","developer":{"name":"Juice","email":"qh-hsy@foxmail.com"},"permissions":{"Accelerometer":{"description":"访问加速度感应器"},"Audio":{"description":"访问麦克风"},"Cache":{"description":"管理应用缓存"},"Camera":{"description":"访问摄像头"},"Console":{"description":"跟踪调试输出日志"},"Contacts":{"description":"访问系统联系人信息"},"Device":{"description":"访问设备信息"},"Downloader":{"description":"文件下载管理"},"Events":{"description":"应用扩展事件"},"File":{"description":"访问本地文件系统"},"Gallery":{"description":"访问系统相册"},"Geolocation":{"description":"访问位置信息"},"Invocation":{"description":"使用Native.js能力"},"Messaging":{"description":"访问通讯能力"},"Orientation":{"description":"访问方向感应器"},"Proximity":{"description":"访问距离感应器"},"Storage":{"description":"管理应用本地数据"},"UI":{},"Uploader":{"description":"管理文件上传任务"},"Runtime":{"description":"访问运行期环境"},"XMLHttpRequest":{"description":"跨域网络访问"},"Zip":{"description":"文件压缩与解压缩"},"Barcode":{"description":"管理二维码扫描插件"},"Maps":{"description":"管理地图插件"},"Payment":{"description":"管理支付插件"},"Push":{"description":"管理推送消息插件"},"Share":{"description":"管理社交分享插件"},"Speech":{"description":"管理语音识别插件"},"Statistic":{"description":"管理统计插件"},"push":{"description":"管理推送消息插件"},"Webview":{},"NativeUI":{},"Navigator":{}},"plus":{"splashscreen":{"autoclose":true,"waiting":true},"runmode":"liberate","signature":"Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw=="},
+	"dependencies": {
+		"pages": {
+			"webview/tab-webview-order.html": {
+				"resources": [
+					"image/laoyuxiaoguan.jpg",
+					"image/shanxijiaoziguan.jpg",
+					"image/huabeitesexiaochi.jpg",
+					"image/dongbeirenyutoupaobing.jpg",
+					"image/chengdumeishi.jpg",
+					"image/chuanyumeishi.jpg",
+					"image/dongbeichengxinkuaicandian.jpg",
+					"image/huaxiaoshengtudoufen.jpg",
+					"image/haozailaixiaochi.jpg",
+					"image/dongbeixiaochi.jpg",
+					"image/aniumianguan.jpg"
+				],
+				"refer": [
+					"webview/menu.html"
+				],
+				"priority": 0
+			},
+			"index.html": {
+				"resources": [
+					"js/script.js",
+					"js/mui.min.js",
+					"layer.m/need/layer.css",
+					"layer.m/layer.m.js",
+					"js/zepto_1.1.6.min.js",
+					"fonts/mui.ttf",
+					"css/animate.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"webview/main_content.html"
+				],
+				"refer": [
+					"webview/tab-webview-order.html",
+					"webview/tab-webview-my.html"
+				],
+				"priority": 0
+			},
+			"webview/tab-webview-my.html": {
+				"resources": [
+					"image/head.png",
+					"image/logo.png",
+					"js/my.js",
+					"js/parallax.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"webview/main_content.html": {
+				"resources": [
+					"js/json/huabeitesexiaochi.json",
+					"image/banner04.jpg",
+					"image/dongbeichengxinkuaicandian.png",
+					"image/banner03.jpg",
+					"js/timeCountDown.js",
+					"js/json/chengdumeishi.json",
+					"js/json/dongbeichengxinkuaicandian.json",
+					"image/chuanyumeishi.png",
+					"js/json/dongbeixiaochi.json",
+					"js/json/chengduxiaochi.json",
+					"image/rush.gif",
+					"js/json/aniumianguan.json",
+					"js/json/haoshihuidongbeicai.json",
+					"image/laoyu.png",
+					"js/json/huaxiaoshengtudoufen.json",
+					"image/banner01.jpg",
+					"js/json/dongbeirenyutoupaobing.json",
+					"image/banner02.jpg",
+					"js/main_content.js"
+				],
+				"refer": [
+					"webview/cosearchc.html",
+					"webview/food2.html"
+				],
+				"priority": 0
+			},
+			"webview/menu.html": {
+				"resources": [
+					"image/haoshihuidongbeicai.jpg",
+					"js/json/haoshihuidongbeicai.json",
+					"js/menu.js"
+				],
+				"refer": [
+					"webview/food2.html"
+				],
+				"priority": 0
+			},
+			"webview/food2.html": {
+				"resources": [
+					"js/json/haoshihuidongbeicai.json",
+					"js/mui.min.js",
+					"layer.m/need/layer.css",
+					"layer.m/layer.m.js",
+					"js/zepto_1.1.6.min.js",
+					"fonts/mui.ttf",
+					"css/animate.css",
+					"css/mui.min.css",
+					"css/style.css",
+					"fonts/iconfont.ttf",
+					"js/food.js",
+					"js/json/dongbeichengxinkuaicandian.json",
+					"js/json/chengdumeishi.json"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"webview/cosearchc.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/zepto_1.1.6.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/json/chengdumeishi.json"
+				],
+				"refer": [
+					"webview/food2.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/menu.json",
+				"js/json/haozailaixiaochi.json",
+				"js/json/shanxijiaoziguan.json",
+				"marks.txt",
+				"js/json/chuandumalatang.json",
+				"webview/contact.html",
+				"download.html",
+				"webview/add.html",
+				"webview/searchc.html",
+				"webview/address.html",
+				"js/json/chuanyumeishi.json",
+				"image/chengduxiaochi.jpg",
+				"js/json/laoyuxiaoguan.json"
+			]
+		}
+	}}

@@ -1,0 +1,62 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title>搜索</title>
+    <link rel="stylesheet" href="../../css/icon.min.css" />
+    <link href="../../css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script src="../../js/home/search.js" type="text/javascript"></script>
+    <style>
+        #header input.tab-text-search::-webkit-input-placeholder {
+            color: #FFFFFF !important;
+            text-indent: 1.8em;
+        }
+
+        #header input.tab-text-search:-moz-placeholder {
+            color: #FFFFFF !important;
+            text-indent: 1.8em;
+        }
+
+        #header input.tab-text-search::-moz-placeholder {
+            color: #FFFFFF !important;
+            text-indent: 1.8em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <span class="tab_mune tab_a t-c"  id="back">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class="tab_mune tab_b">
+            <div>
+                <form class=" tab-seacr-bg" style="background: #fff;border: 1px solid #fff;color:black;position:relative;">
+                    <i class="search icon" style="font-size:1.2em; margin-right:0.5em;line-height: 30px;display:inline-block; height:30px;position: absolute;left:2px;top:0px;z-index:3;">  </i>
+
+                    <input type="search" id="searchvalue" class="tab-text-search" placeholder="搜索商家/商圈/商品" style="width: auto; color:black; background: #fff;margin-left: 2.5em;" />
+                </form>
+            </div>
+        </span>
+
+        <span class="tab_mune tab_a t-c">
+            <a id="btnsearch"> <h3 class="hd-tit-h2">搜索</h3>	</a>
+        </span>
+    </div>
+    <div id="content" class="bg-f2">
+        <div class="pd10" id="hotwordlist">
+
+            <ul class="search-list-block "></ul>
+        </div>
+    </div>
+
+</body>
+</html>

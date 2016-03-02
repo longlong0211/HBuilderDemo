@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			span {
+				font-size: 14px;
+			}
+			
+			.mui-input-group .mui-input-row:after {
+				background-color: #ffffff;
+			}
+			
+			.mui-bar .mui-btn-block {
+				padding: 15px;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--<nav class="mui-bar mui-bar-tab" style="padding-left:12px;padding-right:12px;">
+
+		</nav>-->
+		<div class="mui-content">
+			<div class="mui-card">
+				<ul class="mui-table-view">
+
+					<li class="mui-table-view-cell">
+						<span>感谢购物！订单已成功提交，订单号：</span>
+						<span style="color: #dd524d;" id="order_no"></span>
+					</li>
+				</ul>
+			</div>
+			<form class="mui-card" method="post" action="http://www.guoshe.cc/api/payment/alipaywap/index.aspx" target="_blank">
+				<ul class="mui-table-view">
+
+					<li class="mui-table-view-cell">
+						<div class="mui-collapse-content mui-input-group">
+
+							<div class="mui-input-row">
+								<span>收货姓名：</span>
+								<span id="name"></span>
+							</div>
+							<div class="mui-input-row">
+								<span>收货地址：</span>
+								<span id="address"></span>
+							</div>
+
+							<div class="mui-input-row">
+								<span>手机号码：</span>
+								<span id="tel"></span>
+							</div>
+							<div class="mui-input-row">
+								<span>固定电话：</span>
+								<span id="telephone"></span>
+							</div>
+							<div class="mui-input-row">
+								<span>支付方式：</span>
+								<span id="payment"></span>
+							</div>
+							<div class="mui-input-row">
+								<span>付款金额：</span>
+								<span id="paymoney"></span>
+							</div>
+							<div class="mui-input-row">
+								<span>备注留言：</span>
+								<span id="mark"></span>
+							</div>
+							<div class="mui-input-row">
+								<span>特别提示：</span><span id="mark1" style="color:Red;"></span>
+							</div>
+							<input type="hidden" id="pay_order_no" name="pay_order_no" />
+							<input type="hidden" id="pay_order_amount" name="pay_order_amount" />
+							<input type="hidden" id="pay_user_name" name="pay_user_name" />
+						</div>
+					</li>
+				</ul>
+				<button class="mui-btn mui-btn-negative mui-btn-block" id="querenfukuan" type="submit" style="display: none;">确认付款</button>
+				<button class="mui-btn mui-btn-negative mui-btn-block" id="zhifubao" type="button" onclick="pay()">确认付款</button>
+			</form>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script>
+			var count = 0;
+			var zhifu = "";
+			var order_no = null;
+			var channel = null;
+			var temp = getQueryString("payment"); //3:支付宝;7:微信
+			mui.init({
+				//				beforeback: function() {
+				//					var shopping = plus.webview.getWebviewById("shopping.html");
+				//					//console.log(goods_show);
+				//					if (shopping != null) {
+				//						mui.fire(shopping,"")
+				//					} 
+				//				},
+				swipeBack: false
+			});
+			mui.plusReady(function() {
+				if (temp == '3') {
+					temp = "alipay";
+				} else {
+					temp = "wxpay";
+				}
+				// 获取支付通道
+				plus.payment.getChannels(function(channels) {
+					for (var i in channels) {
+						if (channels[i].id == temp) {
+							channel = channels[i];
+							checkServices(channel);
+						}
+					}
+				}, function(e) {
+					alert("获取支付通道失败：" + e.message);
+				});
+				var users = JSON.parse(localStorage.getItem('$users') || '[]');
+				var username;
+				users.some(function(user) {
+					username = user.account;
+				});
+				order_no = getQueryString("order_no");
+				$("#pay_order_no").val(order_no);
+				$("#pay_user_name").val(username);
+				if (order_no == "") {
+					mui.alert("参数错误");
+				} else {
+					$("#order_no").text(order_no);
+					mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_payment', {
+						data: {
+							"order_no": order_no,
+							"accout": username
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							if (data.status == 0) {
+								mui.alert(data.msg);
+							} else {
+								$("#name").text(data.accept_name);
+								$("#address").text(data.address);
+								$("#tel").text(data.mobile);
+								$("#telephone").text(data.telephone);
+								$("#payment").text(data.title);
+								$("#paymoney").text(data.order_amount);
+								$("#mark").text(data.message);
+								$("#pay_order_amount").val(data.order_amount);
+								zhifu = data.title;
+								mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_timeout', {
+									type: "POST",
+									dataType: "json",
+									timeout: 10000,
+									data: {
+										"add_time": data.add_time
+									},
+									success: function(data) {
+										count = parseInt(data.time * 60);
+										GetNumber();
+									},
+									error: function(xhr, type, errorThrown) {
+										//异常处理；
+										console.log(errorThrown);
+									}
+								});
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log("dayhour");
+						}
+					});
+				}
+			});
+
+			function GetNumber() {
+				$("#mark1").text("请尽快提交订单,否则订单将在" + count + "秒后失效");
+				count--;
+				if (count > 0) {
+					setTimeout(GetNumber, 1000);
+				} else {
+					count = 0;
+					$("#mark1").text("订单已失效");
+					$("#zhifubao").remove();
+				}
+			}
+
+			function checkServices(pc) {
+				if (!pc.serviceReady) {
+					var txt = null;
+					switch (pc.id) {
+						case temp:
+							txt = "检测到系统未安装支付宝快捷支付服务，无法完成支付操作，是否立即安装？";
+							break;
+						default:
+							txt = "系统未安装“" + pc.description + "”服务，无法完成支付，是否立即安装？";
+							break;
+					};
+					var btnArray = ['立即安装', '使用网页支付'];
+					mui.confirm(txt, pc.description, btnArray, function(e) {
+						if (e.index == 0) {
+							pc.installService();
+						} else {
+							$('#querenfukuan').click();
+						}
+					});
+					console.log(pc.id);
+				} else {
+					console.log(pc.id);
+				}
+			}
+			//document.addEventListener('plusready',plusReady,false);
+			function getQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return "";
+			}
+			//手机支付宝---------------------------------------------
+			//--------------------------------------------------------
+			// 2. 发起支付请求
+			function pay() {
+				
+				// 从服务器请求支付订单
+				if (temp == 'alipay') {
+					var PAYSERVER = 'http://www.guoshe.cc/tools/pay.ashx?action=GetPayInfo&_amount=';
+					PAYSERVER += $('#paymoney').text() + '&out_trade_no=' + order_no;
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						switch (xhr.readyState) {
+							case 4:
+								if (xhr.status == 200) {
+									plus.payment.request(channel, xhr.responseText, function(result) {
+										plus.nativeUI.alert("支付成功！", function() {
+											mui.back();
+										});
+									}, function(error) {
+										plus.nativeUI.alert("支付失败：" + error.code + channel.id);
+									});
+								} else {
+									outLine("----- 请求订单失败 -----");
+									outLine(xhr.status);
+									alert("获取订单信息失败！");
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					xhr.open('GET', PAYSERVER);
+					xhr.send();
+				} else { //微信支付
+					
+					mui.post('http://www.guoshe.cc/tools/wx_pay.ashx?action=GetPayInfo', {
+						"_trade_type": "APP",
+						"_amount": $('#paymoney').text(),
+						"_orderid": order_no,
+						"_detail": order_no
+					}, function(data) {
+						var varpay = {
+							"retcode": 0,
+	                        "retmsg": "ok",
+	                        "appid": "wx6df6bab8903b3da9",
+	                        "noncestr": data.noncestr,
+	                        "package": "Sign=WXPay",
+	                        "partnerid": data.partnerid,
+	                        "prepayid": data.prepayid,
+	                        "timestamp": data.timeStamp,
+	                        "sign": data.sign
+						};
+						console.log(varpay.appid);
+						console.log(varpay.noncestr);
+						console.log(varpay.partnerid);
+						console.log(varpay.prepayid);
+						console.log(data.timeStamp);
+						console.log(varpay.sign);
+						plus.payment.request(channel, varpay, function(result) {
+							plus.nativeUI.alert("支付成功！", function() {
+								back();
+							});
+						}, function(e) {
+//							plus.nativeUI.alert("支付失败：" + e.code + "支付失败：" + e.message);
+//							console.log("支付失败：" + e.code + "支付失败：" + e.message);
+							plus.nativeUI.alert("支付失败或支付取消");
+						});
+					}, "json");
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						switch (xhr.readyState) {
+							case 4:
+								if (xhr.status == 200) {
+									alert(xhr.result);
+									plus.payment.request(channel, xhr.result, function(result) {
+										plus.nativeUI.alert("支付成功！", function() {
+											mui.back();
+										});
+									}, function(error) {
+										//plus.nativeUI.alert("支付失败：" + error.code);
+										plus.nativeUI.alert("支付失败或支付取消");
+									});
+								} else {
+									alert("获取订单信息失败！");
+								}
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				margin: 0px;
+				padding: 0px;
+				background-color: #efeff4;
+			}
+			
+			.ui-login-form {
+				margin-top: 20px;
+				padding: 0px 15px;
+			}
+			
+			.mui-btn-block {
+				padding: 10px 0;
+			}
+			
+			.mui-content-padded {
+				margin: 25px 15px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.mui-input-row {
+				background-color: #fff !important;
+			}
+			
+			.mui-input-row:first-child {
+				border-bottom: 1px solid #E2E2E2;
+			}
+			
+			.mui-content-padded a,
+			.mui-content-padded a:hover {
+				color: #f00;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">登陆</h1>
+		</header>
+		<div class="mui-content">
+			<form class="ui-login-form">
+				<div class="mui-input-row">
+					<label>账号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入手机号码">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-red">登录</button>
+				<div class="link-area">
+					<a id='register'>注册账号</a>
+					<span class="spliter mui-hidden">|</span>
+					<!--<a id='forgetPassword'>忘记密码</a>
+					<span class="spliter">|</span>-->
+					<a id='weixin' class="mui-hidden"><span class="mui-icon mui-icon-weixin"></span>微信登陆</a>
+				</div>
+			</div>
+			<p class="tip mui-hidden" style='text-align: center;'>
+				如已经关注“超盈越”服务号，请使用微信登陆</p>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/login.js"></script>
+		<script>
+			(function(a, b) {
+				a.init({
+					swipeBack: true
+				});
+				a.plusReady(function() {
+					var c = getCachedUser();
+					if (c) {
+						mui.back();
+						return
+					}
+					initLoginAuth(function() {
+						if (auths.weixin && isWxInstalled()) {
+							document.querySelector(".spliter").classList.remove("mui-hidden");
+							document.getElementById("weixin").classList.remove("mui-hidden");
+							document.querySelector(".tip").classList.remove('mui-hidden')
+						}
+					})
+				});
+				document.getElementById("register").addEventListener("tap", signup);
+				document.getElementById("login").addEventListener("tap", signin);
+				document.getElementById("weixin").addEventListener("tap", wxLoginShow)
+			}(mui, document));
+
+			function signin() {
+				console.log("登陆开始");
+				var b = document,
+					e = b.querySelector("#account"),
+					a = b.querySelector("#password"),
+					c = e.value,
+					d = a.value;
+				if (c == "") {
+					mui.alert("用户名必须填写");
+					e.focus();
+					return false
+				}
+				if (d == "") {
+					mui.alert("密码必须填写");
+					a.focus();
+					return false
+				}
+				mui.sendRequest(mui.constMap.ROOT_PATH + "/user/signin", {
+					name: c,
+					password: d
+				}, function(f) {
+					if (!f.status.succeed) {
+						mui.alert(f.status.error_desc);
+						window.localStorage.removeItem("user");
+						return
+					}
+					console.log("登陆成功" + JSON.stringify(f.data));
+					f.data.expire = mui.now();
+					f.data.expire += 15 * 60 * 1000;
+					window.localStorage.setItem("user", JSON.stringify(f.data));
+					var g = plus.webview.getWebviewById("cart.html");
+					mui.fire(g, "refresh");
+					mui.toast("登陆成功");
+					mui.back()
+				})
+			}
+
+			function signup() {
+				var a = mui.openWindow({
+					id: "register.html",
+					url: "register.html",
+					waiting: {
+						autoShow: true
+					}
+				});
+				a.addEventListener("close", function(b) {
+					if (checkLogin(0)) {
+						mui.back()
+					}
+				})
+			};
+		</script>
+	</body>
+
+</html>

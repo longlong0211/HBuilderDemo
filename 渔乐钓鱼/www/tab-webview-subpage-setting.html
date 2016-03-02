@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			 
+			.mui-table-view{ margin: 20px 15px 10px;} 
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 10%;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			.oa-contact-name, oa-contact-position {
+				float: left;
+			}
+			.oa-contact-avatar img{ width: 60px; height: 60px;}
+			
+			.title-sub{  background-color: red; color: white;}  
+			
+			#num_sub_version{  text-align: left; float: left; left:100px; width:35px;}
+		</style>
+	</head>
+
+	<body>
+		 
+		<div class="mui-content">
+			<ul id="user_info" style=" display: none;" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+				<li class="mui-table-view-cell" >
+					<a href="set_account.html" open-type="common"  >
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell"   >
+								<img src="images/user-photo.png" width="60"/> 
+							</div> 
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h4 class="oa-contact-name"></h4>
+									<span class="oa-contact-position mui-h6"></span>
+								</div>
+								<p class="oa-contact-email mui-h6">
+									 
+								</p>
+							</div> 
+						</div>
+					</div>
+					</a>
+				</li>
+			</ul>
+			
+			<ul id="user_notlogin" style=" display: none;" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+				<li class="mui-table-view-cell" >
+					<a href="login.html?from=setting" open-type="common" title="用户登陆">
+						<div class="mui-slider-cell">
+							<div class="oa-contact-cell mui-table">
+								<div class="oa-contact-avatar mui-table-cell"   >
+									<img src="images/user-photo.png" width="60"/> 
+								</div> 
+								<div class="oa-contact-content mui-table-cell">
+									<div class="mui-clearfix">
+										<h4 class="oa-contact-name">未登陆，点击登陆！</h4>
+										<span class="oa-contact-position mui-h6"> </span>
+									</div>
+									<p class="oa-contact-email mui-h6">
+										 
+									</p>
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a href="set_account.html" open-type="common" class="mui-navigate-right">账号与安全</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="set_message_friend.html" open-type="common" class="mui-navigate-right" onclick="javascript:jQuery('#num_sub_friend').hide();" >好友申请
+					<span class="mui-badge title-sub mui-pull-right" id="num_sub_friend"  style="display: none;" ></span>
+					</a> 
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="set_message_system.html" open-type="common" class="mui-navigate-right" onclick="javascript:jQuery('#num_sub_system').hide();" >系统消息
+					<span class="mui-badge title-sub mui-pull-right" id="num_sub_system" style="display: none;" ></span>
+					</a>
+				</li>
+				
+			</ul>
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="set_notification.html" open-type="common" >
+						新消息通知
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="set_privacy.html" open-type="common" >
+						隐私
+					</a>
+				</li>
+			 
+			</ul>
+			
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell"> 
+					<a href="set_about.html" open-type="common" class="mui-navigate-right">关于渔乐 
+						<span class="mui-badge title-sub" id="num_sub_version" style="display: none;" ></span>
+						<i class="mui-pull-right update" id="version"></i> 
+					</a>
+				</li> 
+			</ul>
+			
+			<ul id="user_logout" style="display: none;" class="mui-table-view" style="margin-top: 25px;">
+				<li class="mui-table-view-cell">
+					<div style="text-align: center;color: #FF3B30;">
+						退出登录
+					</div>
+				</li>
+			</ul>
+			 
+			 
+		</div>
+		</style>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	 
+	<script src="js/app.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script src="js/fish_cache.js"></script>
+	<script type="text/javascript" src="js/fish_noback.js"></script> 
+	<script>
+		 //判断是否登陆
+		mui.plusReady(function() { 
+			checklogin();
+			
+			jQuery("#version").html(GetVersion(GetSystem()));
+			
+			var temp =plus.storage.getItem("update");
+			if(temp!= null && temp !="" )
+			{
+				jQuery("#num_sub_version").html("New");
+				jQuery("#num_sub_version").show();
+				 
+			}
+		});
+		
+		document.addEventListener('login', function() {
+			 
+			 checklogin();
+		});
+		
+		 
+		 
+	    var checklogin  =function(){
+	    	
+	    	 
+	    	
+			getlogin();
+	    	 
+	    	 
+	    	
+			if(uid>0)  
+			{
+				 $("#user_info").css("display","block");
+				 $("#user_logout").css("display","block");
+				 $("#user_notlogin").css("display","none");
+				  
+				  $("#user_info img").attr("src",avatarsmall);
+				  var nickname2 = (nickname).length>6?nickname.substr(0,6)+"...":nickname;
+				  $("#user_info .oa-contact-name").html(nickname2);
+				  $("#user_info .oa-contact-position").html("等级 "+level+"");
+				  
+				  if(msg==null || msg==""){msg = appdesc;}
+				  var msg2 = (msg).length>30?msg.substr(0,30)+"...":msg;
+				  
+				  $("#user_info .oa-contact-email").html(""+msg2);
+			}
+			else{
+				  $("#user_info").css("display","none");
+				 $("#user_logout").css("display","none");
+				  $("#user_notlogin").css("display","block");
+			}
+			
+			 
+	    }
+		
+		//user_logout
+		mui('#user_logout').on('tap', 'div', function(e) {
+			 
+			 
+			plus.storage.setItem( "uid",  "0");
+			
+			checklogin();
+
+			 
+		});
+		
+		document.addEventListener('fishinit', function() {
+			
+			checklogin(); 
+			
+			var temp = plus.storage.getItem("MessageNum_systemothernum");
+			 
+			if(temp!= null && temp !="0" )
+			{
+				jQuery("#num_sub_system").html(temp);
+				jQuery("#num_sub_system").show();
+				plus.storage.setItem("MessageNum_systemothernum","0");
+
+			}
+			
+	
+			var temp = plus.storage.getItem("MessageNum_systemaddfriendnum");
+			if(temp!= null && temp !="0" )
+			{
+				jQuery("#num_sub_friend").html(temp);
+				jQuery("#num_sub_friend").show();
+				plus.storage.setItem("MessageNum_systemaddfriendnum","0");
+
+			}
+			
+			var temp =plus.storage.getItem("update");
+			if(temp!= null && temp !="" )
+			{
+				jQuery("#num_sub_version").html("New");
+				jQuery("#num_sub_version").show();
+				 
+			}
+			
+		});
+		
+		 
+		 
+		</script>
+</html>

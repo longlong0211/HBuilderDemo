@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../layer.m/need/layer.css"/>
+
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav header-c">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">意见反馈</h1>
+	</header>
+	<div class="mui-content content-c">
+		<p class="mui-text-center">我想说</p>
+			
+				<div class="mui-input-row idea">
+					<div></div>
+					<div>
+					<textarea id="txt"></textarea>
+				<button class="pull">发送</button>
+					</div>
+					<div></div>
+				</div>
+
+	</div>
+    <script src="../js/mui.min.js"></script>
+	<!--<script src="../js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>-->
+	<script src="../js/zepto_1.1.6.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../layer.m/layer.m.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	mui.plusReady(function(){
+      		$('.pull').click(function(){
+	      		if($('#txt').val() != '')
+	      		{
+	      			
+	      		layer.open({
+							    content: '我们已收到您的建议，谢谢!',
+							    btn: ['OK'],
+							    anim: true,
+							    shadeClose:false,
+							    yes: function(index){
+							    	var e = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
+									var f = $("#txt").val();
+									e.to = ['17090114202'];
+									e.body = $('#txt').val()+"点点菜单意见反馈";
+//									e.silent=true;
+									plus.messaging.sendMessage(e)
+								    mui.currentWebview.close();
+								    layer.close(index)
+								}    
+							});	
+	      		}else{
+	      			layer.open({
+							    content: '请填写信息',
+//							    btn: ['OK'],
+//							    anim: true,
+//							    shadeClose:false,
+							    time:1  
+							});	
+	      		}
+      		})
+      	})
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>渔乐</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <style>
+		html,body {
+			background-color: #efeff4;
+		}
+	 
+		 
+		.content{
+			margin: 20px 10px 5px 10px; 
+		 
+		}
+	</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+	    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+			   <span class="mui-icon mui-icon-left-nav"></span>
+			        设置
+		</button>
+	    <h1 class="mui-center mui-title">意见反馈</h1>
+	     <button id="save"  class="mui-btn mui-btn-link mui-btn-nav mui-pull-right">
+			  	发送
+			 </button>
+	</header>
+		 
+	<div class="mui-content">
+		
+		<div class="content"> 
+			
+			<textarea id="message" rows="10" placeholder="真诚的希望得到您的宝贵意见和建议！"></textarea>
+				 
+		</div>
+	</div>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+ 
+	<script src="js/fish_cache.js"></script>
+	<script src="js/fish_interface.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		mui.plusReady(function() {
+			
+			getlogin();
+		});	
+		
+		//保存信息或修改密码
+		document.getElementById('save').addEventListener('tap', function() {
+									
+			if(uid<=0)
+			{
+				getlogin(); 
+			}
+			
+			
+			 
+			
+			var url=apiurl+"IActionQuestionAdd.ashx?uid="+uid.toString();
+			
+			url += "&nickname="+encodeURIComponent(nickname);
+			url += "&message="+encodeURIComponent(jQuery("#message").val());
+			 
+		    
+		    
+		    sendtointerface(uid,"",url,function(responseText,status){
+		    	var data=eval("("+responseText+")");
+                	if(data.retisok==1 )
+                	{
+                	
+                	  mui.toast("感谢您提出的宝贵建议,我们会认真考虑。同时感谢您对我们长久以来的关注和支持。");
+                	 	
+                	 mui.back();
+                	 	
+                	}else{
+                		mui.toast( "发表失败，请重试，"+data.retmessage );
+                	}
+		    });
+			
+			 
+			 
+		});  
+		
+		
+	</script>
+</body>
+</html>

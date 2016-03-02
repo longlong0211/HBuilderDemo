@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 用餐地址</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/mui.listpicker.css" />
+		<link rel="stylesheet" href="../../css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+
+		<style>
+			.mui-input-row label {
+				padding: 12px 0 12px 15px;
+				width: 38%;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~textarea {
+				width: 62%;
+				float: left;
+			}
+			.mui-input-row label,
+			.mui-input-row input,
+			.mui-input-row textarea {
+				font-size: 15px;
+			}
+			#region_id ~ span,
+			#address ~ span {
+				position: absolute;
+				right: 7px;
+				top: 7px;
+				color: #999;
+				width: 30px;
+				text-align: right;
+			}
+			.mui-bar .mui-btn.mui-pull-right {
+				margin-left: 0;
+				margin-right: 0;
+			}
+			.mui-input-group.mui-inline {
+				display: table;
+			}
+			.mui-input-group.mui-inline:before,
+			.mui-input-group.mui-inline:after {
+				height: 0;
+			}
+			.mui-input-group.mui-inline .mui-input-row {
+				display: table-cell;
+				width: 100%;
+				vertical-align: middle;
+				background-color: #fff;
+			}
+			.mui-input-group.mui-inline .mui-input-row:after {
+				height: 0;
+			}
+			.mui-input-group.mui-inline .mui-input-row input[type=number] {
+				margin-bottom: 0;
+			}
+			.mui-input-group.mui-inline .mui-button-row {
+				padding: 0;
+				display: table-cell;
+				width: 1%;
+				white-space: nowrap;
+				vertical-align: middle;
+			}
+			.mui-input-group.mui-inline .mui-button-row button {
+				padding: 9px 12px;
+				margin-left: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 class="mui-title">用餐地址</h1>
+			<button id="save" type="button" class="mui-right mui-btn  mui-btn-link mui-btn-nav mui-pull-right">
+				保存
+			</button>
+		</header>
+		<div id="site" class="mui-content">
+			<input id="site_id" type="hidden">
+			<div class="mui-input-group">
+				<div id="region_select" class="mui-input-row">
+					<label>所在城区：</label>
+					<input id="region_name" type="text" readonly="" placeholder="选择城区">
+					<input id="city_id" type="hidden">
+					<input id="region_id" type="hidden">
+					<span class="mui-icon mui-icon-arrowright"></span>
+				</div>
+				<div class="mui-input-row" style="height: 80px;">
+					<label>详细地址：</label>
+					<textarea id="address" style="height: 80px;padding-right: 30px;"></textarea>
+					<span id="geolocation" class="mui-icon ts-icon ts-icon-geolocation"></span>
+				</div>
+			</div>
+			<div class="mui-input-group" style="margin-top: 10px;">
+				<div class="mui-input-row">
+					<label>您的姓名：</label>
+					<input id="consignee_name" class="mui-input-clear" type="text">
+				</div>
+				<div class="mui-input-row">
+					<label>您的手机号：</label>
+					<input id="consignee_phone" class="mui-input-clear" type="number">
+				</div>
+			</div>
+			<div id="sms_group" class="mui-input-group mui-inline mui-hidden">
+				<div class="mui-input-row">
+					<label>验证码：</label>
+					<input id="sms" type="number">
+				</div>
+				<div class="mui-button-row">
+					<button id="get_sms" type="button" class="mui-btn mui-btn-primary">获取验证码</button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=xfGYVAIbHHQHXGusD2X31qMk"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.poppicker.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/site/site.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/site/site.min.js"></script>
+		<script>
+			new TS.Init('Site');
+		</script>
+	</body>
+
+</html>

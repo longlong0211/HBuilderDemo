@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/brokerage.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">提取红包</h1>
+		</header>
+		<div class="mui-content">
+			<div class="panel extract">
+				<div class="commision-total"><span class="span-title">可提现金额</span><span class="number">￥0.00</span><i class="icon-horn"></i></div>
+				<div class="row extract-monynumber">
+					<div class="large-12 columns">
+						<input class="" id="CashAmount" placeholder="输入提取金额" type="text">
+					</div>
+				</div>
+				<div class="tip-text">最低提现金额为<b id="MinaAmountCash">100.00</b>元</div>
+				<a class="button [radius round] red" id='btnExtract'>立即提取</a>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var user=null;mui.init({swipeBack:true});mui.plusReady(function(){user=getCachedUser(true);if(!user){var c=plus.webview.getLaunchWebview();mui.fire(c,"login");mui.back();return}var d=plus.webview.currentWebview();initExtract(d.money)});document.getElementById("btnExtract").addEventListener("tap",saveExtract);function initExtract(f){var d=document.querySelector("span.number"),e=document.getElementById("CashAmount");d.innerHTML="￥"+f;e.value="";if(f>100){e.setAttribute("min",100);e.setAttribute("max",f)}}function saveExtract(){if(!user.user.wxid){mui.alert("您不是微信用户，无法使用此项功能");return}var d=document.getElementById("CashAmount"),f=d.value,e=d.getAttribute("max");if(isNaN(f)){mui.alert("请输入数字","提示","确定",function(a){d.value=""});return false}if(f<100){mui.alert("您输入的金额未达到最低提现金额","提示","确定",function(a){d.value=""});return false}if(e&&f>e){mui.alert("您输入的金额超过了可提取金额，请重新输入","提示","确定",function(a){d.value=""});return false}mui.sendRequest(mui.constMap.ROOT_PATH+"/user/brokerage/extract",{session:user.session,money:f},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);return}if(a.data.error.length>0){mui.alert(a.data.error,"提示","确定",function(b){d.value=""});return}mui.toast("提现成功，请耐心等待工作人员处理");mui.back()})};
+		</script>
+	</body>
+
+</html>

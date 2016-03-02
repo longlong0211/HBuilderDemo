@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>果社</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/app.css" />
+		<link rel="stylesheet" href="css/iconfont.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.goodsinfo {
+				border-top: 1px solid #e1e1e1;
+				border-width: 1px 0 0 0;
+			}
+			.detail-title {
+				font-size: 1.25em;
+				font-weight: normal;
+				position: relative;
+			}
+			.detail-title p {
+				color: #252525;
+				font-size: 16px;
+				line-height: 25px;
+			}
+			.detail-title {
+				padding-top: 7px;
+				margin-right: 10px;
+			}
+			.mui-col-xs-12 img {
+				width: 100%;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: #809a00;
+			}
+			#pinglun img {
+				border-radius: 50%;
+			}
+			.mui-input-group .mui-input-row {
+				height: 35px;
+			}
+			.mui-checkbox label, .mui-radio label{
+				line-height: 16px;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: green;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title"></h1>
+		</header>
+		<!--<div class="mui-content" style="margin-bottom: 20px;">-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--
+            	作者：827260925@qq.com
+            	时间：2015-05-07
+            	描述：轮播
+            -->
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a>
+								<img src="" id="imgs">
+							</a>
+						</div>
+						<!--<div class="mui-slider-item">
+							<a>
+								<img src="" id="img0">
+							</a>
+						</div>
+						<div class="mui-slider-item">
+							<a>
+								<img src="" id="img1">
+							</a>
+						</div>
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a>
+								<img src="" id="imgw">
+							</a>
+						</div>-->
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+
+					</div>
+					<!--<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+					</div>-->
+				</div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-divider" style="padding-top: 0px;">
+						<div class="goodsinfo">
+							<h1 class="detail-title">
+								<span id="icon" style="color: green;"></span>
+								<span id="wareName" style="font-size: 16px;color:#000000;"></span>
+								
+							</h1>
+							<h1 class="detail-title">
+                            	<span style="font-size: 14px;color: #999;" id="sub_title"></span>
+                        	</h1>
+						</div>
+					</li>
+					<li class="mui-table-view-divider">
+						
+						<span class="mui-icon iconfont icon-renminbi" style="color: red;"></span>
+						<label id="sell_price" style="color:red;font-size: 22px;font-weight: 900;"></label>
+						<label id="market_price" style="text-decoration: line-through;font-size: 12px;"></label>
+						<label id="huohao" style=" font-size: 12px;"></label>
+						<br/>
+						<label id="mark" style="font-size: 13px;"></label>
+					</li>
+				</ul>
+
+				<ul class="mui-table-view" style="margin-top:5px;">
+					<li class="mui-table-view-divider">
+						<p style="margin-top: 10px;" id="guige">规格:
+							<div class="mui-card">
+								<form class="mui-input-group">
+
+								</form>
+							</div>
+						</p>
+						<p>购买数量:
+							<div class="mui-numbox" data-numbox-min='1'>
+								<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+								<input class="mui-numbox-input" type="number" value="1" />
+								<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+							</div>
+						</p>
+						<p id="stock_quantity">库存数量:</p>
+						<br />
+					</li>
+				</ul>
+				<div id="is_msg">
+					<!--评论-->
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body">
+								<i class="mui-icon iconfont icon-chakan" style="color: green;">商品评论</i>
+	
+								<a id="tijiao" style="float:right;">
+									<font style="font-size: 12px;color:green;">我来评论</font>
+								</a>
+							</div>
+						</li>
+					</ul>
+				
+					<ul class="mui-table-view" id="pinglun">
+	
+					</ul>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-media">
+							<div class="mui-media-body" id="comment">
+								<p style="text-align: center;">查看更多评价</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="dianji" style="width:100%;text-align:center;padding: 15px 0;">
+					<h5 style="color: green;">====下拉查看商品详细信息====</h5>
+				</div>
+				<br/>
+				<br/>
+				<ul class="mui-table-view  mui-grid-view" id="mui-table-view">
+
+				</ul>
+			</div>
+		</div>
+
+		<nav class="mui-bar mui-bar-tab" style="height: 58px;">
+			<button class="mui-btn mui-btn-negative" style="padding:8px 20px 8px 20px;margin-left: 20px;font-size: 18px;" id="lijigoumai">立即购买</button>
+			<button class="mui-btn mui-btn-negative" style="padding:8px 30px 8px 30px;margin-right: 20px;float: right;font-size: 18px;" id="jiarugouwuche">加入购物车</button>
+		</nav>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/cart.js"></script>
+		<script>
+			var hasMore = true;
+			var guigeid = 0;
+			var goodsId = 0;
+			var is_msg=0;
+			if (mui.os.android) {
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						up: {
+							contentrefresh: '',
+							contentnomore: '',
+							callback: loadMore
+						}
+					},
+					swipeBack: false
+				});
+			} else {
+				mui.init({
+					swipeBack: false //启用右滑关闭功能
+				});
+			}
+			mui.plusReady(function() {
+				if (!mui.os.android) {
+					$("#pullrefresh").removeClass().addClass("mui-content");
+					$(".mui-scroll").removeClass();
+					$("#dianji h5").remove();
+					$("#dianji").append("<h5 style='color:green'>====点击查看商品详细信息====</h5>");
+				}
+				var self = plus.webview.currentWebview();
+				goodsId = self.goodsId;
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_goodsInfo&goodsId=' + goodsId, {
+					data: {
+						"goodsId": goodsId
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						$.each(data["TableInfo"], function(i, v) {
+							document.body.querySelector('#imgs').src = "http://www.guoshe.cc/" + v.img_url;
+							if(v.is_hot=="1"){
+								$("#icon").attr("class","mui-icon iconfont icon-re");
+							}
+							$("#sub_title").text(v.sub_title);
+							$("#wareName").text(v.title);
+							$("#title").text(v.title);
+							$("#sell_price").text(v.sell_price);
+							$("#market_price").text("￥" + v.market_price);
+							$("#huohao").text(v.goods_no);
+							$("#stock_quantity").text("库存数量:" + v.stock_quantity);
+							$('#mark').text('最早提前' + v.presetmax_time + '天订货， 需提前' + v.preset_time + '小时订货');
+							if(v.is_msg=="0"){
+								$("#is_msg").hide();
+							}else{
+								is_msg="1";
+							}
+						});
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						mui.toast("连接超时...");
+					}
+				});
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_goods_attributes_info_title&goodsId=' + goodsId, {
+					data: {
+						"goodsId": goodsId
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data["TableInfo"][0].id == "0") {
+							$(".mui-card").remove();
+							$("#guige").remove();
+							content += "";
+						} else {
+							guigeid = 1;
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<div class="mui-input-row mui-radio"><input name="radio1" type="radio" onchange = "change();" value="' + v.id + '"><label style="font-size:12px;">' + v.title + '</label></div>';
+							});
+							$(".mui-input-group").append(content);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(errorThrown);
+					}
+				});
+//				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_albums&goodsid=' + goodsId, {
+//					dataType: 'json', //服务器返回json格式数据
+//					type: 'post', //HTTP请求类型
+//					timeout: 20000, //超时时间设置为10秒；
+//					success: function(data) {
+//						if (data) {
+//							var obj2 = eval(data['TableInfo']);
+//							var http = 'http://www.guoshe.cc';
+//							document.body.querySelector('#imgs').src = http + obj2[1].thumb_path;
+//							document.body.querySelector('#img0').src = http + obj2[0].thumb_path;
+//							document.body.querySelector('#img1').src = http + obj2[1].thumb_path;
+//							document.body.querySelector('#imgw').src = http + obj2[0].thumb_path;
+//						}else {
+//							document.body.querySelector('#imgs').src = "images/nopicture.png";
+//							document.body.querySelector('#img0').src = "images/nopicture.png";
+//							document.body.querySelector('#img1').src = "images/nopicture.png";
+//							document.body.querySelector('#imgw').src = "images/nopicture.png";
+//						}
+//					},
+//					error: function(xhr, type, errorThrown) {
+//						//异常处理；
+//						console.log(goodsId + type);
+//					}
+//				});
+				if(is_msg=="1"){
+					mui.ajax('http://www.guoshe.cc/tools/submit_ajax.ashx?action=comment_list&article_id=' + goodsId + '&page_index=1&page_size=3', {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 20000, //超时时间设置为10秒；
+						success: function(data) {
+							var content = "";
+							if (data) {
+								for (var i in data) {
+									content += '<li class="mui-table-view-cell mui-media">';
+									content += '<img class="mui-media-object mui-pull-left" src="images/user.png">';
+									content += '<div class="mui-media-body">';
+									content += '<p>' + data[i].user_name + '</p><p>' + unescape(data[i].content) + '</p>';
+									content += '<p style="font-size: 12px;text-align: right;">' + data[i].add_time + '</p>'
+									content += '</div></li>';
+								}
+							} else {}
+							$("#pinglun").append(content);
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log(goodsId + type);
+						}
+					});
+				}
+				initTemplates(); //预加载所有模板	
+			});
+			document.querySelector('#lijigoumai').addEventListener('tap', function(event) {
+				CartAdd(1);
+				//触发自定义事件（gouwuchenum）,从而进行数据刷新
+			});
+			document.querySelector('#jiarugouwuche').addEventListener('tap', function(event) {
+				CartAdd(0);
+				//触发自定义事件（gouwuchenum）,从而进行数据刷新
+			});
+			document.querySelector('#comment').addEventListener('tap', function(event) {
+				//获得共用模板组
+				var template = getTemplate('default');
+				//判断是否显示右上角menu图标；
+				var showMenu = false;
+				//获得共用父模板
+				var headerWebview = template.header;
+				//获得共用子webview
+				var contentWebview = template.content;
+				var title = $("#title").text() + "的评论";
+				//通知模板修改标题，并显示隐藏右上角图标；
+				mui.fire(headerWebview, 'updateHeader', {
+					title: title,
+					showMenu: showMenu
+				});
+				var reload = true;
+				if (!template.loaded) {
+					if (contentWebview.getURL() != this.href) {
+						contentWebview.loadURL("comment.html?goodsId=" + goodsId);
+					} else {
+						reload = false;
+					}
+				} else {
+					reload = false;
+				}
+				(!reload) && contentWebview.show();
+				headerWebview.show("pop-in", 150);
+			});
+
+			function loadMore() {
+				if (hasMore) {
+					pullupRefresh();
+				}
+			}
+
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_goods_content&goodsid=' + goodsId, {
+						dataType: 'xml', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: GetStudentComplete,
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+							//异常处理；
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
+					});
+				}, 1000);
+			}
+
+			function GetStudentComplete(xml) {
+				$("#dianji").hide();
+				var content = "";
+				$(xml).find("Datas").each(function(i) {
+					content += '<li class="mui-table-view-cell mui-media mui-col-xs-12">';
+					content += $(this).children("content").text();
+					content += '</li>';
+				});
+				$("#mui-table-view").append(content);
+				if (mui.os.android) {
+					hasMore = false;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+				}
+			}
+
+			function change() {
+				var radio = document.getElementsByName("radio1");
+				// 用ById就不能取得全部的radio值,而是每次返回都为1
+				var radioLength = radio.length;
+				for (var i = 0; i < radioLength; i++) {
+					if (radio[i].checked) {
+						var radioValue = radio[i].value;
+						changePrice(radioValue);
+					}
+				}
+			}
+//			var slider = mui("#slider");
+//			slider.slider({
+//				interval: 4000
+//			});
+			var templates = {};
+			var getTemplate = function(name, header, content) {
+				var template = templates[name];
+				if (!template) {
+					//预加载共用父模板；
+					var headerWebview = mui.preload({
+						url: header,
+						id: name + "-main",
+						styles: {
+							popGesture: "hide",
+						},
+						extras: {
+							mType: 'main'
+						}
+					});
+					//预加载共用子webview
+					var subWebview = mui.preload({
+						url: !content ? "" : content,
+						id: name + "-sub",
+						styles: {
+							top: '45px',
+							bottom: '0px',
+						},
+						extras: {
+							mType: 'sub'
+						}
+					});
+					subWebview.addEventListener('loaded', function() {
+						setTimeout(function() {
+							subWebview.show();
+						}, 50);
+					});
+					subWebview.hide();
+					headerWebview.append(subWebview);
+					//iOS平台支持侧滑关闭，父窗体侧滑隐藏后，同时需要隐藏子窗体；
+					if (mui.os.ios) { //5+父窗体隐藏，子窗体还可以看到？不符合逻辑吧？
+						headerWebview.addEventListener('hide', function() {
+							subWebview.hide("none");
+						});
+					}
+					templates[name] = template = {
+						name: name,
+						header: headerWebview,
+						content: subWebview,
+					};
+				}
+				return template;
+			};
+			var initTemplates = function() {
+				getTemplate('default', 'examples/template.html');
+			};
+			document.querySelector('#dianji').addEventListener('tap', function(event) {
+				if (!mui.os.android) {
+					mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_goods_content&goodsid=' + goodsId, {
+						dataType: 'xml', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: GetStudentComplete,
+						error: function(xhr, type, errorThrown) {
+							console.log(type);
+							//异常处理；
+						}
+					});
+				}
+			});
+			document.querySelector('#tijiao').addEventListener('tap', function(e) {
+				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+				var btnArray = ['确定', '取消'];
+				mui.prompt('请输入你的评语：', '', '果社', btnArray, function(e) {
+					if (e.index == 0) {
+						var users = JSON.parse(localStorage.getItem('$users') || '[]');
+						var username = 0;
+						users.some(function(user) {
+							username = user.account;
+						});
+						mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=comment_add', {
+							data: {
+								"article_id": goodsId,
+								"txtContent": e.value,
+								"accout": username
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 20000, //超时时间设置为10秒；
+							success: function(data) {
+								mui.toast(data.msg);
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								mui.toast(errorThrown);
+							}
+						});
+					}
+				})
+			});
+		</script>
+	</body>
+
+</html>

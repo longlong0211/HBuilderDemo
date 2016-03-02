@@ -1,0 +1,81 @@
+<!--
+	作者：344805262@qq.com
+	时间：2015-06-11
+	描述：/gerenxinxi/实名认证_未通过.html-> unautherized.html
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>掌创购</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="../../css/css.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="../../css/icon.min.css"/>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../../js/config.js" ></script>
+<script type="text/javascript" src="../../js/userinfo.js" ></script>
+<script type="text/javascript" src="../../js/account/unautherized.js"></script>
+<script type="text/javascript" src="../../js/common/validate.js" ></script>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c"  onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2">实名认证</h2>
+        </span>
+       <span class=" tab_mune tab_a t-c">        
+        </span>
+    </div>
+<div class="main">
+    <div class="rzbanner"><p><img src="../../images/rztu1.png" /></p></div>
+    <div class="grcon">
+    	<div class="grxinxis">
+             <div class="rzwg">
+               <p>真实姓名： <input id="real_name" placeholder="请填写真实姓名"></p>
+             </div>
+              <div class="rzwg" id="bbnone">
+               <p>身份证号： <input type="number" id="id_no" placeholder="请填写身份证号"></p>
+             </div>
+        </div>
+        
+        <p class="rzts">请上传身份证正面、反面、及手持证件照，确保姓名和身份证号码清晰</p>
+        <div class="grxinxis">
+       		 <div class="rztupian">
+                  <!--<div class="zctudw"><b><a>X</a></b><img src="../../images/rztu2.png"></div>
+                  <div class="zctudw"><b><a>X</a></b><img src="../../images/rztu3.png"></div>
+                  <div class="zctudw"><b><a>X</a></b><img src="../../images/rztu4.png"></div>-->
+                  <span><a id="addImage"><img src="../../images/rz7.jpg" /></a></span>
+              </div>
+        </div>
+		<div class="dlkuang">
+	 		<p class="dlan"><a id="commitauth" href="javascript:void(0);">提交</a></p>
+	  	</div>        
+    </div>
+</div>
+
+<div id="heisebg" class="heisebghid">
+    <div style="width:100%;position:fixed; text-align:center; bottom:0px;">
+      <div class="sjpzan"><p>
+      	<a id="camera" href="javascript:void(0);"><img src="../../images/sjpzantu1.png"></a>
+      	<a id="album" href="javascript:void(0);"><img src="../../images/sjpzantu2.png"></a>
+      	<a id="cancel" href="javascript:void(0);"><img src="../../images/sjpzantu3.png"></a></p>
+      </div>
+    </div>
+</div>
+<div id="waitingupload" class="heisebghid">
+    <div style="width:100%;position:fixed; text-align:center;top:20%">
+				  <div class="spinner">
+					  <div class="double-bounce1"></div>
+					  <div class="double-bounce2"></div>
+		        </div>
+		        <p style="color:#fff;">正在上传，请稍候...</p>
+    </div>
+</div>
+</body>
+</html>

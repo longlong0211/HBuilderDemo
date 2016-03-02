@@ -1,0 +1,74 @@
+<!--
+	作者：344805262@qq.com
+	时间：2015-06-13
+	描述：我的_修改绑定新手机_填写验证码.html->editmobile.html
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>掌创购</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<link href="../../css/css.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" href="../../css/icon.min.css" />
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="../../js/config.js" ></script>
+<script type="text/javascript" src="../../js/userinfo.js" ></script>
+<script type="text/javascript" src="../../js/common/validate.js" ></script>
+<script type="text/javascript" src="../../js/common/validatecode.js" ></script>
+<script type="text/javascript" src="../../js/account/editmobile.js" ></script>
+</head>
+<body>
+<div id="header" style="position: absolute;">
+    <span class=" tab_mune tab_a t-c" onclick="back()">
+        <div class="back"><i class="icon-back"></i></div>
+    </span>
+    <span class=" tab_mune tab_b">
+        <h2 class="hd-tit-h2">填写验证码</h2>
+    </span>
+   <span class=" tab_mune tab_a t-c">       
+    </span>
+</div>
+
+<div class="main">
+	<div class="grxgbdxsj">
+        <p>
+			<a>选择验证方式 </a>
+			<i class="angle right icon"></i> 
+			<a>绑定新手机</a>
+        </p>
+    </div>	
+	<div class="grxinxis">
+         <div class="grjsj">
+         	 <p><span><a id="sendCode">发送验证码</a></span><b id="name"></b></p>
+         </div>  
+         <div class="xgbdsj">
+         	 <p><input id="validatecode" type="number" placeholder="请输入手机短信中的验证码"></p>
+         	 <input type="hidden" id="hidvalidatecode" />
+         </div>         
+	</div>
+	<div class="dlkuang mainbottom10">
+         <p class="dlan"><a id="validate">验证</a></p>
+         <p class="grxg">收不到短信验证码？试试以下验证方式</p>      
+  	</div>
+	<div class="grxinxis">
+         <div class="grjsj lijiyz">
+         	 <p><span><a id="validatenow">立即验证</a></span><b><input id="pay_password" type="password" placeholder="支付密码"></b></p>
+         </div>  
+ 	</div>
+      <!--<div class="grtxyzm">
+      	<p class="gryzmts">请输入手机<b id="name"></b>收到的短信验证码</p>
+        <p class="grfsyzm"><span><input type="hidden" id="confirmvalidatecode"><input id="validatecode" placeholder=""></span><a id="sendCode">发送验证码</a></p>
+      </div>
+      <div class="dlkuang">
+         <p class="dlan"><a id="nextSetp">下一步</a></p>
+      </div>-->
+      
+
+</div>
+</body>
+</html>

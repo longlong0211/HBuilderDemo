@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>钓点列表 - 渔乐</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no"/>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			
+		   .mui-control-item span.mui-icon{ border: 0px;}
+		
+		   .oa-contact-cell  .mui-table-cell {
+				padding: 0px;
+				vertical-align:top;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: 0px 0;
+				
+			}
+			 
+			.mui-table-view-cell{padding-bottom: 10px;}
+	
+			.oa-contact-avatar {
+				width: 120px;
+				height: 80px;
+			}
+			.oa-contact-avatar img {
+				/*border-radius: 10%;*/
+				width:110px;  
+				max-height: 80px;
+				position: absolute; 
+				top: 0px ; left: 0px;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 5px;
+				font-size:14px; 
+				float: left; 
+				font-weight:normal;
+				 
+			}
+			.oa-contact-position {
+				float: right;  
+			} 
+		 
+		    
+		    .mui-h6{ font-weight: 300; color: #6D6D72;}
+		    .syw-overflowh{  height: 17px; line-height:17px; width:100%;   overflow: hidden;}
+		    .pond-name{   height: 20px;    }
+		    .pond-name h4{padding:0px; margin:0px; }
+		    .active{ background: url(images/ok.png) no-repeat center right ;}
+		     
+		    body, .mui-content{ background-color: #fff;  }
+		    
+		   
+		    #position{ height:30px;}
+		    
+		    #pullrefresh{ top: 81px; min-height:300px; clear: both;}
+		    
+		    
+		    #controldiv,#searchcontroldiv,#position{ clear: both; padding-top:0px; padding-bottom: 0px ; margin-top: 0px;margin-bottom: 0px;}
+			#position,#controldiv{ margin-top: 10px;}
+	 			
+	 		#pointlist{ clear: both;}  	
+	 		#controldiv{ height: 40px; background-color: #fff;} 
+			   
+		</style>    
+	</head>
+	<body>
+	<div id="top">
+		
+		
+		<div id="position" class="mui-content-padded">
+			<span class="mui-icon mui-icon-location"></span>
+			<span id="local">
+			当前：未知
+			</span>
+			<span class="mui-pull-right">
+				<button id="btn_local" class="mui-btn   mui-btn-primary mui-icon mui-icon-refreshempty">定位当前</button>
+			</span>
+		</div>
+		<div  id="searchcontroldiv" class=" mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+			<a class="mui-control-item" href="#mui-popover-length"> 
+					范围<span class="mui-icon mui-icon-arrowdown"></span>
+			</a>
+			<a class="mui-control-item" id="searchtitle-type" href="#mui-popover-type">
+					全部<span class="mui-icon mui-icon-arrowdown"></span>
+			</a>  
+			<a class="mui-control-item" id="searchtitle-money" href="#mui-popover-money">
+					全部<span class="mui-icon mui-icon-arrowdown"></span>
+			</a>
+			<a class="mui-control-item" id="searchtitle-sort" href="#mui-popover-sort">
+					默认<span class="mui-icon mui-icon-arrowdown"></span>
+			</a>	
+		</div> 
+ 
+			
+		<div id="mui-popover-length" class="mui-popover syw-pop-length">
+		   
+		  <ul class="mui-table-view" >
+		    <li class="mui-table-view-cell syw-length active" id="syw-length-10" onclick="javascript:changelength(this,'10')"  >附近10千米</li>
+		    <li class="mui-table-view-cell syw-length" id="syw-length-20" onclick="javascript:changelength(this,'20')"   >附近20千米</li>
+		    <li class="mui-table-view-cell syw-length" id="syw-length-50" onclick="javascript:changelength(this,'50')"  >附近50千米</li>
+		    <li class="mui-table-view-cell syw-length" id="syw-length-100" onclick="javascript:changelength(this,'100')"  >附近100千米</li>
+		  </ul>
+		</div>
+		
+		<div id="mui-popover-type" class="mui-popover syw-pop-type">
+		   
+		  <ul class="mui-table-view">
+		    <li class="mui-table-view-cell syw-type active" id="syw-type-0" onclick="javascript:changetype(this,'0')" >全部</li>
+		    <li class="mui-table-view-cell syw-type" id="syw-type-250" onclick="javascript:changetype(this,'250')">池塘</li>
+		    <li class="mui-table-view-cell syw-type" id="syw-type-251" onclick="javascript:changetype(this,'251')">水库</li>
+		    <li class="mui-table-view-cell syw-type" id="syw-type-252" onclick="javascript:changetype(this,'252')">江河</li>
+		    <li class="mui-table-view-cell syw-type" id="syw-type-253" onclick="javascript:changetype(this,'253')">湖泊</li>
+		    <li class="mui-table-view-cell syw-type" id="syw-type-344" onclick="javascript:changetype(this,'344')">海洋</li>
+		    <li class="mui-table-view-cell syw-type" id="syw-type-345" onclick="javascript:changetype(this,'345')">溪流</li>
+		  </ul>
+		</div>
+		
+		<div id="mui-popover-money" class="mui-popover syw-pop-money">
+		   
+		  <ul class="mui-table-view">
+		    <li class="mui-table-view-cell syw-money active" id="syw-money-0" onclick="javascript:changemoney(this,'0')">全部</li>
+		    <li class="mui-table-view-cell syw-money" id="syw-money-246" onclick="javascript:changemoney(this,'246')">免费</li>
+		    <li class="mui-table-view-cell syw-money" id="syw-money-247" onclick="javascript:changemoney(this,'247')">天塘</li>
+		    <li class="mui-table-view-cell syw-money" id="syw-money-248" onclick="javascript:changemoney(this,'248'')">斤塘</li>
+		    <li class="mui-table-view-cell syw-money" id="syw-money-249" onclick="javascript:changemoney(this,'249')">时塘</li>
+		  </ul>
+		</div>
+		
+		<div id="mui-popover-sort" class="mui-popover syw-pop-sort">
+		   
+		  <ul class="mui-table-view">
+		    <li class="mui-table-view-cell syw-sort active" id="syw-sort-" onclick="javascript:changesort(this,'')">默认</li>
+		    <li class="mui-table-view-cell syw-sort" id="syw-sort-length" onclick="javascript:changesort(this,'length')">距离</li>
+		    <li class="mui-table-view-cell syw-sort" id="syw-sort-hot" onclick="javascript:changesort(this,'hot')">人气</li>
+		    <li class="mui-table-view-cell syw-sort" id="syw-sort-price" onclick="javascript:changesort(this,'price')">价格</li>
+		    <li class="mui-table-view-cell syw-sort" id="syw-sort-service" onclick="javascript:changesort(this,'service')">服务</li>
+		  </ul>
+		</div>
+	</div>	
+	
+	
+		
+
+	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div id="controldiv" class="   mui-content-padded  ">
+				 <a style="float:left;" href="fishpoint_add.html" open-type="common"  class="mui-btn     mui-icon mui-icon-location">
+				            发布钓点
+				  </a>
+				   <a style="float: right;" href="fishpoint_map.html" open-type="common"   class="mui-btn   mui-icon mui-icon-map">
+				            钓点地图
+				   </a>   
+			</div>
+			<!--数据列表-->
+			<ul id="pointlist"  class="mui-table-view mui-table-view-chevron">
+				
+			</ul>
+		</div>
+	</div>
+	
+	<script id="ponds-template" type="text/x-handlebars-template">
+		{{#each pondslist}}
+		
+		<li class="mui-table-view-cell"  data-id="{{id}}" >
+	 		<a  style="padding:10px;" href="fishpoint_detai.html?id={{id}}" open-type="common" title="{{name}}">
+			<div class="mui-slider-cell"  >
+				<div class="oa-contact-cell mui-table">
+					<div class="oa-contact-avatar mui-table-cell"> 
+						<img src="{{pic}}" /> 
+					</div>
+					<div class="oa-contact-content mui-table-cell">
+						<div class="pond-name syw-overflowh mui-clearfix">
+							<h4 class="oa-contact-name ">{{name}}</h4>
+							<span class="oa-contact-position mui-h6  mui-pull-right">{{typename}}</span>
+						</div>
+						<div class="syw-overflowh oa-contact-email mui-h6" >
+							{{address}}
+						</div>   
+						<div class="syw-overflowh oa-contact-fishes mui-h6" >
+							{{fishes}}
+						</div>
+						<div class="syw-overflowh oa-contact-other " >
+							<div class="mui-pull-left mui-h6">
+								{{money}}
+							</div>
+							<div class="mui-pull-right mui-h6">{{juli}}</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			</a> 
+		</li>
+
+		{{/each}}
+	</script>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	 
+ 	<script src="js/app.js"></script>
+ 	<script src="js/common.js"></script>
+ 	<script src="js/fish_cache.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+	<script type="text/javascript" src="js/fish_noback.js"></script> 
+	<script type="text/javascript" src="js/fish_interface.js"></script> 
+	 
+	<script>
+	 
+	 	 
+		 var pagenum = 0; 
+		 var count = 0;
+		 var shouldfishinit = true;
+		 
+		 var position_longt_old="";
+		 var position_lat_old ="";
+		 
+		 var wt = null;
+		 
+		 function changelength(divbtn,temp){
+		 	
+		 	shouldfishinit = true;
+		 	
+		 	pondlist_length = temp.toString();
+		 	setpondlist(pondlist_length,pondlist_type,pondlist_money,pondlist_sort);
+		 	changelengthvalue(divbtn,"",temp);
+		 	mui('.syw-pop-length').popover('toggle');
+		 	fishinit();
+		 }
+		 
+		 function initsearchview(){
+		 	changelengthvalue("","syw-length-"+pondlist_length,pondlist_length);
+		 	changetypevalue("","syw-type-"+pondlist_type,pondlist_type);
+		 	changemoneyvalue("","syw-money-"+pondlist_money,pondlist_money);
+		 	changesortvalue("","syw-sort-"+pondlist_sort,pondlist_sort);
+		 }
+		 
+		 function changelengthvalue(divbtn,id,temp){
+		 	jQuery(".syw-length").removeClass("active");
+		 	if(id!=""){
+		 		jQuery("#"+id).addClass("active");
+		 	}else{
+		 		jQuery(divbtn).addClass("active");
+		 	}
+		 }
+		 
+		 function changetype(divbtn,temp){
+	 		shouldfishinit = true;
+	 		
+		 	pondlist_type = temp.toString();
+		 	
+		 	setpondlist(pondlist_length,pondlist_type,pondlist_money,pondlist_sort);
+		 	
+		 	changetypevalue(divbtn,"",temp);
+		 	
+		 	mui('.syw-pop-type').popover('toggle');
+		 	
+		 	fishinit();
+		 }
+		 
+		 function changetypevalue(divbtn,id,temp){
+		 	jQuery(".syw-type").removeClass("active");
+		 	if(id!=""){
+		 		jQuery("#"+id).addClass("active");
+		 		jQuery("#searchtitle-type").html(jQuery("#"+id).html()+"<span class=\"mui-icon mui-icon-arrowdown\"></span>");
+		 	
+		 	}else{
+		 		jQuery(divbtn).addClass("active");
+		 		jQuery("#searchtitle-type").html(jQuery(divbtn).html()+"<span class=\"mui-icon mui-icon-arrowdown\"></span>");
+		 	}
+		 	
+		 }
+		 
+		 function changemoney(divbtn,temp){
+		 	
+		 	shouldfishinit = true;
+	 
+		 	pondlist_money= temp.toString();
+		 	
+		 	setpondlist(pondlist_length,pondlist_type,pondlist_money,pondlist_sort);
+		 	
+		 	changemoneyvalue(divbtn,"",temp);
+		 	
+		 	mui('.syw-pop-money').popover('toggle');
+		 	
+		 	fishinit();
+		 }
+		 
+		 function changemoneyvalue(divbtn,id,temp){
+		 	jQuery(".syw-money").removeClass("active");
+		 	if(id!=""){
+		 		jQuery("#"+id).addClass("active");
+		 		jQuery("#searchtitle-money").html(jQuery("#"+id).html()+"<span class=\"mui-icon mui-icon-arrowdown\"></span>");
+		 	
+		 	}else{
+		 		jQuery(divbtn).addClass("active");
+		 		jQuery("#searchtitle-money").html(jQuery(divbtn).html()+"<span class=\"mui-icon mui-icon-arrowdown\"></span>");
+		 	}
+		 }
+		 
+		 
+		 function changesort(divbtn,temp){
+		 	
+		 	shouldfishinit = true;
+	 
+		 	pondlist_sort= temp.toString();
+		 	
+		 	setpondlist(pondlist_length,pondlist_type,pondlist_money,pondlist_sort);
+		 	
+		 	changesortvalue(divbtn,"",temp);
+		 	
+		 	mui('.syw-pop-sort').popover('toggle');
+		 	
+		 	fishinit();
+		 }
+		 
+		 function changesortvalue(divbtn,id,temp){
+		 	jQuery(".syw-sort").removeClass("active");
+		 	if(id!=""){
+		 		jQuery("#"+id).addClass("active");
+		 		jQuery("#searchtitle-sort").html(jQuery("#"+id).html()+"<span class=\"mui-icon mui-icon-arrowdown\"></span>");
+		 	}else{
+		 		jQuery(divbtn).addClass("active");
+		 		jQuery("#searchtitle-sort").html(jQuery(divbtn).html()+"<span class=\"mui-icon mui-icon-arrowdown\"></span>");
+		 	}
+		 }
+	 
+	 
+		mui.init({
+			swipeBack: false,
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					callback: pulldownRefresh
+				},
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			}
+		});
+		
+		
+		document.addEventListener('fishinit', function() {
+			fishinit();
+		});
+		
+		function fishinit(){
+			count= 0;
+			
+			getposition();
+		 
+	 		if(position_longt=="" || position_lat =="" )
+			{
+				mui.toast("位置信息失效，请点击按钮、“当前位置”！");
+				/*
+				str = "当前位置：未知,点击重新定位";
+				jQuery("#local").html(str);
+				getPosBaidu(); 
+				*/
+			}
+			else if(shouldfishinit || position_longt_old.toString()!= position_longt.toString()){ 
+				//设置缓存
+				shouldfishinit = false;
+				position_longt_old = position_longt;
+				position_lat_old = position_lat;
+				
+				str = "当前："+position_cityname+"";
+				jQuery("#local").html(str);
+				
+				refreshindex();
+		   }
+			
+		   //显示层修改
+		   initsearchview();
+		}
+   
+		mui.plusReady(function() {
+	   		//fishinit();
+	   		getposition();
+	   		position_longt_old= position_longt;
+		 	position_lat_old =position_lat;
+	   		 
+		});
+		
+		document.querySelector('#btn_local').addEventListener('tap', function(e) {
+			shouldfishinit = true;
+			getPosBaidu();
+		});
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				refreshdata("down");
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1000);
+		}
+
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			setTimeout(function() {
+				count = 0;
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。  (++count > 2)
+				refreshdata("up"); 
+			}, 1000);
+		}
+		
+		
+		function refreshindex(){
+			pagenum = 0;
+			wt=plus.nativeUI.showWaiting();
+			var url=apiurl+"IPondsListSide.ashx?perpage=20&pagenum=0&longt="+position_longt+"&lat="+position_lat+"&length="+pondlist_length;
+			url += "&type="+encodeURIComponent(pondlist_type)+"&money="+pondlist_money+"&sort="+pondlist_sort;
+			
+			sendtointerface(uid,position_longt,url,function(responseText,status){
+				//保存钓点，方便发布渔乐信息的时候用
+				plus.storage.setItem("pointlist",responseText);
+				
+				var data=eval("("+ responseText+")");
+		                 
+            	var pondsSource = document.getElementById("ponds-template").innerText;
+            	var myTemplate = Handlebars.compile(pondsSource);
+            	 
+            	jQuery("#pointlist").html(myTemplate(data));
+            	 
+            	plus.nativeUI.closeWaiting();
+            
+			},function(){ wt.close();});
+			 
+			 
+		}
+		
+		function refreshdata(upordown)
+		{
+			
+			if(upordown == "down"){
+				 shouldfishinit = true;
+				 fishinit();
+				
+			}else{
+				
+			 
+				var url=apiurl+"IPondsListSide.ashx?perpage=20&pagenum="+(++pagenum)+"&longt="+position_longt+"&lat="+position_lat+"&length="+pondlist_length;
+				
+				url += "&type="+pondlist_type+"&money="+pondlist_money+"&sort="+pondlist_sort;
+				
+				sendtointerface(uid,position_longt,url,function(responseText,status){
+					var data=eval("("+responseText+")");  
+                	var pondsSource = document.getElementById("ponds-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#pointlist").append(myTemplate(data));
+				});
+				
+				 
+			}
+		}
+	 
+		function geoInf( position) {
+			//plus.nativeUI.showWaiting();
+			var  citynow= position.address.city;
+			if(citynow.substr(citynow.length-1,citynow.length))
+			{
+				citynow = citynow.substr(0,citynow.length-1);
+			}
+			
+			if(citynow!= undefined || typeof(citynow)!="undefined")  
+			{
+				
+				var str = "当前："+ citynow+"";
+				jQuery("#local").html(str);
+				var codns = position.coords;//获取地理坐标信息；
+				var lat = codns.latitude;//获取到当前位置的纬度；
+				var longt = codns.longitude;//获取到当前位置的经度
+				
+				setposition(position.address.province,citynow,longt,lat)
+				
+				position_provincename = position.address.province; 
+				position_cityname = citynow;  
+				position_longt =  longt;
+				position_lat = lat;   
+				
+				//改变头部的城市
+				if(index != null)
+				{
+					 
+					mui.fire(index,'changecity',{province:position.address.province,city:citynow,type:"justchangecity"});
+				}
+			  
+				
+				refreshindex();  
+				
+			}else{
+				mui.toast("定位失败，请重试！");
+				wt.close();
+			}
+		}
+		
+		function getPosBaidu(){
+			
+			 wt=plus.nativeUI.showWaiting();
+			
+			plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+			},{provider:'baidu'});
+		}
+		
+	 
+		</script>
+	</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>果社</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/app.css" />
+		<link rel="stylesheet" href="css/iconfont.css" />
+		<style>
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: green;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header_new">
+			<a class="mui-icon iconfont icon-liebiao mui-pull-left"></a>
+			<h1 id="title" class="mui-title" style="font-weight: 900;font-size: 20px;">果 社</h1>
+			<a class="mui-icon iconfont icon-gouwuche mui-pull-right">
+				<span class="mui-badge" style="background:red;top:5px;left:35px;padding:1px 4px;line-height:1;"></span>
+			</a>
+		</header>
+		
+		<nav class="mui-bar mui-bar-tab" style="height:20px;margin-bottom:-3px;">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="list.html" style="height:15px;">
+				<span class="mui-icon iconfont icon-shouye" style="width:20px;height:20px;font-size:20px;"></span>
+				<span class="mui-tab-label">果 社</span>
+			</a>
+			<!--<a class="mui-tab-item" href="goods_list.html" id="shangpin">
+				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-tab-label">商品</span>
+			</a>-->
+			<!--<a class="mui-tab-item" href="shopping.html" style="height:15px;color:#929292;">
+				<span class="mui-icon iconfont icon-gouwuche" style="width:20px;height:20px;font-size:20px;">
+					<span class="mui-badge" style="background:red;"></span></span>
+				<span class="mui-tab-label">购物车</span>
+			</a>-->
+			<a class="mui-tab-item" href="news_list.html" id="xinxilan" style="height:15px;color:#929292;">
+				<span class="mui-icon iconfont icon-duihua" style="width:20px;height:20px;font-size:20px;"></span>
+				<span class="mui-tab-label">水果社区</span>
+			</a>
+			<a class="mui-tab-item" href="user_center.html" id="userid" style="height:15px;color:#929292;">
+				<span class="mui-icon iconfont icon-guanliyuan" style="width:20px;height:20px;font-size:20px;"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+			<a class="mui-tab-item" href="sousuo.html" id="sousuo" style="height:15px;">
+				<span class="mui-icon iconfont icon-sousuo" style="width:20px;height:20px;font-size:20px;"></span>
+				<span class="mui-tab-label">搜索</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/update.js"></script>
+		<script>
+			var toutiao = false;
+			var menu = null,
+				main = null;
+			var showMenu = false;
+			var showgoods_list = false;
+			mui.init({
+				swipeBack: false,
+				statusBarBackground: '#f7f7f7',
+				gestureConfig: {
+					doubletap: true
+				},
+				subpages: [{
+					id: 'list',
+					url: 'list.html',
+					styles: {
+						top: '41px', //46px
+						bottom: '40px'
+					}
+				}]
+			});
+			var users = JSON.parse(localStorage.getItem('$users') || '[]');
+			var authed = users.some(function(user) {
+				return user.account;
+			});
+			var subpages = ['goods_list.html'];
+			if (authed) {
+				document.getElementById("userid").href = "main.html";
+			} else {
+				document.getElementById("userid").href = "login.html";
+			}
+			var subpage_style = {
+				top: '41px',
+				bottom: '40px'
+			};
+			mui.plusReady(function() {
+				if (mui.os.android) {
+					plus.screen.lockOrientation("portrait-primary");
+				}
+				main = plus.webview.currentWebview();
+				main.addEventListener('maskClick', closeMenu);
+				
+				//处理侧滑导航，为了避免和子页面初始化等竞争资源，延迟加载侧滑页面；
+				setTimeout(function() {
+					var self = plus.webview.currentWebview();
+					var sub = plus.webview.create(subpages[0], subpages[0], subpage_style);
+					sub.hide();
+					self.append(sub);
+					menu = mui.preload({
+						id: 'index-menu',
+						url: 'index-menu.html',
+						styles: {
+							left: 0,
+							width: '55%',
+							zindex: -1
+						},
+						show: {
+							aniShow: 'none'
+						}
+					});
+				}, 1000);
+				getgouwuchenum();
+			});
+			var activeTab = 'list.html';
+			var title = document.getElementById("title");
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				var targetTab = this.getAttribute('href');
+				//				if (targetTab == activeTab) {
+				//					return;
+				//				}
+//				if (targetTab == "shopping.html") {
+//					mui.openWindow({
+//						id: "shopping.html",
+//						url: "shopping.html",
+//						waiting: {
+//							autoShow: true,
+//							title: "正在加载,请稍等"
+//						},
+//						styles: {
+//							scrollIndicator: 'none'
+//						}
+//					});
+//				} else
+				if (targetTab == "news_list.html") {
+					mui.openWindow({
+						id: "news_list.html",
+						url: "news_list.html",
+						waiting: {
+							autoShow: true,
+							title: "正在加载,请稍等"
+						}
+					});
+				} else if (targetTab == 'main.html' || targetTab == 'login.html') {
+					var users = JSON.parse(localStorage.getItem('$users') || '[]');
+					var authed = users.some(function(user) {
+						return user.account;
+					});
+					if (authed) {
+						mui.openWindow({
+							id: "main",
+							url: "main.html",
+							waiting: {
+								autoShow: true,
+								title: "正在加载,请稍等"
+							},
+							styles: {
+								scrollIndicator: 'none'
+							}
+						});
+					} else {
+						mui.openWindow({
+							id: "login",
+							url: "login.html",
+							waiting: {
+								autoShow: true,
+								title: "正在加载,请稍等"
+							},
+							styles: {
+								scrollIndicator: 'none'
+							}
+						});
+					}
+				} else if (targetTab == 'sousuo.html') {
+					e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+					var btnArray = ['确定', '取消'];
+					mui.prompt('请输入商品名称：', '', '搜索', btnArray, function(e) {
+						if (e.index == 0) {
+							showgoods_list = true;
+							mui.fire(plus.webview.getWebviewById('goods_list.html'), "sousuo", {
+								sousuo: e.value
+							});
+							document.getElementById("title").innerHTML = e.value + '&nbsp;的搜索结果';
+							plus.webview.hide("list.html");
+							var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+							var defaultTab = document.getElementById("defaultTab");
+							if (defaultTab == current) {
+								current.classList.remove('mui-active');
+							}
+							plus.webview.show("goods_list.html");
+						} else {
+							document.getElementById("sousuo").className = "mui-tab-item";
+							document.getElementById("defaultTab").className = "mui-tab-item mui-active";
+						}
+					})
+				}else{
+					document.getElementById("title").innerHTML="果 社";
+					showgoods_list = false;
+					plus.webview.show("list.html");
+					plus.webview.hide("goods_list.html");
+					
+//					var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+//					var defaultTab = document.getElementById("defaultTab");
+//					if (defaultTab == current) {
+//						current.classList.remove('mui-active');
+//					}
+				}
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			 //刷新购物车角标
+			document.addEventListener('gouwuchenum', function() {
+				getgouwuchenum();
+			});
+			document.addEventListener('open_goods_list', function(event) {
+				showgoods_list = true;
+				closeMenu();
+				//				var shangpin = document.getElementById("shangpin");
+				//				mui.trigger(shangpin, 'tap');
+				mui.fire(plus.webview.getWebviewById('goods_list.html'), "goods_list_catalog", {
+					id: event.detail.id
+				});
+				plus.webview.show("goods_list.html");
+				document.getElementById("title").innerHTML = event.detail.title;
+				plus.webview.hide("list.html");
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				var defaultTab = document.getElementById("defaultTab");
+				if (defaultTab == current) {
+					current.classList.remove('mui-active');
+				}
+			});
+			document.addEventListener('open_goods_activitiess', function(event) {
+				showgoods_list = true;
+				mui.fire(plus.webview.getWebviewById('goods_list.html'), "goods_list_activitiess", {
+					strwhere: event.detail.activitiess
+				});
+				plus.webview.show("goods_list.html");
+				document.getElementById("title").innerHTML = event.detail.title;
+				plus.webview.hide("list.html");
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				var defaultTab = document.getElementById("defaultTab");
+				if (defaultTab == current) {
+					current.classList.remove('mui-active');
+				}
+			});
+			 //获取购物车
+			function getgouwuchenum() {
+					mui.ajax('http://www.guoshe.cc/tools/submit_ajax.ashx?action=view_cart_count1', {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							document.querySelector('.mui-badge').innerHTML = data.count;
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log("data.count");
+						}
+					});
+				}
+				/**
+				 * 显示侧滑菜单
+				 */
+
+			function openMenu() {
+					if (!showMenu) {
+						//侧滑菜单处于隐藏状态，则立即显示出来；
+						menu.show('none', 0, function() {
+							//主窗体开始侧滑并显示遮罩
+							main.setStyle({
+								mask: 'rgba(0,0,0,0.4)',
+								left: '55%',
+								transition: {
+									duration: 150
+								}
+							});
+							showMenu = true;
+						});
+					}
+				}
+				/**
+				 * 关闭菜单
+				 */
+
+			function closeMenu() {
+				if (showMenu) {
+					//关闭遮罩；
+					//主窗体开始侧滑；
+					main.setStyle({
+						mask: 'none',
+						left: '0',
+						transition: {
+							duration: 200
+						}
+					});
+					showMenu = false;
+					//等动画结束后，隐藏菜单webview，节省资源；
+					setTimeout(function() {
+						menu.hide();
+					}, 300);
+				}
+			}
+			document.addEventListener('fenlei', function() {
+				if (showMenu) {
+					closeMenu();
+				} else {
+					openMenu();
+				}
+			});
+			 //点击左上角侧滑图标，打开侧滑菜单；
+			document.querySelector('.icon-liebiao').addEventListener('tap', function(e) {
+				if (showMenu) {
+					closeMenu();
+				} else {
+					openMenu();
+				}
+			});
+			 //点击右侧购物车
+			document.querySelector('.icon-gouwuche').addEventListener('tap', function(e) {
+				mui.openWindow({
+					id: "shopping.html",
+					url: "shopping.html",
+					waiting: {
+						autoShow: true,
+						title: "正在加载,请稍等"
+					},
+					styles: {
+						scrollIndicator: 'none'
+					}
+				});
+			});
+			 //主界面向右滑动，若菜单未显示，则显示菜单；否则不做任何操作
+			window.addEventListener("swiperight", openMenu);
+			 //主界面向左滑动，若菜单已显示，则关闭菜单；否则，不做任何操作；
+			window.addEventListener("swipeleft", closeMenu);
+			 //侧滑菜单触发关闭菜单命令
+			window.addEventListener("menu:close", closeMenu);
+			window.addEventListener("menu:open", openMenu);
+			 //重写mui.menu方法，Android版本menu按键按下可自动打开、关闭侧滑菜单；
+			mui.menu = function() {
+					if (showMenu) {
+						closeMenu();
+					} else {
+						openMenu();
+					}
+				}
+				//首页返回键处理
+				//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+			var first = null;
+			mui.back = function() {
+				if (showMenu) {
+					closeMenu();
+				} else if (showgoods_list) {
+					
+					var defaultTab = document.getElementById("defaultTab");
+					defaultTab.classList.add('mui-active');
+					showgoods_list = false;
+					var title = document.getElementById("title");
+					var activeTab = 'list.html';
+					title.innerHTML = '果 社';
+					plus.webview.show("list.html");
+					plus.webview.hide("goods_list.html");
+					document.getElementById("sousuo").className = "mui-tab-item";
+				} else {
+					//首次按键，提示‘再按一次退出应用’
+					if (!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出应用');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if (new Date().getTime() - first < 1000) {
+							plus.runtime.quit();
+						}
+					}
+				}
+			};
+			mui('#segmentedControl').on('tap', 'a', function() {
+				toutiao = true;
+				showgoods_list = true;
+				mui.fire(plus.webview.getWebviewById('goods_list.html'), "goods_list_activitiess", {
+					strwhere: this.getAttribute("href")
+				});
+				plus.webview.show("goods_list.html");
+				document.getElementById("title").innerHTML = this.innerHTML;
+				plus.webview.hide("list.html");
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				var defaultTab = document.getElementById("defaultTab");
+				if (defaultTab == current) {
+					current.classList.remove('mui-active');
+				}
+			});
+		</script>
+	</body>
+
+</html>

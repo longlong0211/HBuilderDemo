@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/index.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a href='my.html' data-login="1" data-tab="1" class="mui-pull-left">
+				<span class="mui-icon iconfont icon-ckmj"></span>
+				<span class="mui-tab-label">登陆</span>
+			</a>
+			<a href='search.html' class="mui-search">
+				<input id="search" class="mui-input-speech" type="search">
+				<span class="mui-icon mui-icon-speech"></span>
+				<span class="mui-placeholder">
+					<span class="mui-icon mui-icon-search"></span>
+				<span>搜索其实很简单..</span>
+				</span>
+			</a>
+			<a href="articles.html" data-extras='{"eid": "8", "etitle": "公告"}' class="mui-pull-right">
+				<span class="mui-icon iconfont icon-xiaoxi"></span>
+				<span class="mui-tab-label">消息</span>
+			</a>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href='category.html' data-page='slider|7'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/8.jpg">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|0'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/1.jpg">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|1'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/2.jpg">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|2'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/3.jpg">
+						</a>
+					</div>
+					<!-- 第四张 -->
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|3'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/4.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|4'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/5.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|5'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/6.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|6'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/7.jpg">
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href='category.html' data-page='slider|7'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/8.jpg">
+						</a>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href='category.html' data-page='slider|0'>
+							<img src="images/loading2x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/focus/1.jpg">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<div class="index_box clearfix">
+				<ul class="index_box1">
+					<li>
+						<a href='category.html' data-page="nav|0">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/chaoyingyue.png"></div>
+							<p class="index_text1">超盈越</p>
+						</a>
+					</li>
+					<li>
+						<a href='category.html' data-page="nav|1">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/kechao.png"></div>
+							<p class="index_text1">可超</p>
+						</a>
+					</li>
+					<li>
+						<a href="https://h5.m.taobao.com/app/cz/flow.html" data-frame="1" data-page="nav|2">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/chongzhi.png"></div>
+							<p class="index_text1">充值</p>
+						</a>
+					</li>
+					<li>
+						<a href="sign.html" data-login="1" data-wx="1" data-page="nav|3">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/lingchaobi.png"></div>
+							<p class="index_text1">领超币</p>
+						</a>
+					</li>
+				</ul>
+				<ul class="index_box1">
+					<li>
+						<a href='categorys.html' data-page="nav|4">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/fenlei.png"></div>
+							<p class="index_text1">商品分类</p>
+						</a>
+					</li>
+					<li>
+						<a href="brands.html" data-page="nav|5">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/pinpaiguan.png"></div>
+							<p class="index_text1">品牌馆</p>
+						</a>
+					</li>
+					<li>
+						<a href="http://wx.chaoyingyue.com/jiamen" data-frame="1" data-page="nav|6">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/jiameng.png"></div>
+							<p class="index_text1">加盟</p>
+						</a>
+					</li>
+					<li>
+						<a href="http://m.kuaidi100.com/index_all.html" data-frame="1" data-page="nav|7">
+							<div class="index_box2" data-delay-background="http://wx.chaoyingyue.com/app/images/nav/wuliu.png"></div>
+							<p class="index_text1">物流查询</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="page">
+				<dl class='chaoqianggou separator-before separator-after'>
+					<dd class="left separator-right">
+						<a href="category.html" data-page='chaoqianggou|left'>
+							<dl>
+								<dd class="text1">
+									<span class="mui-icon iconfont icon-daojishi"></span>超抢购
+								</dd>
+								<dd class='text2'>
+									家纺蚕丝被
+								</dd>
+								<dd id='countdown' class="text3">
+									<span class='hour'>11</span>:<span class='minute'>10</span>:<span class='second'>08</span>
+								</dd>
+								<dd class="text4">
+									<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/1-8.png" alt="家纺蚕丝被" />
+								</dd>
+							</dl>
+						</a>
+					</dd>
+					<dd class="right">
+						<dl>
+							<dd class="top">
+								<a href="category.html" data-page='chaoqianggou|right|top'>
+									<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/1-16.png" alt="" />
+								</a>
+							</dd>
+							<dd class="bottom separator-before">
+								<dl>
+									<dd class="item1 separator-right">
+										<a href="category.html" data-page='chaoqianggou|right|bottom|0'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/1-14.png" alt="" />
+										</a>
+									</dd>
+									<dd class="item2">
+										<a href="category.html" data-page='chaoqianggou|right|bottom|1'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/1-5.png" alt="" />
+										</a>
+									</dd>
+								</dl>
+							</dd>
+						</dl>
+					</dd>
+				</dl>
+				<div class="link1">
+					<a href='subject.html'>更多>></a>
+				</div>
+				<ul class="pingguo separator-before separator-after">
+					<li class='mui-col-xs-6 separator-right'>
+						<a href="category.html" data-page='pingguo|0'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/2-1.png" alt="" />
+						</a>
+					</li>
+					<li class="mui-col-xs-6">
+						<a href="category.html" data-page='pingguo|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/2-2.png" alt="" />
+						</a>
+					</li>
+				</ul>
+				<ul class='shangou separator-after'>
+					<li class='mui-col-xs-3 separator-right'>
+						<a href="category.html" data-page='shangou|0'>
+							<div class="title1"><em>闪</em>购</div>
+							<div class='title2'>全民抢购</div>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/2-3.png" alt="" /></a>
+					</li>
+					<li class='mui-col-xs-3 separator-right'>
+						<a href="category.html" data-page='shangou|1'>
+							<div class="title1"><em>团</em>购</div>
+							<div class='title2'>团购最划算</div>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/2-4.png" alt="" /></a>
+					</li>
+					<li class='mui-col-xs-3 separator-right'>
+						<a href="category.html" data-page='shangou|2'>
+							<div class="title1"><em>优</em>惠购</div>
+							<div class='title2'>全民抢购</div>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/2-5.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-3">
+						<a href="category.html" data-page='shangou|3'>
+							<div class="title1"><em>聚</em>名品</div>
+							<div class='title2'>彰显尊贵品质</div>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/2-6.png" alt="" /></a>
+					</li>
+				</ul>
+				<dl class="news separator-after">
+					<dd class="title">
+						<a href="articles.html" data-extras='{"eid": "10", "etitle": "超盈越头条"}'>超盈越头条</a>
+					</dd>
+					<dd class="inline">:</dd>
+					<dd class="inline">
+						<dl id="marqueebox0" class="marqueebox">
+						</dl>
+					</dd>
+				</dl>
+				<div class='miaosha separator-after' id='countdown2'>
+					<a href="category.html" data-extras='{"eid": "355", "etitle": "秒杀"}'>
+						<span class="title">秒杀·16点进场</span>
+						<span class='time hour'>11</span>:<span class='time minute'>10</span>:<span class='time second'>08</span>
+						<span class="right">
+							<span class="content">全场9.9元起</span>
+						<span class="mui-icon iconfont icon-youjiantou"></span>
+						</span>
+					</a>
+				</div>
+				<ul class='separator-after'>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='guoyuan|0'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/12-1.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='guoyuan|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/12-2.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4">
+						<a href="category.html" data-page='guoyuan|2'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/12-3.png" alt="" /></a>
+					</li>
+				</ul>
+				<ul class="separator-after">
+					<li class="mui-col-xs-4">
+						<a href="category.html" data-page='haier|0'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/3-1.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='haier|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/3-2.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4">
+						<a href="category.html" data-page='haier|2'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/3-3.png" alt="" /></a>
+					</li>
+				</ul>
+				<ul class="hanchao">
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='hanchao|0'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/3-4.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='hanchao|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/3-5.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4">
+						<a href="category.html" data-page='hanchao|2'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/3-6.png" alt="" /></a>
+					</li>
+				</ul>
+				<div id="slider2" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider2|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/7.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider2|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/6.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider2|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/7.png" alt="" /></a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider2|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/6.png" alt="" /></a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+				<div class='tese link2 separator-after'>
+					<span class="title">特色市场</span>
+					<a class="separator-left" href="subject.html">更多>></a>
+				</div>
+				<dl class='dongdong separator-after'>
+					<dd class="left separator-right">
+						<a href="category.html" data-page='dongdong|left'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/4-1.png" alt="小食代" />
+						</a>
+					</dd>
+					<dd class="right">
+						<dl>
+							<dd class="top">
+								<a href="category.html" data-page='dongdong|right|top'>
+									<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/4-2.png" alt="" />
+								</a>
+							</dd>
+							<dd>
+								<dl class="separator-before">
+									<dd class="mui-col-xs-6 item1 separator-right">
+										<a href="category.html" data-page='dongdong|right|bottom|0'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/4-3.png" alt="" />
+										</a>
+									</dd>
+									<dd class="mui-col-xs-6 item2">
+										<a href="category.html" data-page='dongdong|right|bottom|1'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/4-4.png" alt="" />
+										</a>
+									</dd>
+								</dl>
+							</dd>
+						</dl>
+					</dd>
+				</dl>
+				<div id="slider3" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider3|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/3.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider3|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/1.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider3|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/3.png" alt="" /></a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider3|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/1.png" alt="" /></a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+				<div class='link3 separator-after'>
+					<a class="mui-navigate-right" href="subject.html">
+						<span class="title">主题街</span><em>特卖</em>2条街
+					</a>
+				</div>
+				<ul class="neiyi separator-after">
+					<li class="left">
+						<a href="category.html" data-page='neiyi|left'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/5-1.png" alt="" /></a>
+					</li>
+					<li class="right">
+						<a href="category.html" data-page='neiyi|right'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/5-2.png" alt="" /></a>
+					</li>
+				</ul>
+				<ul class="fuzhuang separator-after">
+					<li class="mui-col-xs-4 strong separator-right">
+						<a href="category.html" data-page='fuzhuang|0'>
+							<span class="label">热门</span>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/6-1.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='fuzhuang|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/6-2.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4">
+						<a href="category.html" data-page='fuzhuang|2'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/6-3.png" alt="" /></a>
+					</li>
+				</ul>
+				<ul class="fuzhuang separator-after">
+					<li class="mui-col-xs-4 strong separator-right">
+						<a href="category.html" data-page='zhongbiao|0'>
+							<span class="label">特卖</span>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/7-1.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='zhongbiao|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/7-2.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 strong">
+						<a href="category.html" data-page='zhongbiao|2'>
+							<span class="label">低价</span>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/7-3.png" alt="" /></a>
+					</li>
+				</ul>
+				<ul class="fuzhuang separator-after">
+					<li class="mui-col-xs-4 strong separator-right">
+						<a href="category.html" data-page='muying|0'>
+							<span class="label">特卖</span>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/8-1.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='muying|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/8-2.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 strong">
+						<a href="category.html" data-page='muying|2'>
+							<span class="label">低价</span>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/8-3.png" alt="" /></a>
+					</li>
+				</ul>
+				<div id="slider4" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider4|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/8.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider4|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/2.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider4|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/8.png" alt="" /></a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider4|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/2.png" alt="" /></a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+				<div class='link4 separator-after'>
+					品牌推荐
+				</div>
+				<dl class="pinpai separator-after">
+					<dd class="mui-col-xs-4 item1 separator-right">
+						<dl>
+							<dd class="top">
+								<a href="">品牌墙</a>
+							</dd>
+							<dd class='separator-after'>
+								<div class="logo">
+									<a href="category.html" data-page='pinpai|left|0'>
+										<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/9-1.png" alt="" /></a>
+								</div>
+							</dd>
+							<dd>
+								<div class="bottom">
+									<a href="category.html" data-page='pinpai|left|1'>
+										<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/9-2.png" alt="" /></a>
+								</div>
+							</dd>
+						</dl>
+						</li>
+						<dd class="mui-col-xs-4 item2">
+							<dl>
+								<dd class="nav separator-after">
+									<a href="brands.html" data-extras='{"estyle":""}'>
+									全部品牌<span class="mui-icon iconfont icon-youjiantou"></span></a>
+								</dd>
+								<dd class="separator-after">
+									<div class="link">
+										<a href="category.html" data-page='pinpai|middle|0'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/9-3.png" alt="" /></a>
+									</div>
+								</dd>
+								<dd class="separator-after">
+									<div class="link">
+										<a href="category.html" data-page='pinpai|middle|1'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/9-4.png" alt="" /></a>
+									</div>
+								</dd>
+								<dd>
+									<div class="link">
+										<a href="category.html" data-page='pinpai|middle|2'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/9-5.png" alt="" /></a>
+									</div>
+								</dd>
+							</dl>
+						</dd>
+						<dd class="mui-col-xs-4 item3">
+							<dl>
+								<dd>
+									<a href="category.html" data-page='pinpai|right|0'>
+										<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/9-6.png" alt="" /></a>
+								</dd>
+								<dd>
+									<a href="category.html" data-page='pinpai|right|1'>
+										<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/9-7.png" alt="" /></a>
+								</dd>
+							</dl>
+						</dd>
+				</dl>
+				<div class='tese link2 separator-after'>
+					<span class="title">新发现</span>
+					<a class="separator-left" href="subject.html">更多>></a>
+				</div>
+				<ul class="fuzhuang separator-after">
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='toukui|0'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/10-1.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4 separator-right">
+						<a href="category.html" data-page='toukui|1'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/10-2.png" alt="" /></a>
+					</li>
+					<li class="mui-col-xs-4">
+						<a href="category.html" data-page='toukui|2'>
+							<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/10-3.png" alt="" /></a>
+					</li>
+				</ul>
+				<div id="slider5" class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider5|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/5.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider5|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/4.png" alt="" /></a>
+						</div>
+						<div class="mui-slider-item">
+							<a href="category.html" data-page='slider5|1'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/5.png" alt="" /></a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="category.html" data-page='slider5|0'>
+								<img src="images/loading4x1.gif" data-delay="http://wx.chaoyingyue.com/app/images/ad/4.png" alt="" /></a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+				<div class='tese link2 separator-after'>
+					<span class="title">发现好产品</span>
+					<a class="separator-left" href="subject.html">你中意的好产品<span class="mui-icon iconfont icon-youjiantou"></span></a>
+				</div>
+				<dl class="faxian separator-after">
+					<dd class="mui-col-xs-6">
+						<dl>
+							<dd class="left">
+								<a href="category.html" data-page='faxian|0|left'>
+									<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/11-1.png" alt="" /></a>
+							</dd>
+							<dd class="right">
+								<dl>
+									<dd>
+										<a href="category.html" data-page='faxian|0|right|0'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/11-2.png" alt="" /></a>
+									</dd>
+									<dd>
+										<a href="category.html" data-page='faxian|0|right|1'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/11-3.png" alt="" /></a>
+									</dd>
+								</dl>
+							</dd>
+							<dd class="bottom separator-before">
+								<a href="categorys.html">精选</a>
+							</dd>
+						</dl>
+					</dd>
+					<dd class="mui-col-xs-6">
+						<dl>
+							<dd class="left">
+								<a href="category.html" data-page='faxian|1|left'>
+									<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/11-4.png" alt="" /></a>
+							</dd>
+							<dd class="right">
+								<dl>
+									<dd>
+										<a href="category.html" data-page='faxian|1|right|0'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/11-5.png" alt="" /></a>
+									</dd>
+									<dd>
+										<a href="category.html" data-page='faxian|1|right|1'>
+											<img src="images/loading.gif" data-delay="http://wx.chaoyingyue.com/app/images/index/11-6.png" alt="" /></a>
+									</dd>
+								</dl>
+							</dd>
+							<dd class='bottom separator-before'>
+								<a href="categorys.html">男装</a>
+							</dd>
+						</dl>
+					</dd>
+				</dl>
+				<div class="listBox_2">
+					<div class="titlebox">
+						<hr/>
+						<div class="title">
+							<span class="mui-icon iconfont icon-xiajiantou"></span>
+							<span id='tuijian'>00:00</span>你的专属推荐已更新
+						</div>
+					</div>
+					<ul id='theList'>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/login.js"></script>
+		<script src="js/pageConfig.js"></script>
+		<script type="text/javascript">var aniShow="pop-in";var count=[0,0],loaded=0,loading=false;var startDate=[new Date("2010/07/16 00:00:00"),new Date("2010/07/16 00:24:35")];var endDate=[new Date("2010/07/16 02:24:35"),new Date("2010/07/16 02:24:35")];if(mui.os.android){if(parseFloat(mui.os.version)<4.4){aniShow="slide-in-right"}}var webview_style={popGesture:"close"};mui.init({swipeBack:false});delayimg.init({throttle:300});setSliderHeight("slider",0.5);mui.plusReady(function(){refresh();mui("#slider").slider({interval:5000});mui("#slider2").slider({interval:0});mui("#slider3").slider({interval:0});mui("#slider4").slider({interval:0});mui("#slider5").slider({interval:0});initLoginAuth();pageConfig.load("home");loadMarquee()});mui(document).on("tap","a",function(u){var o=this.getAttribute("href")||"";var n=o;var h=this.getAttribute("data-extras");h=typeof h=="undefined"?{}:JSON.parse(h);var p=(typeof this.getAttribute("data-frame")!="undefined"&&this.getAttribute("data-frame")==1);var v=(typeof this.getAttribute("data-login")!="undefined"&&this.getAttribute("data-login")==1);var q=(typeof this.getAttribute("data-wx")!="undefined"&&this.getAttribute("data-wx")==1);var s=(typeof this.getAttribute("data-tab")!="undefined"&&this.getAttribute("data-tab")==1);var x=this.getAttribute("data-page")||"";if(o.length==0){return false}if(v&&!checkLogin(0)){checkLogin();return}if(q&&!user.user.wx){mui.alert("您不是微信用户，无法使用此功能");return}if(s){var e=plus.webview.getLaunchWebview();mui.fire(e,"gotab",{page:o});return}if(x){if(!pageConfig.isReady()){mui.alert("首页配置尚未加载完成，请稍后再试");return}h=pageConfig.get(x)}if(p){var r=o.indexOf("http://")!=-1||o.indexOf("https://")!=-1;var t=r?o:mui.constMap.SERVER_HOST+o+(~o.indexOf("?")?"?":"&")+"unionid="+user.user.wx.unionid;console.log("open frame url: "+t);mui.openWindow({id:"frame.html",url:"frame.html",waiting:{autoShow:true},extras:{page_title:h.title,page_url:t}})}else{mui.openWindow({id:n,url:o,extras:h,styles:webview_style,show:{aniShow:aniShow},waiting:{autoShow:true}})}});document.addEventListener("refresh",refresh,false);document.addEventListener("pagebeforeshow",refresh,false);window.addEventListener("scroll",function(){var c=document.getElementById("theList").offsetTop,d=document.documentElement.scrollTop||document.body.scrollTop,b=document.documentElement.clientHeight;if(c>=d&&c<=d+b){var e=mui.now();if(e-loaded>1000*60*10&&!loading){loadBestGoods()}}});function loadBestGoods(){loading=true;mui.sendRequest(mui.constMap.ROOT_PATH+"/search",{filter:{keywords:"",category_id:0,price_range:"",brand_id:"",sort_by:"sort_order,id_desc"},pagination:{page:1,count:pageConfig.isReady()?pageConfig.get("tuijian|count"):30},intro:pageConfig.isReady()?pageConfig.get("tuijian|orderby"):"best",config:{silence:true}},function(a){loading=false;if(!a.status.succeed){mui.toast(a.status.error_desc);return}loaded=mui.now();var c=document.getElementById("theList"),d=document.getElementById("tuijian"),b=document.createDocumentFragment();var e=new Date();d.innerHTML=e.getHours()+":"+e.getMinutes();mui.each(a.data,function(f,g){b.appendChild(fillGoodsLI(g))});c.innerHTML="";c.appendChild(b);delayimg.render()})}function fillGoodsLI(e){var k=document,l=k.createElement("li"),j=k.createElement("a"),f=k.createElement("i"),d=k.createElement("em"),g=k.createElement("img"),c=k.createElement("p"),h=k.createElement("b"),m=k.createElement("del");j.setAttribute("href","goods.html");j.setAttribute("data-extras",JSON.stringify({eid:e.goods_id}));g.setAttribute("class","mui-media-object");g.src="images/loading.gif";g.setAttribute("data-delay",e.img.thumb);c.innerHTML=e.name;h.innerHTML=e.shop_price;m.innerHTML=e.market_price;h.appendChild(m);d.appendChild(g);f.appendChild(d);j.appendChild(f);j.appendChild(c);j.appendChild(h);l.appendChild(j);return l}function loadMarquee(){mui.sendRequest(mui.constMap.ROOT_PATH+"/articles",{filter:{category_id:10},pagination:{page:1,count:2},config:{silence:true}},function(c){if(!c.status.succeed){mui.toast(c.status.error_desc);return}var b=document.getElementById("marqueebox0"),a=document.createDocumentFragment();mui.each(c.data,function(d,e){a.appendChild(fillArticlesDD(e))});b.innerHTML="";b.appendChild(a);if(c.data.length>0){startmarquee(30,50,3000,0)}})}function fillArticlesDD(g){var f=g.title.split("]");if(f.length!=2){f=["","格式错误"]}else{f[0]=f[0].substr(1)}var c=document.createElement("dd"),b=document.createElement("a"),e=document.createElement("span"),d=document.createElement("span");e.className="category";e.innerHTML=f[0];d.className="content";d.innerHTML=f[1];b.setAttribute("href","article.html");b.setAttribute("data-extras",JSON.stringify({eid:g.id}));b.appendChild(e);b.appendChild(d);c.appendChild(b);return c}function refresh(){var d=document.querySelector("header"),b=d.querySelector(".mui-pull-left"),c=b.querySelector(".mui-tab-label");c.innerHTML=checkLogin(0)?"在线":"登陆"}function view_time(c,h){if(count[h]>=0){var k=Math.floor((count[h]/3600)/24);var j=Math.floor((count[h]-k*24*3600)/3600);var f=Math.floor((count[h]-k*24*3600-j*3600)/60);var b=(count[h]-j*3600)%60;var a=document.getElementById(c),g=a.querySelector(".hour"),e=a.querySelector(".minute"),d=a.querySelector(".second");j+=k*24;g.innerHTML=j>9?j:"0"+j;e.innerHTML=f>9?f:"0"+f;d.innerHTML=b>9?b:"0"+b;count[h]--}else{count[h]=(endDate[h].getTime()-startDate[h].getTime())/1000;console.log("倒计时已结束")}}function startmarquee(h,d,e,g){var i;var b=false;var c=document.getElementById("marqueebox"+g);c.innerHTML+=c.innerHTML;c.onmouseover=function(){b=true};c.onmouseout=function(){b=false};c.scrollTop=0;function a(){i=setInterval(f,d);if(!b){c.scrollTop+=2}}function f(){if(c.scrollTop%h!=0){c.scrollTop+=2;if(c.scrollTop>=c.scrollHeight/2){c.scrollTop=0}}else{clearInterval(i);setTimeout(a,e)}}setTimeout(a,e)}count[0]=(endDate[0].getTime()-startDate[0].getTime())/1000;count[1]=(endDate[1].getTime()-startDate[1].getTime())/1000;setInterval("view_time('countdown', 0)",1000);setInterval("view_time('countdown2', 1)",1000);function setSliderHeight(d,c){var a=document.getElementById(d);var b=a.getBoundingClientRect();var e=c*b.width;var g=Math.ceil(e);var f=g==e?"height":"max-height";a.setAttribute("style",f+":"+e+"px;overflow:hidden;")};</script>
+	</body>
+
+</html>

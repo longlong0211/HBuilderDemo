@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		
+	</head>
+
+	<body class="body-ccc">
+		<header class="mui-bar mui-bar-nav header-s">
+			<div>
+				<a class="mui-action-back mui-icon mui-icon-back"></a>
+			</div>
+			<div class="mui-input-row">
+				<span class="mui-icon mui-icon-search"></span>
+				<input type="text" name="txt" class="mui-input-clear" autofocus="autofocus" id="txt" value="" placeholder="请输入菜名" />
+			</div>
+			<div class="searchd">
+				<button class="mui-btn mui-btn-red search">搜索</button>
+			</div>
+		</header>
+		<!--<div class="mui-content">-->
+				<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+			<ul class="mui-table-view">
+			</ul>
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<!--<script src="../js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="../js/zepto_1.1.6.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+	
+		mui.init()
+mui.plusReady(function() {	
+		var web = plus.webview.currentWebview();
+		var menu=web['name'];
+
+		$('.mui-input-clear').val(menu);
+
+	$.getJSON('../js/menu.json?t=' + new Date().getTime(), function(data) {
+
+	if(menu)
+	{
+		search(data,menu)
+	}
+	
+	$('.mui-input-clear').keyup(function(){
+		search(data,menu)
+	})
+
+	mui('.mui-table-view').on('tap','li',function(){
+		var getName = this.getAttribute('name');
+		var getMenu = this.getAttribute('id');
+//				alert(getName2)//位于JSON中第几个菜
+//				alert(info)//餐馆名
+		var webview = mui.openWindow({
+							url:'food2.html',
+							extras:{
+							name: getName,
+							menu: getMenu
+								},
+		show: {
+			autoShow: true,
+			aniShow: "slide-in-right",
+			duration: "100ms"
+		},
+		waiting: {
+			autoShow: false
+		}	
+							});
+		})
+// mui('.searchd').on('tap','.search',function(){
+// 	
+//		search(data,menu)
+// })
+	})//getjson
+})//plusready
+//alert()
+$('.mui-input-clear').click(function(){
+		//点击 clear 按钮清除 所有 .mui-table-view 数据
+		if($('.mui-input-clear').val() == '')
+		{
+			$('.mui-table-view').html('')
+		}
+	})
+function search(){
+//	alert(arguments[0])
+	var datas = arguments[0]
+	var webn  = arguments[1]
+	var arr   = [];
+	var arr2  = 0;
+	var arr3  = [];
+//	alert(datas)
+	var menu = ["chuanyumeishi",
+	"huabeitesexiaochi",
+	"chengdumeishi",
+	"huaxiaoshengtudoufen",
+	"haoshihuidongbeicai",
+	"laoyuxiaoguan",
+	"haozailaixiaochi",
+	"aniumianguan",
+	"chengduxiaochi",
+	"dongbeixiaochi",
+	"shanxijiaoziguan",
+	"dongbeichengxinkuaicandian",
+	"dongbeirenyupaobing"
+	];
+				$('.mui-table-view').html('')
+		for(var j=0; j<menu.length; j++)
+		{
+				for (var i=0; i<datas[menu[j]].length;i++) {
+//					alert(data[menu[j]][i]['title'])
+					arr[i]  = datas[menu[j]][i]['menu_name'];
+//					if(arr)
+//				alert(arr)
+//					arr2[i] = datas[menu[j]][i]['name'];
+//				alert(typeof arr[i].indexOf($('.mui-input-clear').val())) 
+								arr2 += arr[i].indexOf($('.mui-input-clear').val())
+						if(arr[i].indexOf($('.mui-input-clear').val()) != -1)
+							{	
+//								arr2[i] ="店铺名:"+menu[j]+"菜名:"+arr[i]
+//								$('.mui-table-view').append(arr2[i]+'<hr>')
+								$('.mui-table-view').append('<li class="mui-table-view-cell" name="'+menu[j]+'" id="'+datas[menu[j]][i]["title"]+'"><a class="mui-navigate-right"><img class="mui-media-object mui-pull-left bdr" src="'+datas[menu[j]][i]["food_img"]+'"><div class="mui-media-body">'+arr[i]+"("+datas[menu[j]][i]['name']+")"+'<p class="mui-ellipsis"><i class="mui-icon iconfont iconfont2 icon-iconfontx14"></i><i class="mui-icon iconfont iconfont2 icon-iconfontx14"></i><i class="mui-icon iconfont iconfont2 icon-iconfontx14"></i><i class="mui-icon iconfont iconfont2 icon-iconfontx14"></i><i class="mui-icon iconfont iconfont2 icon-iconfontx14"></i></p></div></a></li>')
+//								$('.mui-table-view').append('<li class="mui-table-view-cell" name="'+menu[j]+'" title="'+i+'"><a class="mui-navigate-right"><img class="mui-media-object mui-pull-left bdr" src="'+datas[menu[j]][i]["food_img"]+'"><div class="mui-media-body">'+arr[i]+'<p class="mui-ellipsis"><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i></p></div></a></li>')
+								//创建详细菜
+								
+						}else{	
+						}
+				}
+				if(arr2 == -980){//you980道菜
+					$('.mui-table-view').append('<p class="nonono">没有这个菜啦~~</p>')
+				}
+								
+									
+								
+//			alert(arr2)
+//								alert(datas[menu[j]][314]['name'])
+		}
+}
+
+mui.init({
+	swipeBack: false,
+	pullRefresh: {
+		container: "#pullrefresh",
+	}
+});
+
+if (mui.os.plus) {
+	mui.plusReady(function() {
+		setTimeout(function() {
+			mui("#pullrefresh").pullRefresh()
+		}, 1000)
+	})
+} else {
+	mui.ready(function() {
+		mui("#pullrefresh").pullRefresh()
+		})
+}
+		</script>
+	</body>
+
+</html>

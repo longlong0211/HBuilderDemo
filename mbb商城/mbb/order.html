@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/order.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div class="mui-content order-detail">
+			<!--summary begin-->
+			<section class="order-detail-infor">
+				<div class="order-detail-sum clear">
+					<div class="sum-l order-detail-l">
+						<i class="icon-orders-small"></i>
+					</div>
+					<div class="sum-r order-detail-r">
+						<ul class="sum-r-ul">
+						</ul>
+					</div>
+					<hr style="filter:alpha(opacity=30); /*IE滤镜，透明度30%*/-moz-opacity:0.3; /*Firefox私有，透明度30%*/opacity:0.3;/*其他，透明度30%*/">
+				</div>
+			</section>
+			<!--summary end-->
+			<!--address begin-->
+			<section class="order-detail-address">
+				<div class="address-out clear">
+					<div class="address-l order-detail-l">
+						<i class="icon-address-small"></i>
+					</div>
+					<div class="address-r order-detail-r">
+						<ul class="address-r-ul">
+						</ul>
+					</div>
+				</div>
+			</section>
+			<!--address end-->
+			<!--product begin-->
+			<div class="list-myorder">
+				<ul class="ul-product">
+				</ul>
+			</div>
+			<!--product end-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/order.js"></script>
+		<script src="js/payment.js"></script>
+		<script type="text/javascript" charset="utf-8">var user=null;var pays={};mui.init({swipeBack:true});mui.plusReady(function(){user=getCachedUser(true);if(!user){var b=plus.webview.getLaunchWebview();mui.fire(b,"login");mui.back();return}plus.payment.getChannels(function(a){for(var f in a){var e=a[f];pays[e.id]=e}},function(a){console.log("获取支付通道失败："+a.message)});loadOrder()});function loadOrder(){var a=plus.webview.currentWebview();mui.sendRequest(mui.constMap.ROOT_PATH+"/order/info",{session:user.session,order_id:a.eid},function(b){if(!b.status.succeed){mui.toast(b.status.error_desc);return}fillOrder(b.data)})}function fillOrder(d){var b=document,c=b.querySelector("section.order-detail-infor"),e=b.querySelector("section.order-detail-address"),f=b.querySelector("ul.ul-product");var h=c.querySelector("ul.sum-r-ul"),a=e.querySelector("ul.address-r-ul");deleChild(h);h.appendChild(fillInforUL(d));deleChild(a);a.appendChild(fillAddressUL(d));deleChild(f);var g=b.createDocumentFragment();mui.each(d.goods_list,function(i,j){g.appendChild(fillSegGoods(j))});f.appendChild(g)}function fillInforUL(h){var c=document,j=c.createDocumentFragment(),i=c.createElement("li"),b=c.createElement("li"),n=c.createElement("li"),e=c.createElement("span"),m=c.createElement("span"),k=c.createElement("span"),g=c.createElement("span"),f=c.createElement("span");e.setAttribute("class","status");e.innerHTML=h.order_status;m.setAttribute("class","label");m.innerHTML="订单号：";g.setAttribute("class","value");g.innerHTML=h.order_sn;k.setAttribute("class","label");k.innerHTML="下单时间：";f.setAttribute("class","value");f.innerHTML=h.order_time;if(h.pay_online.length>0){var l=c.createElement("li"),d=c.createElement("span"),o=c.createElement("a");d.setAttribute("class","value");o.innerHTML="立即支付";o.addEventListener("tap",function(a){orderPay({order:h.pay_online,code:h.pay_code=="wxpay"?"wxpay":"alipay"},"app")},false);d.appendChild(o);l.appendChild(d)}i.appendChild(e);b.appendChild(m);b.appendChild(g);n.appendChild(k);n.appendChild(f);j.appendChild(i);j.appendChild(b);j.appendChild(n);if(h.pay_online.length>0){j.appendChild(l)}return j}function fillAddressUL(f){var q=document,h=q.createDocumentFragment(),c=q.createElement("li"),o=q.createElement("li"),l=q.createElement("span"),j=q.createElement("span"),e=q.createElement("span"),d=q.createElement("span"),b=q.createElement("span");l.setAttribute("class","label");l.innerHTML="收货人：";e.setAttribute("class","value");e.innerHTML=f.consignee;d.setAttribute("class","value");d.innerHTML=f.tel;j.setAttribute("class","label");j.innerHTML="收货地址：";b.setAttribute("class","value");b.innerHTML=f.address;if(f.invoice_no.length>0){var k=q.createElement("li"),g=q.createElement("li"),p=q.createElement("span"),n=q.createElement("span"),i=q.createElement("span"),m=q.createElement("a");g.setAttribute("class","label");p.setAttribute("class","value");p.innerHTML="发货：";n.setAttribute("class","value");n.innerHTML=f.shipping_name;i.setAttribute("class","value");m.innerHTML=f.invoice_no;m.addEventListener("tap",function(a){orderKD(f.invoice_no)},false);i.appendChild(m);k.appendChild(p);k.appendChild(n);k.appendChild(i)}c.appendChild(l);c.appendChild(e);c.appendChild(d);o.appendChild(j);o.appendChild(b);h.appendChild(c);h.appendChild(o);if(f.invoice_no.length>0){h.appendChild(k)}return h}function fillSegGoods(h){var n=document,d=n.createElement("li"),a=n.createElement("span"),i=n.createElement("img"),j=n.createElement("div"),k=n.createElement("span"),m=n.createElement("div"),f=n.createElement("span"),g=n.createElement("div"),b=n.createElement("span"),l=n.createElement("div");a.setAttribute("class","pic");i.setAttribute("src",h.img.thumb);j.setAttribute("class","text");k.setAttribute("class","pro-name");k.innerHTML=h.name;m.setAttribute("class","pro-pric");f.innerHTML="价格：";var e=n.createTextNode(h.formated_shop_price);g.setAttribute("class","pro-pec");b.innerHTML="数量：";var c=n.createTextNode(h.goods_number);a.appendChild(i);m.appendChild(f);m.appendChild(e);g.appendChild(b);g.appendChild(c);j.appendChild(k);j.appendChild(m);j.appendChild(g);d.appendChild(a);d.appendChild(j);l.setAttribute("class","div-return");d.appendChild(l);return d}function deleChild(c){var a=c.childNodes;for(var b=a.length;b--;b>0){if(a[b].hasChildNodes()){deleChild(a[b])}else{c.removeChild(a[b])}}for(var b=a.length;b--;b>0){c.removeChild(a[b])}};</script>
+	</body>
+
+</html>

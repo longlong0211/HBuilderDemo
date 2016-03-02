@@ -1,0 +1,122 @@
+.listAdd-btn {
+	margin: 15px 15px 0px;
+}
+.listAdd-btn .button,
+.listAdd-btn02 .button {
+	position: static;
+	margin-bottom: 0px;
+	background: #FFF none repeat scroll 0% 0%;
+	border: 1px solid #CCC;
+	color: #999;
+	border-radius: 3px;
+	height: 40px;
+	line-height: 40px;
+}
+button,
+.button {
+	width: 100%;
+	padding: 0px;
+	font-size: 20px;
+	font-family: "微软雅黑", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	cursor: pointer;
+	text-align: center;
+	display: inline-block;
+}
+.listAdd-btn .button i,
+.listAdd-btn02 .button i {
+	display: inline-block;
+	margin: -5px 5px 0px 0px;
+	font-size: 30px;
+	font-style: normal;
+	vertical-align: middle;
+}
+em,
+i {
+	font-style: italic;
+	line-height: inherit;
+}
+.side-nav.address {
+	margin: 0px 15px;
+	padding: 0px;
+	overflow: hidden;
+}
+.side-nav {
+	display: block;
+	margin: 0px;
+	padding: 0.875rem 0px;
+	list-style-type: none;
+	list-style-position: inside;
+	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
+.address.side-nav li.current {
+	background: #D6F0FB none repeat scroll 0% 0%;
+	border: 1px solid #C3E4F2;
+}
+.address.side-nav li {
+	clear: both;
+	overflow: hidden;
+	margin: 10px 0px;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	background: #FFF none repeat scroll 0% 0%;
+	box-shadow: 2px 2px 2px #CCC;
+}
+.side-nav li {
+	margin: 0px 0px 0.4375rem;
+	font-size: 0.875rem;
+}
+.side-nav li a:not(.button) {
+	display: block;
+	color: #45A5CF;
+}
+.address .payInfo {
+	float: left;
+	font-size: 16px;
+}
+.address .payInfo .mobile {
+	padding-left: 10px;
+}
+.address .current .payStatus {
+	display: block;
+}
+.address .payStatus {
+	display: none;
+	float: right;
+}
+.address.side-nav li .opera a:not(.button) {
+	margin: 0px;
+	padding: 0px;
+}
+.address.side-nav li a:not(.button) {
+	display: block;
+	color: #333;
+	overflow: hidden;
+	margin: 15px;
+}
+.address .opera {
+	overflow: hidden;
+	height: 30px;
+	line-height: 30px;
+	border-top: 1px solid #E9E9E9;
+	background-color: #fff;
+}
+.address .opera .a-edit {
+	float: left;
+	width: 50%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border-right: 1px solid #E9E9E9;
+	background: #FFF none repeat scroll 0% 0%;
+}
+.address .opera .a-del {
+	float: right;
+	width: 50%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background: #FFF none repeat scroll 0% 0%;
+}
+.icon-gray {
+	color: #A7A7A7;
+}

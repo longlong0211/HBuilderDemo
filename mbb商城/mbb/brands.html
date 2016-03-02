@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 100%;
+			}
+			.mui-col-xs-3,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 100%;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				background-color: #fff;
+			}
+			.mui-table-view.mui-grid-view {
+				padding: 0;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				padding: 10px 5px;
+				margin: 0;
+			}
+			.mui-control-content ul li a {
+				background-color: #fff;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				padding: 10px;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				font-size: 12px;
+			}
+			.lovely{
+				border-bottom: 1px solid #EFEFF4;
+				border-right: 1px solid #EFEFF4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">所有品牌</h1>
+		</header>
+		<div class="mui-content mui-row mui-fullscreen">
+			<div class="mui-col-xs-3">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+				</div>
+			</div>
+			<div id="segmentedControlContents" class="mui-col-xs-9" style="border-left: 1px solid #c8c7cc;">
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script>var aniShow="pop-in";if(mui.os.android){if(parseFloat(mui.os.version)<4.4){aniShow="slide-in-right"}}var webview_style={popGesture:"close"};mui.init({swipeBack:true});mui.plusReady(function(a){loadCategory()});function loadCategory(){mui.sendRequest(mui.constMap.ROOT_PATH+"/category",{},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);mui.back();return}fillCategory(a.data);mui("#segmentedControls").on("tap","a",loadBrand);mui.trigger(document.getElementById("segmentedControls").querySelector(".mui-control-item"),"tap")})}function fillCategory(c){var f=document.getElementById("segmentedControls"),b=document.getElementById("segmentedControlContents");var e=document.createDocumentFragment(),d=document.createDocumentFragment();for(var a=0,g=c.length;a<g;a++){e.appendChild(fillCategoryA(c[a]));d.appendChild(fillChildren(c[a].id))}f.innerHTML="";f.appendChild(e);b.innerHTML="";b.appendChild(d);f.querySelector(".mui-control-item").classList.add("mui-active");b.querySelector(".mui-control-content").classList.add("mui-active")}function fillCategoryA(c){var b=document.createElement("a");b.className="mui-control-item";b.innerHTML=c.name;b.setAttribute("href","#content"+c.id);return b}function fillChildren(a){var b=document.createElement("div"),d=document.createElement("ul"),c=document.createDocumentFragment();b.setAttribute("id","content"+a);b.setAttribute("data-id",a);b.setAttribute("class","mui-control-content");d.setAttribute("class","mui-table-view mui-grid-view");b.appendChild(d);return b}function fillBrand(d,a){var b=document.getElementById(d),k=b.querySelector("ul"),e=document.createDocumentFragment(),d=plus.webview.currentWebview();var c=d.estyle||"";if(!k.querySelector("li")){mui.each(a,function(f,g){e.appendChild(fillBrandLI(g,c))});k.appendChild(e)}}function fillBrandLI(k,b){var c=document.createElement("li"),d=document.createElement("a"),e=document.createElement("img"),f=document.createElement("div");c.className="mui-table-view-cell mui-media mui-col-xs-4"+(b=="lovely"?" lovely":"");d.setAttribute("eid",k.brand_id);d.setAttribute("etitle",k.brand_name);d.addEventListener("tap",showDetail);e.className="mui-media-object";e.src=k.brand_logo;f.className="mui-media-body";f.innerHTML=k.brand_name;d.appendChild(e);d.appendChild(f);c.appendChild(d);return c}function loadBrand(b){var c=this.hash.replace("#content","");var a=this;mui.sendRequest(mui.constMap.ROOT_PATH+"/brand",{category_id:c},function(d){if(!d.status.succeed){mui.toast(d.status.error_desc);mui.back();return}fillBrand(a.hash.replace("#",""),d.data)})}function showDetail(a){mui.openWindow({id:"category.html",url:"category.html",waiting:{autoShow:true},extras:{eid:this.getAttribute("eid"),etitle:this.getAttribute("etitle"),etype:"brand"}})};</script>
+
+	</body>
+
+</html>

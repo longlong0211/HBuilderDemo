@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 促销活动</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			#activity {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			#activity a{
+				display: block;
+			}
+			#activity img {
+				width: 100%;
+				min-height: 100px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 class="mui-title">促销活动</h1>
+		</header>
+		<nav id="nav" class="mui-bar mui-bar-tab mui-plus-hidden"></nav>
+		<div id="scroll" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul id="activity">
+				</ul>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/base.js"></script>
+		<script type="text/javascript" src="../../js/page/activity/activity.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/activity/activity.min.js"></script>
+		<script>
+			new TS.Init('Activity');
+		</script>
+	</body>
+
+</html>

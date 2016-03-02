@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 意见反馈</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 id="ts_title" class="mui-title">意见反馈</h1>
+			<button id="submit" disabled="" type="button" class="mui-btn mui-btn-link mui-pull-right">发送</button>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-content-padded">
+				<textarea id="feedback" style="height: 200px;margin-bottom: 5px;" placeholder="欢迎您对我们提出宝贵的意见和建议，您留下的每一个字，我们都会认真参考，提出改进！"></textarea>
+				<input id="contact" type="text" placeholder="手机/QQ/邮箱">
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/feedback/feedback.min.js"></script>
+		<script>
+			new TS.Init('Feedback');
+		</script>
+	</body>
+
+</html>

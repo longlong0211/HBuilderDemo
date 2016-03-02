@@ -1,0 +1,17 @@
+.header_new {
+	height: 40px;
+	background-color: green;
+}
+.mui-title {
+	color: #fff;
+}
+a {
+	color: #ffffff;
+}
+.mui-btn-negative {
+	border: 1px solid green;
+	background-color: green;
+}
+.mui-bar-nav{
+	background-color: green;
+}

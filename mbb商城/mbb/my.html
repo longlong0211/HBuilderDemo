@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
+		<style>
+			.mui-content > .mui-table-view:first-child {
+				margin-top: 0;
+			}
+			
+			.user-info {
+				background-color: #12243B;
+				color: #fff;
+				font-size: 14px;
+				position: inherit;
+			}
+			
+			.mui-table-view .mui-media-object.mui-pull-left {
+				margin-right: 30px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				line-height: 64px;
+				max-width: 64px;
+				height: 64px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				-webkit-border-radius: 64px;
+				-moz-border-radius: 64px;
+				border-radius: 64px;
+			}
+			
+			.mui-table-view .mui-media,
+			.mui-table-view .mui-media-body {
+				line-height: 32px;
+			}
+			
+			.user-account {
+				font-size: 0;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+				line-height: 0;
+			}
+			
+			.user-account li {
+				font-size: 12px;
+				display: inline-block;
+				text-align: center;
+				line-height: 24px;
+			}
+			
+			.mui-col-xs-4 {
+				width: 33.33%;
+			}
+			
+			.user-a1 {
+				background-color: #F57E1F;
+			}
+			
+			.user-a2 {
+				background-color: #D72738;
+			}
+			
+			.user-a2:after {
+				position: absolute;
+				top: 0;
+				right: 1px;
+				content: "";
+				width: 1px;
+				height: 400%;
+				background-color: #fff;
+				transform: scale(.25);
+				transform-origin: 0 0;
+			}
+			
+			.user-a3 {
+				background-color: #D72738;
+			}
+			
+			.user-account li span {
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				background-color: #fff;
+				padding: 2px 5px;
+				color: #D7273B;
+				margin-left: 40%;
+			}
+			
+			.user-account li div {
+				color: #fff;
+			}
+			
+			.mui-bar-tab {
+				position: inherit;
+				background-color: #fff;
+				padding: 5px 0 0;
+				-webkit-box-shadow: 0 0 1px rgba(221, 218, 218, 0.85);
+				-moz-box-shadow: 0 0 1px rgba(221, 218, 218, 0.85);
+				box-shadow: 0 0 1px rgba(221, 218, 218, 0.85);
+			}
+			
+			.mt-5 {
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			
+			a.mui-disabled,
+			a.mui-disabled:hover {
+				color: #999 !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">会员中心</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view user-info">
+				<li class="mui-table-view-cell mui-media">
+					<img src="images/iconfont-nantouxiang.png" class="mui-media-object mui-pull-left">
+					<div class="mui-media-body">尚未登陆
+						<p class="mui-ellipsis"></p>
+					</div>
+				</li>
+			</ul>
+			<ul class="user-account">
+				<li class="mui-col-xs-4 user-a1">
+					<span>累计销售</span>
+					<div>0</div>
+				</li>
+				<li class="mui-col-xs-4 user-a2">
+					<span>累计红包</span>
+					<div>0</div>
+				</li>
+				<li class="mui-col-xs-4 user-a3">
+					<a href="exchange.html">
+						<span>积分商城</span>
+						<div>0</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view user-order">
+				<li class="mui-table-view-cell">
+					<a href='orders.html' data-extras='{"type":"all"}' class="mui-navigate-right">
+						全部订单
+					</a>
+				</li>
+			</ul>
+			<div class="mui-bar mui-bar-tab">
+				<a href='orders.html' data-extras='{"type":"await_pay"}' class="mui-tab-item mui-active">
+					<span class="mui-icon iconfont icon-daifukuan"></span>
+					<span class="mui-tab-label">待付款</span>
+				</a>
+				<a href='orders.html' data-extras='{"type":"await_ship"}' class="mui-tab-item">
+					<span class="mui-icon iconfont icon-daifahuo"></span>
+					<span class="mui-tab-label">待发货</span>
+				</a>
+				<a href='orders.html' data-extras='{"type":"shipped"}' class="mui-tab-item">
+					<span class="mui-icon iconfont icon-daishouhuo"></span>
+					<span class="mui-tab-label">待收货</span>
+				</a>
+				<a href='orders.html' data-extras='{"type":"finished"}' class="mui-tab-item">
+					<span class="mui-icon iconfont icon-yiwancheng"></span>
+					<span class="mui-tab-label">已完成</span>
+				</a>
+			</div>
+			<ul class="mui-table-view mt-5">
+				<li class="mui-table-view-cell">
+					<a href='account.html' class="mui-navigate-right">
+						个人资料
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href='bank.html' class="mui-navigate-right">
+						我的账户
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href='address.html' class="mui-navigate-right">
+						收货地址
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href='bonus.html' class="mui-navigate-right">
+						我的优惠券
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view mt-5">
+				<li class="mui-table-view-cell">
+					<a href='member.html' data-wx="1" class="mui-navigate-right">
+						我的人气
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href='brokerage.html' data-wx="1" class="mui-navigate-right">
+						我的红包
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view mt-5">
+				<li class="mui-table-view-cell" style="text-align: center;">
+					<a href='#quit'>退出登录</a>
+				</li>
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/login.js "></script>
+		<script>var user=null;var aniShow="pop-in";if(mui.os.android){if(parseFloat(mui.os.version)<4.4){aniShow="slide-in-right"}}mui.init({swipeBack:false});mui.back=function(){var b=plus.webview.getLaunchWebview();mui.fire(b,"gohome")};mui.plusReady(function(b){initLoginAuth()});document.addEventListener("refresh",loadUserData,false);document.addEventListener("pagebeforeshow",loadUserData,false);mui(".mui-content").on("tap","a",function(k){var e=this.getAttribute("href");var j=e;var m={popGesture:"close"};var n=this.getAttribute("data-extras");n=typeof n=="undefined"?{}:JSON.parse(n);var l=(typeof this.getAttribute("data-login")!="undefined"&&this.getAttribute("data-login")==1);var i=(typeof this.getAttribute("data-wx")!="undefined"&&this.getAttribute("data-wx")==1);if(e.length==0){return false}if(this.hash&&this.hash.replace("#","")=="quit"){logout(function(a){mui.back()});return}if(l&&!checkLogin(0)){checkLogin();return}if(i&&!user.user.wxid){mui.alert("您不是微信用户，无法使用此功能");return}mui.openWindow({id:j,url:e,extras:n,styles:m,show:{aniShow:aniShow},waiting:{autoShow:true}})});function loadUserData(){user=getCachedUser(true);mui.sendRequest(mui.constMap.ROOT_PATH+"/user/info",{session:user.session,config:{silence:true}},function(b){if(!b.status.succeed){mui.toast(b.status.error_desc);return}user={session:user.session,user:b.data};console.log("user data loaded: "+JSON.stringify(b.data));fillUserInfo(b.data);fillUserAccount(b.data)})}function fillUserInfo(l){var j=document,g=j.querySelector("ul.user-info"),h=g.querySelector("img"),i=g.querySelector(".mui-media-body"),k=j.createElement("p");if(l.wx&&l.wx.headimgurl){h.src=l.wx.headimgurl.replace(/\/0$/,"/64")}else{h.src="images/iconfont-nantouxiang.png"}i.removeChild(i.lastChild);i.innerHTML=(l.wx&&l.wx.nickname?l.wx.nickname:l.name)+", "+hello();k.className="mui-ellipsis";k.innerHTML=l.rank_name;i.appendChild(k)}function fillUserAccount(f){var e=document.querySelector("ul.user-account"),d=e.querySelectorAll("div");d[0].innerHTML=f.pay_total;d[1].innerHTML=f.shouyi;d[2].innerHTML=f.pay_points}function hello(){var c=new Date(),d=c.getHours();if(d<6){return"凌晨好！"}else{if(d<9){return"早上好！"}else{if(d<12){return"上午好！"}else{if(d<14){return"中午好！"}else{if(d<17){return"下午好！"}else{if(d<19){return"傍晚好！"}else{if(d<22){return"晚上好！"}else{return"夜里好！"}}}}}}}}function refresh(b){};</script>
+	</body>
+
+</html>

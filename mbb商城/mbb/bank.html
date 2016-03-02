@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的账户</h1>
+			<button type="button" class="mui-btn mui-pull-right">
+				保存
+			</button>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>真实姓名:</label>
+					<input type="text" id="bank_account_name" name="bank_account_name" placeholder="请输入真实姓名">
+				</div>
+				<div class="mui-input-row">
+					<label>开户行:</label>
+					<input type="text" id="bank_name" name="bank_name" placeholder="请输入开户银行名称">
+				</div>
+				<div class="mui-input-row">
+					<label>银行卡:</label>
+					<input type="text" id="bank_account_no" name="bank_account_no" placeholder="请输入银行卡号">
+				</div>
+				<div class="mui-input-row">
+					<label>手机号码:</label>
+					<input type="text" id="mobile" name="mobile" placeholder="请输入手机号码">
+				</div>
+			</form>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">var user=null;mui.init({swipeBack:true});mui.plusReady(function(){user=getCachedUser(true);if(!user){var b=plus.webview.getLaunchWebview();mui.fire(b,"login");mui.back();return}loadUserCps()});document.querySelector("button").addEventListener("tap",saveBankInfo);function loadUserCps(){mui.sendRequest(mui.constMap.ROOT_PATH+"/user/cps",{session:user.session,config:{silence:true}},function(b){if(!b.status.succeed){mui.toast(b.status.error_desc);return}console.log(JSON.stringify(b.data));fillUserCps(b.data)})}function fillUserCps(c){var d=document.querySelectorAll("input");d[0].value=c.bank_account_name;d[1].value=c.bank_name;d[2].value=c.bank_account_no;d[3].value=c.mobile}function saveBankInfo(){var b={};b.mobile=document.getElementById("mobile").value;b.bank_account_name=document.getElementById("bank_account_name").value;b.bank_name=document.getElementById("bank_name").value;b.bank_account_no=document.getElementById("bank_account_no").value;mui.sendRequest(mui.constMap.ROOT_PATH+"/user/brokerage/save",{session:user.session,bank:b},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);return}if(!a.data.success){mui.toast("保存失败");return}mui.toast("保存成功")})};</script>
+	</body>
+
+</html>

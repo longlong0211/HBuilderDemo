@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-content {
+				padding-top: 60px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"></h1>
+		</header>
+		<div class="mui-content">
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">mui.init({swipeBack:true,beforeback:function(){console.log("退出frame");return true}});mui.plusReady(function(){var d=plus.webview.currentWebview();var f=document.querySelector(".mui-title");f.innerHTML=d.page_title;var e=mui.openWindow({id:"frame_open",url:d.page_url,waiting:{autoShow:true},styles:{top:"45px"}})});</script>
+	</body>
+
+</html>

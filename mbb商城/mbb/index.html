@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/iconfont.css">
+	</head>
+
+	<body>
+		<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="home.html">
+				<span class="mui-icon iconfont icon-shouye"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" data-login="1" href="my.html">
+				<span class="mui-icon iconfont icon-wode"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+			<a class="mui-tab-item" href="cart.html">
+				<span class="mui-icon iconfont icon-gouwuche"><span id='badgeCart' class="mui-badge mui-hidden">0</span></span>
+				<span class="mui-tab-label">购物车</span>
+			</a>
+			<a class="mui-tab-item mui-hidden" href='#share'>
+				<span class="mui-icon iconfont icon-fenxiang"></span>
+				<span class="mui-tab-label">分享</span>
+			</a>
+			<a class="mui-tab-item" href="setting.html">
+				<span class="mui-icon iconfont icon-gengduo"><span id='badgeMore' class="mui-badge mui-hidden">0</span></span>
+				<span class="mui-tab-label">更多</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/update.js"></script>
+		<script src="js/login.js"></script>
+		<script type="text/javascript" charset="utf-8">var user=null;var shares={},msg={title:"超盈越",content:"超盈越综合购物商城，垂直电商的移动购物平台。",thumbs:["_www/72.png"],href:"",extra:{scene:"WXSceneSession"}};mui.init();var subpages=["home.html","my.html","cart.html","setting.html"];var subpage_style={top:"0px",bottom:"51px"};var aniShow={};mui.plusReady(function(){var d=plus.webview.currentWebview();for(var e=0;e<4;e++){var c={};var a=plus.webview.create(subpages[e],subpages[e],subpage_style);if(e>0){a.hide()}else{c[subpages[e]]="true";mui.extend(aniShow,c)}d.append(a)}if(mui.os.stream){if(mui.isFunction(plus.navigator.createShortcut)){var b=plus.storage.getItem("SHORTCUT");if(!b){plus.navigator.createShortcut({name:"超盈越",icon:"images/icon.png"});plus.storage.setItem("SHORTCUT","true")}}}else{checkUpdate()}updateSerivces();initCart()});var activeTab=subpages[0];mui(".mui-bar-tab").on("tap","a",function(a){var b=this.getAttribute("href");var f=(typeof this.getAttribute("data-login")!="undefined"&&this.getAttribute("data-login")==1);if(f&&!checkLogin(0)){mui.fire(plus.webview.currentWebview(),"gohome");checkLogin();return}if(this.hash&&this.hash.replace("#","")=="share"){activeTab=b;shareToWechat();return}if(b==activeTab){return}var d=plus.webview.getWebviewById(b);mui.fire(d,"pagebeforeshow");if(mui.os.ios||aniShow[b]){plus.webview.show(b)}else{var c={};c[b]="true";mui.extend(aniShow,c);plus.webview.show(b,"fade-in",300)}plus.webview.hide(activeTab);activeTab=b});document.addEventListener("login",checkLogin,false);document.addEventListener("logout",logout,false);document.addEventListener("cart",cart,false);document.addEventListener("gohome",function(b){var c=document.getElementById("defaultTab");mui.trigger(c,"tap");var a=document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");if(c!==a){a.classList.remove("mui-active");c.classList.add("mui-active")}});document.addEventListener("gotab",function(c){var d=document.querySelector("nav"),b=d.querySelector('a[href="'+c.detail.page+'"]');mui.trigger(b,"tap");var a=document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");if(b!==a){a.classList.remove("mui-active");b.classList.add("mui-active")}},false);function cart(b){var a=0;if(typeof b=="object"&&b.detail.total){a=b.detail.total}else{if(typeof b=="number"){a=b}}var c=document.getElementById("badgeCart");if(a>0){c.innerHTML=a;c.classList.remove("mui-hidden")}else{c.innerHTML=0;c.classList.add("mui-hidden")}window.localStorage.setItem("cart",a.toString())}function initCart(){var a=window.localStorage.getItem("cart")||0;cart(parseInt(a))}function setUpdateIcon(b){var a=document.getElementById("badgeMore");a.innerHTML=b?1:0;if(b){a.classList.remove("mui-hidden")}else{a.classList.add("mui-hidden")}}function updateSerivces(){plus.share.getServices(function(b){shares={};for(var a in b){var c=b[a];shares[c.id]=c}if(shares.weixin&&isWxInstalled()){document.querySelector("a[href='#share']").classList.remove("mui-hidden")}},function(a){console.log("获取分享服务列表失败："+a.message)})}function shareToWechat(){user=getCachedUser();if(user&&user.user.wxid){msg.content="您的朋友["+user.user.wx.nickname+"]已经加入超盈越购物商城并送你红包";msg.href=mui.constMap.SERVER_HOST+"/mobile/tuijian.php?father="+user.user.id}else{msg.content="超盈越综合购物商城，垂直电商的移动购物平台。";msg.href=mui.constMap.SERVER_HOST+"/download/"}var a=["WXSceneTimeline","WXSceneSession"];plus.nativeUI.actionSheet({title:"分享到微信",cancel:"取消",buttons:[{title:"分享到微信朋友圈"},{title:"发送给微信好友"}]},function(b){console.log("User pressed: "+b.index);if(b.index>0){shareAction("weixin",a[b.index-1])}})}function shareAction(b,c){var a=null;if(!b||!(a=shares[b])){console.log("无效的分享服务！");return}msg.extra.scene=c;console.log("分享操作："+JSON.stringify(msg));if(a.authenticated){console.log("---已授权---");a.send(msg,function(){console.log('分享到"'+a.description+'"成功！ ')},function(d){console.log('分享到"'+a.description+'"失败: '+d.code+" - "+d.message)})}else{console.log("---未授权---");a.authorize(function(){a.send(msg,function(){console.log('分享到"'+a.description+'"成功！ ')},function(d){console.log('分享到"'+a.description+'"失败: '+d.code+" - "+d.message)})},function(d){console.log("认证授权失败："+d.code+" - "+d.message)})}}function cancelAuth(){try{console.log("解除授权：");for(var c in shares){var a=shares[c];if(a.authenticated){console.log('取消"'+a.description+'"')}a.forbid()}updateSerivces();console.log("操作成功！")}catch(b){alert(b)}}var first=null;mui.back=function(){if(!first){first=new Date().getTime();mui.toast("再按一次退出应用");setTimeout(function(){first=null},1500)}else{if(new Date().getTime()-first<1500){plus.runtime.quit()}}};</script>
+	</body>
+
+</html>

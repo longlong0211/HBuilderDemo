@@ -1,0 +1,30 @@
+[{
+	"name": "川都麻辣烫",
+	"classN":"麻辣烫",
+	"menu_name": "青菜:油菜、生菜、香菜、菠菜、圆生菜、娃娃菜、紫甘蓝、茼蒿",
+	"money": "10.00",
+	"phone": "18311183833",
+	"taste": "酸",
+	"title": "qingcai",
+	"food_img": "../images/qingcai.jpg,../images/shengcai.jpg,../images/qingcai.jpg,../images/qingcai.jpg,../images/qingcai.jpg,../images/qingcai.jpg,../images/qingcai.jpg,../images/qingcai.jpg"
+},
+{
+	"name": "川都麻辣烫",
+	"classN":"麻辣烫",
+	"menu_name": "干菜:豆腐丝、豆泡、豆干、木耳、银耳、香菇、鲜菇、金针菇、海带、豆皮、豆芽、藕片、面筋、土豆片、鸭血、腐竹片、菜花、西兰花、圆白菜、地瓜、五香豆丝",
+	"money": "10.00",
+	"phone": "18311183833",
+	"taste": "酸",
+	"title": "gancai",
+	"food_img": "../images/gancai.jpg"
+},
+{
+	"name": "川都麻辣烫",
+	"classN":"麻辣烫",
+	"menu_name": "荤菜:鸭血、火腿肠、鱼豆腐、蟹棒、蟹排、亲亲肠、鱼皮脆、鸡丸、虾丸、开心果、桂花肠、墨鱼丸、鹌鹑蛋",
+	"money": "10.00",
+	"phone": "18311183833",
+	"taste": "酸",
+	"title": "huncai",
+	"food_img": "../images/huncai.jpg"
+}]

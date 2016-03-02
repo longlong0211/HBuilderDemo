@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>系统消息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		
+		<style>
+			p {
+				text-indent: 22px;
+				padding: 5px 8px;
+			}
+			html,body,.mui-content {
+				background-color: #fff;
+			}
+			h4 {
+				margin-left: 5px;
+			}
+			
+			hr{ border:0px; border-bottom:1px solid #C8C7CC;}
+		</style> 
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">系统消息</h1>
+		</header> 
+		 
+		<div class="mui-content">
+			<div id="pullrefresh">
+				<div id="messagelist" class="mui-content-padded">
+					
+					
+					 
+				</div>
+			</div>
+		</div>
+		<script id="messagelist-template" type="text/x-handlebars-template">
+	 		{{#each list}}
+	 	
+	 			<h4 style="margin-top:10px;">{{time}} : <a href="friend_detail.html?type=unfriendview&id={{fromuserid}}" open-type="common">{{fromuser}}</a>
+	 				
+	 				<small class="syw-time mui-pull-right" id="syw-btn-{{id}}">
+	 					{{#if willdeal}}
+	 					<button id="syw-agree-{{id}}" class=" mui-btn mui-btn-primary" data-id="{{id}}" data-type="agree" >
+						  同意
+						</button>
+						<button id="syw-disagree-{{id}}" class=" mui-btn mui-btn-negative" data-id="{{id}}" data-type="disagree" >
+						  拒绝
+						</button>
+						{{else}}
+						已处理
+						{{/if}}
+	 				</small>
+	 				 
+	 				
+	 			</h4>
+				<p>
+					   {{msg}}
+				</p>
+				<hr />
+	 		{{/each}}
+	 	</script>
+
+		<script src="js/jquery.js"></script>	
+		<script src="js/mui.min.js"></script>
+		<script src="js/global.js"></script>
+		<script src="js/md5.js"></script>	
+	 	<script src="js/app.js"></script>
+	 	<script type="text/javascript" src="js/common.js"></script>
+	 	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+	 	<script src="js/fish_cache.js"></script>
+ 		<script src="js/fish_interface.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var pagenum = 0;
+			var everypagenum = 10;
+			//上拉下拉
+			mui.init({
+				
+				swipeBack: true, 
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						contentrefresh: '正在加载...',
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			
+			mui.plusReady(function() {
+				 
+				 getlogin();
+				 
+				 initindex();
+				 
+				 
+				 
+			});
+				 
+			function initindex(){
+			 
+			   if(uid<=0){
+			   		mui.toast("请先登录！");
+			   		return;
+			   }
+			    var wt=plus.nativeUI.showWaiting();
+				//发起
+			 
+				var url_index=apiurl+"ISystemMessageFriendList.ashx?pagenum=0&perpage="+everypagenum+"&uid="+uid.toString();
+				
+				sendtointerface(uid,"",url_index,function(responseText,status){
+					var data=eval("("+responseText+")");
+		                	
+                	var pondsSource = document.getElementById("messagelist-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#messagelist").append(myTemplate(data));
+                	
+                	 plus.nativeUI.closeWaiting();
+				},function(){
+					mui.toast( "请求失败,请重试" );
+					 wt.close();
+				});
+				 
+			 }
+			
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					 
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					refreshdata("down");
+				}, 1000);
+			}
+			 
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					 
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+					 
+					refreshdata("up");
+				}, 1000);
+			}
+			
+			function refreshdata(upordown)
+			{
+			 	if(uid<=0){
+			   		mui.toast("请先登录！");
+			   		return;
+			   }
+				
+				if(upordown == "down"){
+					 pagenum = 0;
+					  
+					 initindex();
+					   
+				} 
+				else
+				{
+				 
+					
+				 	var url_index=apiurl+"ISystemMessageFriendList.ashx?pagenum="+(++pagenum)+"&perpage="+everypagenum+"&uid="+uid;
+			 	 
+				    sendtointerface(uid,"",url_index,function(responseText,status){
+				    	var data=eval("("+responseText+")");
+			                	 
+	                	var datacount =  data.list.length;
+	                	 
+	                	if(datacount>0)
+	                	{
+	                	 
+		                	var pondsSource = document.getElementById("messagelist-template").innerText;
+		                	var myTemplate = Handlebars.compile(pondsSource);
+		                	
+		                	
+		                	 
+		                	jQuery("#messagelist").append(myTemplate(data));
+		                	 
+	                	
+	                	}
+				    });
+					
+					 
+			 	}
+			}
+			
+			//点击同意 syw-agree
+			mui('.mui-content').on('tap', 'button', function(e){
+			    id = this.getAttribute('data-id');
+			    type  = this.getAttribute('data-type');
+				
+				if(type =="agree"){
+					
+					
+					plus.ui.confirm( "允许加为好友", function(e){
+						if ( 0==e.index ) {  
+							
+							 doaction(type,id);
+						}
+					}, "确认？", ["确　　定","取　　消"] );
+				}
+				else{
+					plus.ui.confirm( "拒绝此好友申请好友", function(e){
+						if ( 0==e.index ) {  
+							
+							 doaction(type,id);
+						}
+					}, "确认？", ["确　　定","取　　消"] );
+				}
+			});  
+			
+			function doaction(type,id){
+				
+				if(uid>0 && id>0)
+				{
+				 
+					//发起
+					var url_index=apiurl+"IActionFriendConfirm.ashx?id="+id.toString()+"&type="+type;
+					 
+					sendtointerface(uid,id,url_index,function(responseText,status){
+						var data=eval("("+ responseText+")");
+	                	if(data.retisok==1 )
+	                	{
+	                		mui.toast(data.retmessage);
+	                		
+	                		jQuery("#syw-btn-"+id).html("已处理");
+	                		 
+	                	}else{
+	                		
+	                		alert( "不小心失败了，"+data.retmessage );
+	                	}
+					});
+					 
+				}else
+				{
+					mui.toast("请先登陆");
+				}
+				
+			}
+			 
+		</script>
+	</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>发布渔乐信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+		<link href="css/mui.listpicker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			 body{ background-color:white; padding-top:42px;}
+			 body.mui-ios{ padding-top: 0px; }
+			.mui-input-row ,  .mui-button-row { line-height:30px; height: 50px; padding:5px;  }
+			#areamessage { height: 140px; padding: 2px;}
+			
+			#imagecontrol div{ float: left; }
+			 
+			.mui-popover-pic{
+				height:150px;
+			}
+			
+			.imageview{position:relative; height:58px; width:58px;}
+			.imageview img{ z-index:1;position:absolute; top:0px ; right: 5px; width:50px; height: 50px;}
+			.imageview span{ z-index:2 ; position:absolute; top:0px; line-height: 16px; height:16px; width:16px; text-align: center; font-size: 16px;border-radius: 50%;     font-weight: bold; right:2px; background-color:red; color: white;}
+			
+			#addimages img{ width:50px; height: 50px;} 
+
+			#pointlistPopover{ padding-left: 20px; background: url(images/ico_point.png) no-repeat left ;}
+		</style>  
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style=" display:block;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">发布渔乐信息</h1>
+		</header>
+		<div class="mui-content">
+			 
+			<div name="addmessage" class="mui-input-group " >
+		    <input type="hidden" id="id" name="id" value="0">
+		    <input type="hidden" id="pondid" name="pondid" value="0">
+		    <input type="hidden" id="pondname" name="pondname" value="">
+				<div class="mui-input-row" style=" height: 150px;">
+					<textarea name="areamessage" class="areamessage"  id="areamessage" rows="5" placeholder="这一刻的渔悦"  ></textarea>
+				</div>
+		 
+				<div id="imagecontrol" class="mui-input-row" style="height: 60px;">
+					 
+					 <div id="addimages">
+					 	<a  href="#middlePopover"  ><img src="images/iconfont-tianjia.png" alt="添加图片" ></a>
+					 </div>
+					 <div id="imagelist"></div>
+					  
+				</div>  
+ 
+				<div class="mui-input-row" style="height:50px;">
+					 
+					<input type="text" id='pointlistPopover' placeholder="未选择"  >
+					 
+				</div>  
+				  
+		 
+				<div class="mui-button-row  " style="height:70px;">
+					<button class="mui-btn mui-btn-primary mui-btn-block"  onclick="javascript:postsubmit()"> 确 认 </button>
+				</div>
+			 
+			</div>
+		</div>
+		
+	 
+		<div id="middlePopover" class="mui-popover mui-popover-pic">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell"><h5 onclick="appendByCamera()">拍照</h5>
+						</li>
+						<li class="mui-table-view-cell"><h5 onclick="appendByGallery()">相册选取单张</h5>
+						</li>
+						<li class="mui-table-view-cell"><h5 onclick="appendByGalleryImgs()">相册选取多张</h5>
+						</li>
+						 
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	 
+		
+		<script src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/global.js"></script>
+		<script src="js/md5.js"></script>	
+		
+		<script src="js/app.js"></script>
+		<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+		<script src="js/mui.listpicker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script src="js/fish_noback.js"></script>
+		<script src="js/fish_interface.js"></script>
+		<script>
+			//纠正原生态返回第二次点空白问题
+			var oldback = mui.back;
+			mui.back = function () {
+				oldback();
+			} 
+			
+			var filenumtotal = 0;
+		    var filesnum = 0;
+			var server=apiurl+"IActionUpload.ashx";
+			var files=[];
+			 
+			var nickname  = "";
+			var uid = 0;
+			var replyuserid = GetQueryString("replyuserid");
+			var replynickname = GetQueryString("replynickname");
+			var insertid = 0;
+			var pondid = 0;
+			var pondname = "";
+			
+			mui.plusReady(function() {
+			
+				//先获取当前页面的参数
+				initlogin();
+				
+				//钓点选择
+				//保存钓点，方便发布渔乐信息的时候用
+				var pointlist = plus.storage.getItem("pointlist");
+				if(pointlist != null && pointlist !=""){
+					pointlistdata = eval("("+ pointlist+")");
+					
+					var userPicker1 = new mui.PopPicker();
+					
+					var data = [];
+					for(var i=0;i<pointlistdata.pondslist.length;i++){
+						
+						
+						data.push({"value":pointlistdata.pondslist[i].id.toString(),"text":pointlistdata.pondslist[i].name});
+						if(i==0){
+							 
+							 pondid = pointlistdata.pondslist[0].id;
+							 pondname = pointlistdata.pondslist[0].name;
+							jQuery("#pointlistPopover").val(pondname);
+							jQuery("#pointid").val(pondid); 
+						}  
+					}  
+					 
+					data.push({"value":"0","text":"未找到相应钓点"});
+					
+					userPicker1.setData(data);  
+					
+					var showUserPickerButton1 = document.getElementById('pointlistPopover');
+					
+					showUserPickerButton1.addEventListener('tap', function(event) {
+						userPicker1.show(function(items) {
+							 
+							showUserPickerButton1.value = items[0].text;
+							pondid = items[0].value;
+							pondname = items[0].text;
+							 
+						});
+					}, false);
+				}
+			})
+			
+			
+			function initlogin(){
+				if(uid<=0)
+				{
+					uid = plus.storage.getItem("uid");
+					nickname  = plus.storage.getItem("nickname");
+				}
+			}
+			 
+			// 上传文件  
+			function postsubmit(){
+				 
+				var msg  = jQuery(".areamessage").val();      
+				  
+				if(msg == ""){
+					mui.toast( "请发表一下这一刻的喜悦哦。" );
+					return;
+				} 
+				
+				if(uid<=0){ 
+					initlogin();
+					
+				}
+				if(uid<=0){ 
+					mui.toast( "请先登陆！" );
+					return;
+				}  
+				
+				//发送文本信息
+				var url=apiurl+"IActionPost.ashx?msg="+encodeURIComponent(msg)+"&uid="+uid+"&nickname="+encodeURIComponent(nickname)+"&replyuserid="+replyuserid+"&replynickname="+encodeURIComponent(replynickname);
+				url+= "&pondid="+pondid.toString();
+				url+= "&pondname="+encodeURIComponent(pondname);
+				
+			 
+				 
+				sendtointerface(uid,pondid,url,function(responseText,status){
+					var data=eval("("+responseText+")");
+                	if(data.retisok==1 )
+                	{
+                		if(files.length<=0){
+				 			mui.toast("发布成功！");
+				 			
+				 			files=[];
+				 			filesnum = 0;
+				 			filenumtotal = 0;
+				 			
+				 			jQuery("#imagelist").html();
+				 			 
+				 			oldback();
+						}
+                		else
+                		{
+                			insertid = data.indexid;
+                			postupload(insertid);
+                		}
+                		
+                		
+                		
+                		
+                		
+                	}else{
+                		
+                		alert( "不小心失败了，"+data.retmessage );
+                	}
+				});
+				
+				
+				 
+			}
+			
+			
+			function postupload(id){
+				
+				
+				if(files.length<=0){
+					//plus.nativeUI.alert("没有添加上传文件！");
+					return;
+				}
+	
+				console.log("开始上传：")
+				var wt=plus.nativeUI.showWaiting();
+				var task=plus.uploader.createUpload(server,
+					{method:"POST"},
+					function(t,status){ //上传完成
+						if(status==200){
+							var data=eval("("+t.responseText+")");
+		                	 
+		                	if(data.retisok==1)
+		                	{
+		                		mui.toast("发布成功！");
+								plus.uploader.clear();
+		                	}else{
+		                		
+		                		mui.toast("不小心失败了，"+data.retmessage );
+		                	}
+		                	
+		                	
+		                	plus.nativeUI.closeWaiting(); 
+		                	
+		                	
+		                	files=[];
+				 			filesnum = 0;
+				 			filenumtotal = 0;
+				 			
+				 			jQuery("#imagelist").html();
+				 			
+				 			
+		                	
+		                	oldback(); 
+						 
+							
+						}else{
+							console.log("上传失败："+status);
+							
+							mui.toast("上传失败："+status);
+							
+							wt.close();
+						}
+					}
+				);
+				task.addData("id",id.toString());
+				task.addData("client","渔乐上传");
+				task.addData("uid",uid.toString());
+				task.addData("nickname",nickname);
+				task.addData("tableid","18");
+				task.addData("fieldid","165");
+				task.addData("filesnum",filesnum.toString());
+				for(var i=0;i<files.length;i++){
+					var f=files[i];
+					task.addFile(f.path,{key:f.name});
+					 
+				}
+				
+				//加入加密的
+				var md5uid = uid.toString();
+				var md5id= id.toString();
+				var addtime = CurentDate();
+				var md5 = hex_md5(md5uid+md5id+addtime+apikey);
+				
+				task.addData("md5uid",md5uid);
+				task.addData("md5id",md5id);
+				task.addData("datetime",addtime);
+				task.addData("md5",md5);
+				
+				task.start();
+			}
+			// 拍照添加文件
+			function appendByCamera(){
+				
+				if(filesnum>=5){
+					
+					mui.toast("图片数量不能超过五张！");
+					return;
+				}
+				
+				var cmr=plus.camera.getCamera();
+				cmr.captureImage(function(p){
+					plus.io.resolveLocalFileSystemURL(p,function(entry){
+						//document.getElementById("pic").src=entry.toLocalURL();
+						//document.getElementById("pic").realUrl=p;
+						//outLine("拍照图片："+pic.realUrl);
+						showImg(entry.toLocalURL());
+						
+						
+					},function(e){
+						mui.toast("读取拍照文件错误："+e.message);
+					} );
+				},function(e){
+					mui.toast( "拍照失败："+e.message );
+				});
+			}
+			 
+		  
+			
+			
+			// 从相册添加文件
+			function appendByGallery(){
+				
+				if(filesnum>=5){
+					
+					mui.toast("图片数量不能超过五张！");return;
+				}
+				
+				plus.gallery.pick(function(p){
+			        showImg(p);
+			         
+			    });
+			}
+	 
+			// 产生一个随机数
+			function getUid(){
+				return Math.floor(Math.random()*100000000+10000000).toString();
+			}
+			
+			function appendByGalleryImgs(){
+				
+				if(filesnum>=5){
+					
+					mui.toast("图片数量不能超过五张！");return;
+				}
+				
+				// 从相册中选择图片
+				console.log("从相册中选择多张图片:");
+			    plus.gallery.pick( function(e){
+			    	for(var i in e.files){
+				    	console.log(e.files[i]);
+				    	
+				    	showImg(e.files[i]);
+			    	} 
+			    }, function ( e ) {
+			    	console.log( "取消选择图片" );
+			    },{filter:"image",multiple:true});
+			    
+			    
+			}
+			
+			function showImg( url ){
+				 
+				if(filesnum>=5){
+					
+					mui.toast("图片数量不能超过五张！");return;
+				}
+				
+				// 兼容以“file:”开头的情况
+				if(0!=url.indexOf("file://")){
+					url="file://"+url;
+				}
+				
+				//压缩
+				var fromimg = url;
+				var toimg = url+"_fishyl_small.jpg";
+				
+				plus.zip.compressImage({
+					src: fromimg,//"_www/img/shake/1.jpg",
+					dst: toimg, //"_doc/cm.jpg",
+					quality:60,
+					overwrite:true,
+					width:'600px',
+					clip:{
+						top:"0%",
+						left:"0%",
+						width:"100%",
+						height:"100%"
+					}
+				},
+				function(i){
+					filesnum++;
+					filenumtotal++;
+					files.push({name:"uploadkey"+filenumtotal,path:toimg});
+					
+					 
+					jQuery("#imagelist").append("<div class='imageview' id='uploadkey"+filenumtotal+"'><h6  onclick=\"javascript:removeimg('uploadkey"+filenumtotal+"')\"><span>X</span><img src='"+toimg+"'></h6></div>");
+	
+					//plus.nativeUI.closeWaiting();
+					console.log("压缩图片成功："+JSON.stringify(i));
+				},function(e){
+					mui.toast("添加图片失败，请重试！");
+					//plus.nativeUI.closeWaiting();
+					console.log("压缩图片失败: "+JSON.stringify(e));
+				});
+					
+				 
+			}
+			//减文件
+			function removeimg(name2)
+			{
+				 
+				for(var i=0;i<files.length;i++){
+					if(files[i].name==name2){
+						
+						files.splice(i,1);
+						filesnum--;
+						jQuery("#"+name2).remove();
+						break;
+					}
+				}
+				
+				
+			}
+
+			
+			 
+		</script>
+	</body>
+</html>

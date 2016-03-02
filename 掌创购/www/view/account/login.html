@@ -1,0 +1,56 @@
+﻿<!--
+    作者：344805262@qq.com
+    时间：2015-06-11
+    描述：登录 login.html
+-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>掌创购</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../../css/css.css" />
+    <script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/account/login.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+</head>
+
+<body>
+    <div id="header" style="position: absolute;">
+        <span class=" tab_mune tab_a t-c"  onclick="back()">
+            <div class="back">
+                <i class="icon-back"></i>
+            </div>
+        </span>
+
+        <span class=" tab_mune tab_b">
+            <h1 class="hd-tit">登录</h1>          
+        </span>
+
+        <span class=" tab_mune tab_a t-c">
+        	<h2 class="hd-tit-h2" onclick="clicked('register.html',false,false,'slide-in-right');">注册</h2>
+        </span>
+    </div>
+
+    <div class="main">
+        <div class="dengluym">
+            <div class="dlnr">
+                <div class="dllogo"><a><img src="../../images/logo.jpg" /></a></div>
+                <div style="text-align:center;color: #555;">掌创购  让生活更精彩</div>
+                <p><input id="name" type="tel" placeholder="请输入帐号" class="dlsjh" value=""></p>
+                <p><input id="password" placeholder="请输入密码" class="dlmm" type="password" value=""></p>
+            </div>
+        </div>
+        <div class="dlkuang">
+            <p class="dlan"><a id="login" href="javascript:void(0);">登录</a></p>
+            <p class="dlkj">
+            	<span style="float: left;"><a href='tel:400-027-9585'>客服热线：400-027-9585</a></span>
+                <span><a onclick="clicked('forgetpassword.html?type=password',false,false,'slide-in-right');" href="javascript:void(0);">忘记登录密码</a></span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

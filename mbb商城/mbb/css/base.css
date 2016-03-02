@@ -1,0 +1,16 @@
+.mui-table-view {
+	background: none;
+}
+.mui-table-view::before {
+	height: 0px;
+}
+.mui-table-view::after {
+	height: 0px;
+}
+.mui-icon-back::before, .mui-icon-left-nav::before{
+	color: #999;
+}
+.mui-pull-right{
+	line-height: 44px;
+	color: #000;
+}

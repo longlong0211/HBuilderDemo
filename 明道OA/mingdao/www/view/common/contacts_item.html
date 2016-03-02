@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fontstyles.css">
+		<script type="text/javascript" src="../../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../../js/sea.js"></script>
+		<script type="text/javascript" src="../../js/json2.js"></script>
+		<script type="text/javascript" src="../../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../../js/modules/"
+			});
+			seajs.use('view/common/contacts_item');
+			var getCurrentId;
+		</script>
+	</head>
+
+	<body>
+		<section class="main contact_main" id="wrapper" style="top: 0px;bottom: 0px;">
+			<div id="scroller">
+				<ul class="contactBox">
+					
+				</ul>
+			</div>
+		</section>
+		<!--字母begin-->
+		<div class="wordfind_main" style="right:-125px;z-index: 120;">
+			
+		</div>
+		<!--字母over-->
+		<!--当前字母begin-->
+		<span class="block word_current" id="keyMapValue" style="position: fixed;"></span>
+		<!--当前字母begin-->
+		<!--通讯录列表over-->
+		<div class="mask" style="display: none;"></div>
+	</body>
+
+</html>

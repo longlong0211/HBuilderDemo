@@ -1,0 +1,62 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title>活动报名</title>
+    <link href="http://appstatic.o2abc.com/css/style.css" rel="stylesheet" type="text/css">
+    <script src="../../js/common.js" type="text/javascript"></script>
+    <script src="../../js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="http://appstatic.o2abc.com/js/config.js" type="text/javascript"></script>
+    <script src="http://appstatic.o2abc.com/js/merchant/join.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2">活动报名</h2>
+        </span>
+        <span class=" tab_mune tab_a t-c">
+        </span>
+    </div>
+
+
+    <div class="content">
+        <div id="afterorder" class="item-01-wrap  mt20">
+            <div class="float-info-block">
+                <label>抵金币:</label><span>减<em id="discount">0</em>元&nbsp;&nbsp;&nbsp;&nbsp;<input id="coin" type="tel" class="base-text2-inp" placeholder="0" style="width:7em; height:2em;  margin: 0px; border:1px solid #ddd; text-align: center; border-radius: 0.2em;"></span>
+            </div>
+        </div>
+        <div id="div_availablecoin" class="item-01-wrap  mt20">
+            <div class="float-info-block">
+                <label>可用金币:</label><span id="validcoin">0</span>
+            </div>
+        </div>
+        <div id="div_price" class="item-01-wrap">
+            <div class="float-info-block"><label>预付金额:</label><span><em id="totalprice">0</em>元</span></div>
+        </div>
+        <div class="item-01-wrap">
+            <div class="float-info-block">
+                <label>支付方式:</label>
+                <span style="font-size:1em;">
+                    <a id="apayonline"><input id="payonline" type="radio" name="payment" value="1" style="width:0.8em;" />线上支付</a>
+                    <a id="apayoffline"><input id="payoffline" type="radio" name="payment" value="0" checked="checked" style="width:0.8em;" />到店刷卡</a>
+                </span>
+            </div>
+        </div>
+
+        <div class="item-02-wrap" style="margin-top:2em">
+            <input type="button" class="base-btn-inp t-c" id="join" value="报名" />
+        </div>
+
+    </div>
+
+</body>
+</html>

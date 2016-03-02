@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐圈子</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body,.mui-content {
+				background-color: #fff;
+			}
+			.title{
+				margin: 0px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			 .oa-contact-cell.mui-table .mui-table-cell {
+				padding: 0px;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: 0px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 60px;
+				height:50px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 10%;
+				width:50px; height: 50px;
+				position: absolute;
+				  top: 0px ; left: 0px;
+			}
+			.oa-contact-content {
+				width: 100%;
+				padding:0px;
+			}
+			.oa-contact-name {
+				margin-right: 20px;
+				font-size:16px;
+				float: left;
+			}
+			.oa-contact-position {
+				float: right;
+			}
+			.oa-contact-email{ font-size:13px;}
+			
+			#groupcontrol li{ text-align: center;}
+			 
+			 .mui-badge{ position:absolute ; top: 0px;  right: 0px; background-color: red; color: white;}  
+			
+			#pullrefresh{ top: 96px; min-height:300px;}
+		</style> 
+	</head>
+
+	<body>
+		<div class="title " > 
+			<ul class="mui-table-view mui-grid-view" id="groupcontrol">
+				<li class="mui-table-view-cell  mui-col-xs-3">
+				 <a href="tab-webview-subpage-group.html"  >
+				 	 
+					 <img src="images/ico_group.png" alt="朋友圈">
+					 <h5>朋友圈<span class="mui-badge title-sub" id="num_sub_group" style="display: none;" ></span></h5>
+				 </a>	 
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3">
+					<a href="tab-webview-subpage-friends.html" >
+					 <img src="images/ico_friend.png" alt="通讯录">
+					 <h5>通讯录<span class="mui-badge title-sub" id="num_sub_friend" style="display: none;" ></span></h5>
+					</a>  
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3">
+					<a href="tab-webview-subpage-messages.html" >
+					 <img src="images/ico_message.png" alt="微信息">
+					 <h5 style="color:#000;">微信息<span class="mui-badge title-sub" id="num_sub_message" style="display: none;" ></span></h5> 
+					</a>
+				</li>  
+				<li class="mui-table-view-cell  mui-col-xs-3">
+					<a href="tab-webview-subpage-groupmsgs.html" >
+					 <img src="images/ico_groupmsg.png" alt="我的群">
+					 <h5>我的群<span class="mui-badge title-sub" id="num_sub_groupmsg" style="display: none;" ></span></h5> 
+					</a>
+				</li>  
+			</ul>
+		</div>	
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="addgroup">
+					
+				</div>
+				<ul id="userslist" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+					
+					 
+				</ul>
+			</div>
+		</div>
+	</body>
+	
+	<script id="list-template" type="text/x-handlebars-template">
+	 	{{#each list}}
+	 	 
+		<li class="mui-table-view-cell" data-id="{{uid}}"> 
+				<a href="friend-chat.html?touid={{uid}}&tonickname={{nickname}}&toavatersmall={{pic}}"   title="{{nickname}}" onclick="javascript:jQuery('#unreadnum_{{uid}}').hide();" >
+				<div class="mui-slider-cell"> 
+					<div class="oa-contact-cell mui-table">
+						<div class="oa-contact-avatar mui-table-cell">
+							<img src="{{pic}}"   />
+							{{#if unreadnum}}
+							<span class="mui-badge" id="unreadnum_{{uid}}" >{{unreadnum}}</span>
+							{{else}}
+							<span class="mui-badge" id="unreadnum_{{uid}}" style="display: none;" ></span>
+							{{/if}}
+						</div>
+						<div class="oa-contact-content mui-table-cell">
+							<div class="mui-clearfix">
+								<h4 class="oa-contact-name">{{nickname}}</h4>
+								<span class="oa-contact-position mui-h6" id="lasttime_{{uid}}">{{lasttime}}</span>
+							</div>
+							<p class="oa-contact-email mui-h6 " id="lastmsg_{{uid}}">
+								{{lastmsg}}
+							</p>
+						</div>
+					</div>
+				</div>
+				</a>
+			</li>
+		{{/each}}
+	</script>
+	
+	<script src="js/jquery.js"></script>	 
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	 
+ 	<script src="js/app.js"></script>
+ 	<script src="js/group.js"></script>
+ 	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+ 	<script type="text/javascript" src="js/fish_noback.js"></script> 
+ 	<script type="text/javascript" src="js/fish_interface.js"></script>
+ 	<script type="text/javascript" src="js/fish_cache.js"></script>
+ 	<script>
+ 	
+ 	 
+		var shouldfishinit = true;
+	 
+		//上拉下拉
+		mui.init({
+			swipeBack: false,
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					//contentrefresh: '正在加载...',
+					callback: pulldownRefresh
+				}
+				/*,
+				up: {
+					//contentrefresh: '正在加载...',
+					//callback: pullupRefresh
+				}*/
+			}
+		});
+		
+		
+		function initindex(){
+			
+			getlogin();
+			 
+			
+			if(uid>0)
+			{
+				shouldfishinit =false;
+			    var wt=plus.nativeUI.showWaiting();
+				//发起
+				var url_index=apiurl+"IMyFriendsLastMsgList.ashx?uid="+uid;
+				
+				sendtointerface(uid,"",url_index,function(responseText,status){
+					var data=eval("("+responseText+")");
+		                	
+                	var datanum  = data.list.length;
+                	 
+                	for(var i=0;i<datanum;i++)
+                	{
+                		var unreadnum = parseInt(data.list[i].unreadnum);
+                		
+                		if(unreadnum <=0)
+                		{
+                			var lastmsg = plus.storage.getItem("lastmessage_"+data.list[i].uid);
+                			var lasttime =  plus.storage.getItem("lastmessagetime_"+data.list[i].uid);
+                			
+                			if(lastmsg==null || lastmsg==""){
+	                			lastmsg = "我们许久没联系了哦！";
+	                		}
+                			
+                			data.list[i].lasttime=lasttime ;
+                			data.list[i].lastmsg=lastmsg ;
+                			
+                			data.list[i].unreadnum = "";
+                		}else{
+                			
+                			data.list[i].lasttime=decodeURIComponent( data.list[i].lasttime) ;
+                			data.list[i].lastmsg=decodeURIComponent( data.list[i].lastmsg) ;
+                		}
+                		 
+                		if(data.list[i].nickname.length>8){
+				    		data.list[i].nickname = data.list[i].nickname.substr(0,8)+"...";
+				    	} 
+                	}
+                	
+                	 
+                	var pondsSource = document.getElementById("list-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#userslist").html(myTemplate(data));
+		
+					plus.nativeUI.closeWaiting();
+				});
+				
+				 
+				
+			}else
+			{
+				mui.toast("请先登陆");
+				shouldfishinit =true;
+			}
+		}
+		
+		 document.addEventListener('fishinit', function() {
+			 if(shouldfishinit )
+			 {
+			 	initindex();
+			 	
+			 }
+			else if(plus.storage.getItem("MessageNum_usermsgnum")!= null && plus.storage.getItem("MessageNum_usermsgnum") !="0" )
+			{
+				//下拉加载
+				//pulldownRefresh();
+				refreshdata("down");
+
+
+				plus.storage.setItem("MessageNum_usermsgnum","0");
+				 
+			}
+			
+			initnum();
+			
+		});
+		
+		mui.plusReady(function() {
+			
+			/*
+			initindex();
+	  
+		 	initnum();*/
+		 	
+		});
+		
+		
+		function initnum(){
+			
+			if(plus.storage.getItem("MessageNum_usergourpmsgnum")!=null && plus.storage.getItem("MessageNum_usergourpmsgnum")!="0")
+            {
+				
+				jQuery("#num_sub_groupmsg").html(plus.storage.getItem("MessageNum_usergourpmsgnum"));
+				jQuery("#num_sub_groupmsg").css("display","block");
+			}else{
+				
+				jQuery("#num_sub_groupmsg").html("");
+				jQuery("#num_sub_groupmsg").css("display","none");
+			}
+            
+            if(plus.storage.getItem("MessageNum_usermsgnum")!=null && plus.storage.getItem("MessageNum_usermsgnum")!="0")
+            {
+				
+				jQuery("#num_sub_message").html(plus.storage.getItem("MessageNum_usermsgnum"));
+				jQuery("#num_sub_message").css("display","block");
+			} 
+			else{
+				
+				jQuery("#num_sub_message").html("");
+				jQuery("#num_sub_message").css("display","none");
+			}
+			
+			if(plus.storage.getItem("MessageNum_userpostnum")!=null && plus.storage.getItem("MessageNum_userpostnum")!="0")
+            {
+				
+				jQuery("#num_sub_group").html(plus.storage.getItem("MessageNum_userpostnum"));
+				jQuery("#num_sub_group").css("display","block");
+			}else{
+				
+				jQuery("#num_sub_group").html("");
+				jQuery("#num_sub_group").css("display","none");
+			}
+		}
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				refreshdata("down");
+			}, 1000);
+		}
+		 
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+				 
+				refreshdata("up");
+			}, 1000);
+		}
+		
+		function refreshdata(upordown)
+		{
+			initindex();
+		}
+		
+	</script>	
+</html>

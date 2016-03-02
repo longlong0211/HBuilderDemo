@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			header .mui-pull-left {
+				width: 10%;
+				margin-right: 0 !important;
+			}
+			
+			header>a,
+			header>a:focus {
+				color: #666;
+			}
+			
+			header .mui-search {
+				display: inline-block;
+				width: 78%;
+			}
+			
+			header .mui-pull-right {
+				width: 10%;
+				border: 0px none;
+				font-size: 16px;
+				padding: 0 !important;
+			}
+			
+			header input[type="search"] {
+				background-color: #FFFFFF;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+			}
+			
+			header .mui-placeholder {
+				text-align: left !important;
+				padding-left: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<form id="form1" onsubmit="return false;">
+				<div class="mui-input-row mui-search">
+					<input id="search" type="search" class="mui-input-speech mui-input-clear" placeholder="请输入关键词...">
+				</div>
+				<button class="mui-btn mui-btn-outlined mui-pull-right">搜索</button>
+			</form>
+		</header>
+		<div class="mui-content"></div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">var autoblur=false;mui.init({swipeBack:true,gestureConfig:{doubletap:true},subpages:[{url:"search_sub.html",id:"search_sub.html",styles:{top:"45px",bottom:"0px",}}]});mui.plusReady(function(c){var d=mui.back;mui.back=function(a){autoblur=true;d()};if(mui.os.stream){var e=document.querySelector(".mui-icon-speech");if(e){e.classList.add("mui-hidden")}}});document.addEventListener("pagebeforeshow",function(b){setTimeout(function(){openSoftKeyboard();document.getElementById("search").focus()},300)});var contentWebview=null;document.querySelector("header").addEventListener("doubletap",function(){if(contentWebview==null){contentWebview=plus.webview.currentWebview().children()[0]}if(mui.os.ios){contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)")}else{contentWebview.evalJS("mui.scrollTo(0, 100)")}});document.getElementById("search").addEventListener("recognized",function(b){console.log("语音识别："+b.detail.value);var a=b.detail.value;document.getElementById("search").value=a?a.replace(/[，、。．？！～,]/g," "):"";setTimeout('mui.trigger(document.getElementById("form1"), "submit")',300)});document.querySelector(".mui-btn").addEventListener("tap",function(a){autoblur=true});document.getElementById("search").addEventListener("blur",function(a){setTimeout("toSubmit()",300)});document.getElementById("form1").addEventListener("submit",function(b){var a=document.getElementById("search");var c=a.value;if(c.trim()==""){mui.toast("请输入关键词");return}if(contentWebview==null){contentWebview=plus.webview.currentWebview().children()[0]}contentWebview.evalJS("search('"+c+"')");autoblur=true;a.blur()});function toSubmit(){if(!autoblur){if(document.getElementById("search").value!=""){mui.trigger(document.getElementById("form1"),"submit")}}autoblur=false}function openSoftKeyboard(){if(mui.os.ios){var k=plus.webview.currentWebview().nativeInstanceObject();k.plusCallMethod({setKeyboardDisplayRequiresUserAction:false})}else{var h=plus.android.currentWebview();plus.android.importClass(h);h.requestFocus();var g=plus.android.importClass("android.content.Context");var i=plus.android.importClass("android.view.inputmethod.InputMethodManager");var j=plus.android.runtimeMainActivity();var l=j.getSystemService(g.INPUT_METHOD_SERVICE);l.toggleSoftInput(0,i.SHOW_FORCED)}};</script>
+	</body>
+
+</html>

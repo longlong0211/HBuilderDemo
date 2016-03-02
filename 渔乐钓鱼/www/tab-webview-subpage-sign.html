@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			 
+			#user_info,#user_notlogin{ margin: 10px 0px 10px;} 
+			#score{ font-size: 16px;}
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 75px;
+				height: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 10%;
+				width: 60px;
+				height: 60px;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 20px; 
+			}
+			.oa-contact-name, oa-contact-position {
+				float: left;
+			}
+			.title {
+				padding: 10px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+				background-color: #fff;
+			}
+			
+			.mui-media-body span{ font-size: 16px; font-weight: bold; color: red;}
+		
+			#pullrefresh{ top: 96px; min-height:300px;}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			 <ul id="user_info" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell"   >
+								<img src="logo.png" width="60" /> 
+							</div> 
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h4 class="oa-contact-name"></h4>
+									<span class="oa-contact-position mui-h6" >积分：<span id="score">0</span>&nbsp;点 <a href="scores_list.html" open-type="common">明细</a></span>
+								</div>
+								<p class="oa-contact-email mui-h6">
+									<button class="mui-btn mui-btn-primary  " id="scorebtn" onclick="javascript:sign();">签到领积分</button>
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			
+			<ul id="user_notlogin" style=" display: none;" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+				<li class="mui-table-view-cell" >
+					<a href="login.html?from=sign" open-type="common" title="用户登陆">
+						<div class="mui-slider-cell">
+							<div class="oa-contact-cell mui-table">
+								<div class="oa-contact-avatar mui-table-cell"   >
+									<img src="images/user-photo.png" width="60"/> 
+								</div> 
+								<div class="oa-contact-content mui-table-cell">
+									<div class="mui-clearfix">
+										<h4 class="oa-contact-name">未登陆，点击登陆！</h4>
+										<span class="oa-contact-position mui-h6"> </span>
+									</div>
+									<p class="oa-contact-email mui-h6">
+										 
+									</p>
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+			
+			
+			<div id="pullrefresh" class=" mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="title">
+						 <a href="about_scores.html" open-type="common">积分可以兑换礼品，查看如何获得积分？</a>
+					</div>
+					<ul id="list" class="mui-table-view mui-grid-view"></ul>
+				</div>
+			</div>	
+		</div> 
+	</body>
+	
+	<script id="list-template" type="text/x-handlebars-template">
+	 	{{#each list}}
+		<li class="mui-table-view-cell mui-media mui-col-xs-6" data-id="{{id}}">
+			<a open-type="common" href="product_detail.html?id={{id}}">
+				<img  class="mui-media-object" src="{{pic}}" />
+				<div class="mui-media-body">{{name}} <span>{{score}}</span>点 </div>
+			</a>
+		</li>
+		{{/each}}
+	</script>
+ 
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	 
+	<script src="js/app.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script src="js/fish_cache.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+ 	<script type="text/javascript" src="js/fish_noback.js"></script> 
+ 	<script type="text/javascript" src="js/fish_interface.js"></script> 
+	<script>
+	    var pagenum = 0;
+	    var perpagenum = 10;
+	    var shouldfishinit = true;
+	    var issigning = false;
+		//上拉下拉
+		mui.init({
+			swipeBack: false,
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					//contentrefresh: '正在加载...',
+					callback: pulldownRefresh
+				}
+				, 
+				up: {
+					//contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			}
+		});
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				refreshdata("down");
+			}, 1000);
+		}
+		 
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+				 
+				refreshdata("up");
+			}, 1000);
+		}
+		
+		function refreshdata(upordown)
+		{
+			if(upordown == "down")
+			{
+				checklogin();
+				
+			}else
+			{
+				//加载数据
+				if(jQuery("#list").html()==""){
+					getproductlist();
+				}else{
+					var url_index=apiurl+"IProductsSearchList.ashx?iscanstore=1&keyword=&cateid=-1&uid="+uid;
+					url_index += "&pagenum="+pagenum+"&perpage="+perpagenum;
+			
+					 
+					
+					sendtointerface("","",url_index,function(responseText,status){
+						var data=eval("("+responseText+")");
+			                	
+	                	var pondsSource = document.getElementById("list-template").innerText;
+	                	var myTemplate = Handlebars.compile(pondsSource);
+	                	jQuery("#list").append(myTemplate(data));
+	                	
+	                	pagenum++;  
+	           		});
+				 
+					
+				}
+				
+				
+			}
+		}
+	 
+		
+		
+		
+		function getproductlist(){
+			
+			var wt=plus.nativeUI.showWaiting();
+			//发起
+			var url_index=apiurl+"IProductsSearchList.ashx?iscanstore=1&keyword=&cateid=-1&uid="+uid;
+			url_index += "&pagenum="+pagenum+"&perpage="+perpagenum;
+			
+			sendtointerface(uid,"",url_index,function(responseText,status){
+				var data=eval("("+responseText+")");
+            	if(data.list.length>0)
+            	{
+                	var pondsSource = document.getElementById("list-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#list").html(myTemplate(data));
+                	
+                	pagenum++; 
+            	}   
+            	
+            	plus.nativeUI.closeWaiting();
+			});
+			 
+		}
+	
+		var sign = function(){
+			
+			initScores();
+	    	
+	    	var s = getsignscores(score_signtimes);
+			
+			if(score_issign!="1" && s>0 ){
+
+				//发送积分增加action
+				 
+				if(uid>0)
+				{
+					if(!issigning)
+					{
+						issigning = true;
+						var url_index=apiurl+"IActionScoreAdd.ashx?uid="+uid+"&score="+s +"&typeid=273&typename=签到" ;
+						 
+						sendtointerface(uid,s,url_index,function(responseText,status){
+							var data=eval("("+responseText+")");
+	 
+		                	var retisok = data.retisok;
+		                	var nickname = data.nickname;
+		                	 
+		                	if(retisok==1  )
+		                	{
+		                		mui.toast( "签到成功！" );
+		                		
+		                		score_signtimes++;
+		            
+		                		var scoretotal = parseInt(s)+ parseInt(scores);
+		                		
+		                		 
+		                		
+		                		document.getElementById("score").innerHTML = scoretotal;
+								document.getElementById("scorebtn").className="mui-btn ";
+								document.getElementById("scorebtn").innerHTML=("签到成功，明日可领"+getsignscores(score_signtimes)+"个");
+								
+								score_issign = "1";
+								 
+		                	    setscores({"score_issign":"1","score_signlasttime":CurentDate(),"score_signtimes":score_signtimes.toString(),"scores":scoretotal.toString()});
+		                	  
+		                	}else{
+		                		
+		                		mui.toast( "签到失败："+data.retmessage );
+		                	}
+		                	
+		                	issigning = false;
+						},function(){
+							
+							issigning = false;
+							mui.toast( "签到失败,请重试" );
+							
+						});
+					} 
+					 
+					
+				}else{
+					
+					mui.toast("请先登陆");
+				}
+				
+				
+				
+			}
+		}
+		
+		
+		
+
+		mui.plusReady(function() { 
+			/*
+			checklogin();
+			 
+			getproductlist();*/
+			
+		});
+		
+		document.addEventListener('login', function() {
+			 checklogin();
+			 
+			  
+		});
+		
+		document.addEventListener('fishinit', function() {
+			
+			
+			
+			checklogin();
+			
+			if(shouldfishinit)
+			{
+				getproductlist();
+				shouldfishinit = false;
+			}
+			
+			 
+		});
+		 
+	    var checklogin  =function(){
+	    	
+	    	initScores();
+ 
+	    	getlogin();
+	    	
+			if(uid>0) 
+			{
+				
+				//先获取积分
+				var url_index=apiurl+"IUserScoreTotal.ashx?uid="+uid;
+						 
+				sendtointerface(uid,"",url_index,function(responseText,status){
+					var data=eval("("+responseText+")");
+ 					if(data.scoretotal!="")
+ 					{
+ 						scores = data.scoretotal;
+ 						setConfigParams("scores",scores);
+ 					}
+				});
+				
+				//然后计算其他
+				
+				 $("#user_info").css("display","block");
+				 
+				 $("#user_notlogin").css("display","none");
+				  
+				  $("#user_info img").attr("src",avatarsmall);
+				  var nickname2 = (nickname).length>6?nickname.substr(0,6)+"...":nickname;
+				  $("#user_info .oa-contact-name").html(nickname2);
+				  $("#user_info #score").html(""+scores+"");
+				  
+				  
+				 //是否签到
+
+				if(score_issign=="1"){
+					document.getElementById("scorebtn").className="mui-btn ";
+					
+					document.getElementById("scorebtn").innerHTML=("签到成功，明日可领"+getsignscores(score_signtimes)+"点积分");
+				}else
+				{
+					document.getElementById("scorebtn").className="mui-btn mui-btn-primary ";
+					document.getElementById("scorebtn").innerHTML=("签到领"+getsignscores(score_signtimes)+"点积分");
+				}
+				  
+			}
+			else{
+				  $("#user_info").css("display","none");
+				  
+				  $("#user_notlogin").css("display","block");
+			}
+			
+			
+			
+			
+	    }
+	    
+	    
+	    var initScores = function(){
+	    	
+	    	
+	    	getscores()
+	    	
+	    	if(score_signtimes == null || score_signtimes == "") {score_signtimes = 0;}else{score_signtimes = parseInt(score_signtimes);}
+			 
+	    	if(score_signlasttime == CurentDate()) {  
+			 	score_issign =  "1";
+			}
+	    	else if(score_signlasttime == PreviousDate())
+	    	{
+	    		score_issign = "0";
+	    	}
+	    	else{
+	    		score_signtimes = 0;
+			 	score_issign = "0";
+			}
+			 
+		 
+			 
+			 
+	    }
+	    
+	    
+	    var getsignscores = function(times)
+	    {
+	    	if(times==0){  
+	    		return 1;
+	    	}
+	    	else if(times == 1)
+	    	{
+	    		return 2;
+	    	}
+	    	else if(times==2)
+	    	{
+	    		return 4;
+	    	}
+	    	else if(times==3)
+	    	{
+	    		return 6;
+	    	}
+	    	else if(times== 4)
+	    	{
+	    		return 8;
+	    	}
+	    	else if(times>= 5)
+	    	{
+	    		return 10;
+	    	}
+	    	else 
+	    	{
+	    		return 1;
+	    	}
+	    }
+		
+		
+		
+		
+	</script>
+</html>

@@ -1,0 +1,57 @@
+<!--
+	作者：344805262@qq.com
+	时间：2015-06-13
+	描述：我的/我的订单/待评价.html -> appraise.html
+-->
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="format-detection" content="telephone=yes"/>
+<meta name="msapplication-tap-highlight" content="no" />
+<meta charset="utf-8">
+<title>待评价</title>
+<link href="../../../css/style.css"rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../../../js/common.js"></script>
+<script type="text/javascript" src="../../../js/jquery-2.1.4.min.js" ></script>
+<script type="text/javascript" src="../../../js/userinfo.js" ></script>
+<script type="text/javascript" src="../../../js/config.js" ></script>
+<script type="text/javascript" src="../../../js/order/apparaise.js" ></script>
+
+</head>
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2">待评价</h2>
+        </span>
+       <span class=" tab_mune tab_a t-c">        
+        </span>
+    </div>
+	<div id="content" class="bg-f2"> 
+	</div>
+    <!--------------------------遮罩内容----------------------->
+	<div id="heisebg" class="heisebghid">
+	    <div style="width:100%;position:fixed; text-align:center; bottom:0px;">
+	      <div class="sjpzan"><p>
+	      	<a id="camera" href="javascript:void(0);"><img src="../../../images/sjpzantu1.png"></a>
+	      	<a id="album" href="javascript:void(0);"><img src="../../../images/sjpzantu2.png"></a>
+	      	<a id="cancel" href="javascript:void(0);"><img src="../../../images/sjpzantu3.png"></a></p></div>
+	    </div>
+	</div>
+	<div id="waitingupload" class="heisebghid">
+	    <div style="width:100%;position:fixed; text-align:center;top:20%">
+			<div class="spinner">
+			  <div class="double-bounce1"></div>
+			  <div class="double-bounce2"></div>
+			</div>
+	    </div>
+	</div>	
+</body>
+</html>
+
+

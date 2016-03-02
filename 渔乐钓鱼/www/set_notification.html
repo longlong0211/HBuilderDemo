@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content{
+				margin: 10px 0px 0px 0px; 
+		 
+			}
+			 
+			 
+		</style>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+				   <span class="mui-icon mui-icon-left-nav"></span>
+				        设置
+			</button>
+		    <h1 class="mui-center mui-title">新消息通知</h1>
+		    <button id="save"  class="mui-btn mui-btn-link mui-btn-nav mui-pull-right">
+			  	保存
+			</button>
+		</header>
+		<div class="mui-content">
+			 
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<input type="hidden" id="message_input" value="1" >
+					接收好友新消息通知
+					<div id="message_div" class="mui-switch mui-active mui-switch-mini">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			 
+			<ul class="mui-table-view" style="display:none">
+				<li class="mui-table-view-cell">
+					<input type="hidden" id="message_detail_input" value="1" >
+					通知显示消息详情
+					<div id="message_detail_div" class="mui-switch mui-active mui-switch-mini">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			 
+			<div class="mui-content-padded">
+				<p>若关闭，当收到新消息时，将不再提示</p>
+			</div>
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					 
+					<input type="hidden" id="groupmsg_input" value="1">
+					接收群聊新消息通知
+					<div id="groupmsg_div" class="mui-switch mui-active mui-switch-mini">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<div class="mui-content-padded">
+				<p>关闭后，当收到群聊信息时，不再出现提醒。</p>
+			</div>
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					 
+					<input type="hidden" id="userpostnum_input" value="1">
+					接收朋友圈更新通知
+					<div id="userpostnum_div" class="mui-switch mui-active mui-switch-mini">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<div class="mui-content-padded">
+				<p>关闭后，有朋友圈更新时，不再出现提醒。</p>
+			</div>
+
+			
+			 
+			<ul class="mui-table-view"  >
+				<li class="mui-table-view-cell">
+					<input type="hidden" id="messagesound_input" value="1">
+					声音
+					<div id="messagesound_div" class="mui-switch mui-active mui-switch-mini">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<input type="hidden" id="messageshake_input" value="1">
+					震动
+					<div id="messageshake_div" class="mui-switch mui-active mui-switch-mini">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<div class="mui-content-padded"  >
+				<p>当渔乐在运行时，你可以设置是否需要声音或者震动</p>
+			</div>
+			 
+			
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					 
+					<input type="hidden" id="disturb_input" value="1">
+					勿扰模式
+					<div id="disturb_div" class="mui-switch mui-active mui-switch-mini">
+						<div class="mui-switch-handle"></div>
+					</div> 
+				</li> 
+			</ul>
+			<div class="mui-content-padded">
+				<p>开启后，将不再出现任何提醒。</p>
+			</div>
+				 
+		</div>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/fish_cache.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		 
+		
+		mui.plusReady(function() {
+			
+			 
+			getconfignotify();
+			
+			if(config_notify_message!="1"){ jQuery("#message_div").removeClass("mui-active"); }
+			if(config_notify_messagedetail!="1"){ jQuery("#message_detail_div").removeClass("mui-active"); }
+			if(config_notify_groupmsg!="1"){ jQuery("#groupmsg_div").removeClass("mui-active"); }
+			if(config_notify_messagesound!="1"){ jQuery("#messagesound_div").removeClass("mui-active"); }
+			if(config_notify_messageshake!="1"){ jQuery("#messageshake_div").removeClass("mui-active"); }
+			if(config_notify_disturb!="1"){ jQuery("#disturb_div").removeClass("mui-active"); }
+			if(config_notify_userpostnum!="1"){ jQuery("#userpostnum_div").removeClass("mui-active"); }
+			
+			jQuery("#message_input").val(config_notify_message);
+			jQuery("#message_detail_input").val(config_notify_messagedetail);
+			jQuery("#groupmsg_input").val(config_notify_groupmsg);
+			jQuery("#messagesound_input").val(config_notify_messagesound);
+			jQuery("#messageshake_input").val(config_notify_messageshake);
+			jQuery("#disturb_input").val(config_notify_disturb);
+			jQuery("#userpostnum_input").val(config_notify_userpostnum);
+		}); 
+		 
+		//保存到缓存
+		document.getElementById('save').addEventListener('tap', function() {
+			 var data = {"config_notify_message":jQuery("#message_div").hasClass("mui-active")?"1":"0","config_notify_messagedetail":jQuery("#message_detail_div").hasClass("mui-active")?"1":"0","config_notify_groupmsg":jQuery("#groupmsg_div").hasClass("mui-active")?"1":"0","config_notify_messagesound":jQuery("#messagesound_div").hasClass("mui-active")?"1":"0","config_notify_messageshake":jQuery("#messageshake_input").hasClass("mui-active")?"1":"0","config_notify_disturb":jQuery("#disturb_div").hasClass("mui-active")?"1":"0","config_notify_userpostnum":jQuery("#userpostnum_div").hasClass("mui-active")?"1":"0"};
+			 
+			 
+			 setconfignotify(data);
+ 
+			 mui.toast("保存成功！");
+			 
+			 
+			 mui.fire(index,'changeconfig',{});
+			 
+			 
+			 mui.back();
+			  
+		});  
+		
+		
+	</script>
+</html>

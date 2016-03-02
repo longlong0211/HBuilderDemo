@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 我的订单</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			html,
+			body {
+				height: 100%;
+			}
+			.mui-bar.mui-bar-header-secondary {
+				box-shadow: none;
+				-webkit-box-shadow: none;
+				background-color: white;
+			}
+			.mui-table-view-cell ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.mui-table-view-cell .mui-btn-link {
+				padding-right: 0;
+			}
+			.mui-table-view-cell-extra {
+				position: relative;
+				padding-top: 6px;
+				padding-left: 15px;
+				margin-top: -1px;
+				margin-left: 0;
+				font-weight: 500;
+			}
+			.mui-table-view-cell-btns {
+				position: relative;
+				height: 50px;
+				padding: 8px 15px;
+				text-align: right;
+			}
+			.mui-table-view-cell-btns:after {
+				position: absolute;
+				right: 0;
+				top: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				background-color: #c8c7cc;
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+			}
+			.mui-table-view {
+				margin-bottom: 10px;
+			}
+			.ts-placeholder {
+				display: none;
+			}
+			#tpl .ts-placeholder {
+				width: 100%;
+				padding: 50px 0;
+				text-align: center;
+				display: block;
+			}
+			.ts-placeholder .mui-btn.mui-fab {
+				padding: 8px;
+				background-color: #b0b0b0;
+				color: #fff;
+			}
+			.ts-placeholder .mui-btn.mui-fab .mui-icon {
+				font-size: 40px;
+				width: 40px;
+				height: 40px;
+				line-height: 40px;
+			}
+			.ts-placeholder h5 {
+				margin-bottom: 20px;
+				line-height: 17px;
+			}
+			.mui-pull-caption.mui-pull-caption-nomore {
+				display: none;
+			}
+			.ts-noorder .mui-pull-bottom-pocket {
+				display: none!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-plus-hidden">
+			<h1 id="ts_title" class="mui-title">我的订单</h1>
+			<a data-href="../cart/cart.html" data-login="true" class="mui-icon ts-icon ts-icon-cart mui-pull-right"></a>
+		</header>
+		<div class="mui-bar mui-bar-header-secondary mui-plus-hidden">
+			<div id="segmentedControl" style="margin-top: -3px;" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-primary">
+				<a id="ts_filter_all" class="mui-control-item mui-active">全部</a>
+				<a id="ts_filter_uncompleted" class="mui-control-item">未完成</a>
+				<a id="ts_filter_completed" class="mui-control-item">已完成</a>
+			</div>
+		</div>
+		<nav id="nav" class="mui-bar mui-bar-tab mui-plus-hidden"></nav>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div id="tpl">
+				</div>
+			</div>
+		</div>
+		<div id="ts_placeholder" class="ts-placeholder">
+			<span class="mui-btn mui-fab"><span class="mui-icon mui-icon-home"></span></span>
+			<h5>现在还没有订单<br>赶快去下单吧</h5>
+			<button type="button" class="mui-btn mui-btn-primary ts-go-home">去下单</button>
+		</div>
+		<div id="ts_login_placeholder" class="ts-placeholder ts-login-placeholder">
+			<span class="mui-btn mui-fab"><span class="mui-icon mui-icon-home"></span></span>
+			<h5>您还没有登录，请登录后查看订单</h5>
+			<a data-href="../login/login.html" class="mui-btn mui-btn-primary">登录</a>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/order/order.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/order/order.min.js"></script>
+		<script>
+			new TS.Init('Order');
+		</script>
+	</body>
+
+</html>

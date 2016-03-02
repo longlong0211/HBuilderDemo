@@ -1,0 +1,553 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐产品兑换</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="css/comment.css">
+		<style type="text/css">
+		
+		html,body {
+			background-color: #efeff4;
+			line-height: 30px; 
+			font-weight:300; 
+			font-size: 14px;
+			color:#222222;
+		}
+		
+		.mui-loader {
+				position:absolute;
+				top: 105px;
+				width: 100%; 
+				height: 60%;
+				color: #888;
+				font-size: 14px;
+				text-align: center;
+			}
+			
+			.mui-fullscreen{
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+	     #mui-content{ margin-bottom: 0px; padding-bottom: 10px; }
+		 #title{ color:#000; text-align: center;} 
+		.mui-content h3,.mui-content h6{ padding: 10px; color: #6d6d72; text-align: left;}
+		.mui-content h6{text-align: right; font-size: 14px;}
+		
+          
+			
+		.image{ text-align: center; width: 100%; }
+			
+		.content{
+			margin: 10px 15px 10px; 
+			
+			line-height: 30px; 
+			font-weight:300; 
+			font-size: 16px;
+			color:#222222;
+		}
+  
+		.content p{ text-indent: 25px; margin-top: 20px;}
+		.content *{   font-size: 16px;color:#222222;font-weight:300; line-height: 30px; padding:0px; margin: 0px; border: 0px ; list-style-type:none; }
+		
+		.content img{
+			max-width: 100%;
+			height: auto;
+		}
+		
+		.content p img{
+			margin-left: -25px;
+		}
+		
+		.content table{ border-top:1px #D8D8D8  solid ;border-left:1px #D8D8D8  solid ;}
+		.content th,.content td{ border-bottom:1px #D8D8D8  solid ;border-right:1px #D8D8D8  solid ;}
+	
+		  .oa-contact-gooduser, .oa-contact-reply{ 
+			clear: both;   font-weight: normal;font-size: 13px;  line-height: 20px;
+			margin: 5px 10px 5px 10PX; 
+				color:#222222;
+			}
+			
+		 
+		.oa-contact-gooduser{ padding-left: 20px ; background: url(images/ico_good.png) no-repeat left;}
+		 
+		 body{ margin-bottom: 50px;}
+		 
+		 
+		 #tougao{ background:#DDD; clear:both; line-height: 20px; font-size:14px; margin: 20px 10px 0px 10px;   border: 1px dotted #C0C0C0; padding: 10px;}
+	     #div_good{  margin-top: 0px;}
+	     #mailto{ font-size: 16px; color:red;}  
+	     
+	     .protitle { height: 50px;} 
+		</style> 
+		 
+	    
+	     
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">积分兑换</h1>
+		</header>
+		
+		<nav class="mui-bar mui-bar-tab">
+		  	<a id="btn_prompt" class="mui-tab-item mui-active" href="#tabbar" style=" width:25%">
+		  		<span class="mui-icon mui-icon-chatboxes"></span>
+				<span class="mui-tab-label">评论</span>
+			</a>
+			<a id="btn_good" class="mui-tab-item" href="#tabbar-with-chat" style=" width:25%">
+				<span class="mui-icon  mui-icon-flag"></span>
+				<span class="mui-tab-label">点赞</span> 
+			</a>
+			<a  id="btn_collect" class="mui-tab-item" href="#tabbar-with-sms" style=" width:25%">
+				<span class="mui-icon mui-icon-star"></span>
+				<span class="mui-tab-label">收藏</span>
+			</a>
+			<a id="btn_share" class="mui-tab-item" href="#tabbar-with-map" style=" width:25%; display: none;">
+				<span class="mui-icon mui-icon-redo"></span>
+				<span class="mui-tab-label">分享</span> 
+			</a>
+		</nav>
+	  <div class="mui-loader"><span class="mui-spinner" title="加载中..."></span></div>
+		
+	  <div class="mui-content" id="mui-content">
+  
+		    <div class="protitle">
+		    	<h3 id="title" class="mui-pull-left"></h3>
+				<h6 id="time" class="mui-pull-right"></h6>
+			</div>
+			 
+			<div class="mui-content-padded content" id="content">
+				
+			</div>
+			
+			<div id="tougao" style="display: none;">
+				
+			</div> 
+			 
+		</div>
+		
+	 
+		 
+		<div id="div_replycommand" style="display: none;" >
+		 	<div class="no-action comment-share-container">
+				<div class="collect_comment">
+					<div class="article_collect" id="collect"><div class="article_collect_praise" id="p_collect">0</div></div>
+					<div class="article_comment" id="comment"><div class="article_comment_praise" id="p_comment">0</div></div>
+				</div>
+				 
+				<h4>热门评论</h4>
+				
+			
+				<div id="div_reply" ></div>
+			</div>
+		</div>
+
+
+	</body>
+	
+	<script id="relatelist-template" type="text/x-handlebars-template">
+	 	{{#each relatelist}}
+	 	<li class="mui-table-view-cell mui-media" data-id="{{id}}">
+			<a href="article_detail_pics.html?id={{id}}"  open-type="common"   title="渔乐资讯-{{catename}}">
+				<img class="mui-media-object mui-pull-left " src="{{pic}}">
+				<div class="mui-media-body">
+					{{title}} 
+					<p class='mui-ellipsis'>{{abstract}}{{time}}</p>
+				</div>
+			</a>
+		</li>  
+		{{/each}}
+	</script>
+	
+	<script id="replylist-template" type="text/x-handlebars-template">
+	 	{{#each replylist}}
+			 
+			<div class="comment-content" id="comment{{id}}">
+				<div class="avatar btn">
+					<img src="{{avater}}">
+				</div>
+				<div class="name">
+					
+					<a href="friend_detail.html?type=telphone&id={{userid}}" open-type="common" title="{{nickname}}" class="btn text-ellipsis">{{nickname}}</a>
+					{{#if replyusername}}
+					<a href="friend_detail.html?type=telphone&id={{replyuserid}}" open-type="common" title="{{replyusername}}" class="btn text-ellipsis">&nbsp;&nbsp;回复&nbsp;&nbsp;{{replyusername}}</a>
+					{{/if}}
+					
+				</div>
+				<div class="content"><span class="btn">{{replymsg}}</span></div>
+				
+				<div class="action_pane_left" >{{time}}</div>
+				<div class="action_pane2" ><h6 class="btn digg2 " type="comment" nickname="{{nickname}}" userid="{{userid}}" replyid="{{id}}" id="reply_commentnum{{id}}">{{commentnum}}</h6></div>
+				<div class="action_pane"><h6 class="btn digg " type="good" nickname="{{nickname}}" userid="{{userid}}" replyid="{{id}}" id="reply_goodnum{{id}}">{{goodnum}}</h6></div> 
+			</div>
+			{{/each}}
+	</script>
+	
+ 
+	 
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+	<script src="js/app.js"></script>
+	<script src="js/fish_interface.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+	<script src="js/fish_cache.js"></script>
+	<script src="js/fish_share.js"></script>
+	<script>
+	
+		var pid= GetQueryString("id");
+		var title = "";
+		var abstract = "";
+		 
+		var type = 278;
+	    var picsmall = "";
+	    var iscommented = "0";
+	 
+	    mui.init({swipeBack: true});  
+
+		
+		mui.plusReady(function() {
+			//分析一下是否需要显示分享
+			if(getisshowshare())
+			{
+				jQuery("#btn_share").show();
+			}
+			
+			//先获取当前页面的参数
+			getlogin();
+			
+			var url=apiurl+"IProductsDetail.ashx?id="+pid+"&uid="+uid;
+			
+			sendtointerface(uid,pid,url,function(responseText,status){
+					jQuery(".mui-loader").hide();
+                	
+                	var data=eval("("+responseText+")");
+                	//开始写入数据
+                	title = data.title;
+                	content = decodeURIComponent(data.content);
+                	data.content = content;
+                	picsmall = data.pic;
+                	tougao = decodeURIComponent(data.tougao);
+                	iscommented =  data.iscommented;
+                	 
+                	jQuery('#title').html(title); 
+                	if(data.iscanstore =="1")
+                	{
+                		jQuery('#time').html( "积分&nbsp;&nbsp;"+data.score+"点");
+                	}else{
+                		jQuery('#time').html( "价格&nbsp;&nbsp;"+data.money+"元");
+                	}
+                	jQuery('#content').html(content);
+                	 
+                	//显示投稿
+                	jQuery("#tougao").html(tougao);
+                	jQuery("#tougao").css("display","block"); 
+                	
+                	//回复
+	            	var pondsSource = document.getElementById("replylist-template").innerText;
+	            	var myTemplate = Handlebars.compile(pondsSource);
+	            	jQuery("#div_reply").append(myTemplate(data));
+	            	 
+	            	 
+	            	//设置是否赞过
+	            	if(iscommented=="1")
+	            	{
+	            		jQuery("#p_collect").removeClass("article_collect_praise");
+	            		jQuery("#p_collect").addClass("article_collect_praise2");
+	            		 
+	            	}
+	            	
+	            	//显示数量
+	            	jQuery("#p_collect").html(data.goodusernum);
+	            	jQuery("#p_comment").html(data.replynum);
+	            	jQuery("#div_replycommand").show();
+                	 
+                	
+                	
+			});
+			
+			 
+			
+				
+			//分享shares
+			var shares = {};
+			plus.share.getServices(function (s) {
+				if(s&&s.length>0){
+					for (var i = 0; i < s.length; i++) {
+						var t = s[i];
+						shares[t.id] = t;
+					}
+				}
+			},function () {
+				console.log("获取分享服务列表失败");
+			});
+		 
+			//分享链接点击事件
+			document.getElementById("btn_share").addEventListener('tap',function () {
+				  
+				var ids=  getshareids;
+				var bts= getsharenames;
+				
+				plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},function(e){
+					var i=e.index;
+					if(i>0){ 
+						var s_id = ids[i-1].id;
+						var share = shares[s_id];
+						if ( share.authenticated ) {
+							shareMessage(share,ids[i-1].ex);
+						} else {
+							share.authorize( function(){
+									shareMessage(share,ids[i-1].ex);
+								},function(e){
+								console.log( "认证授权失败："+e.code+" - "+e.message );
+							});
+						}
+					}
+				});
+			});
+			
+			function shareMessage(share,ex){
+				var msg={extra:{scene:ex}};
+				msg.href=wwwurl+"product/?id="+pid;
+				msg.title=title;
+				msg.content=abstract;
+				if(~share.id.indexOf('weibo')){
+					msg.content += "；地址："+msg.href;
+				}
+ 
+				if(picsmall!="")
+				{
+					msg.thumbs=[picsmall];
+				}
+				else{
+					msg.thumbs=["_www/images/logo.png"];
+				}
+				 
+				share.send( msg, function(){
+					console.log( "分享到\""+share.description+"\"成功！ " );
+				}, function(e){
+					console.log( "分享到\""+share.description+"\"失败: "+e.code+" - "+e.message );
+				} );
+			}
+			
+			 
+			//点赞btn_good
+			document.getElementById("collect").addEventListener('tap',function (e) {
+		
+				actiongood(e);
+			});
+			
+			document.getElementById("btn_good").addEventListener('tap',function (e) {
+		
+				actiongood(e);
+			});
+			
+			function actiongood(e){
+				 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				var url=apiurl+"IActionGood.ashx?type="+type+"&id="+pid.toString()+"&uid="+uid.toString()+"&nickname="+nickname;
+				
+				sendtointerface(uid,pid,url,function(responseText,status){
+					var data=eval("("+responseText+")");
+	                	var oldnum = parseInt($(".goodusernum").html());
+	                	if(data.retisok==1)
+	                	{
+	                		//jQuery("#div_good").prepend(nickname+",")
+	                		//jQuery(".goodusernum").html(oldnum+1);
+	                		
+	                		jQuery("#p_collect").html(parseInt(jQuery("#p_collect").html())+1);
+	                		 
+	                		jQuery("#p_collect").removeClass("article_collect_praise");
+            				jQuery("#p_collect").addClass("article_collect_praise2");
+	                		 
+	                		
+	                		mui.toast( "点赞成功！" );
+	                	}else{
+	                		
+	                		mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+				});
+				 
+			}
+			
+			//收藏
+			document.getElementById("btn_collect").addEventListener('tap',function () {
+				
+				 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				var url=apiurl+"IActionCollect.ashx?type="+type+"&id="+pid.toString()+"&uid="+uid.toString()+"&nickname="+nickname+"&title="+title;
+				
+				sendtointerface(uid,pid,url,function(responseText,status){
+					var data=eval("("+responseText+")");
+	                	if(data.retisok==1)
+	                	{
+	                		 mui.toast( "收藏成功！"+data.retmessage );
+	                	}else{
+	                		
+	                		mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+				});
+				
+				 
+			});
+			
+			//评论
+			document.getElementById("comment").addEventListener('tap', function(e) {
+				 actioncomment(e);
+			});
+			
+			document.getElementById("btn_prompt").addEventListener('tap', function(e) {
+				actioncomment(e);
+				  
+			});
+			
+			function actioncomment(e){ 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+				var btnArray = ['确定', '取消'];
+				mui.prompt('发表评论：', '写点什么吧', "", btnArray, function(e) {
+					if (e.index == 0) {
+						
+						if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+						//发起
+						var url=apiurl+"IActionReply.ashx?type="+type+"&id="+pid.toString()+"&uid="+uid.toString()+"&nickname="+nickname+"&msg="+e.value;
+						
+						sendtointerface(uid,pid,url,function(responseText,status){
+							var data=eval("("+responseText+")");
+			                	if(data.retisok==1)
+			                	{
+			                		 mui.toast( "评论成功！"+data.retmessage );
+			                		 
+			                		 var str2 = { "replylist": [{"time":"刚刚","replyname":nickname,"replymsg":e.value,"nickname":nickname,"userid":uid,"avater":avatarsmall,"replyuserid":"0","replyusername":"","goodnum":"0","commentnum":"0"}] };
+			                		 var pondsSource = document.getElementById("replylist-template").innerText;
+				                	 var myTemplate = Handlebars.compile(pondsSource);
+				                	 jQuery("#div_reply").prepend(myTemplate(str2));
+				                	
+				                	 jQuery("#p_comment").html(parseInt(jQuery("#p_comment").html())+1);
+									 
+			                	}else{
+			                		
+			                		mui.toast( "不小心失败了，"+data.retmessage );
+			                	}
+						
+						});
+						
+						 
+						
+					} else {
+						//info.innerText = '你点了取消按钮';
+					}
+				})
+			}
+			
+			mui('#div_reply').on('tap', 'h6', function(e){
+				
+				 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				 
+				var replyid =  this.getAttribute('replyid'); 
+				var replaytype = this.getAttribute('type'); 
+				var replaynickname = this.getAttribute('nickname');
+				var replayuserid = this.getAttribute("userid");
+				
+				if(replaytype=="comment")
+				{ 
+			 
+				    if(replayuserid==uid){ 
+				    	mui.toast( "不能自己回复自己！" );
+				    	return;
+				    }
+					
+					e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+					var btnArray = ['确定', '取消'];
+					mui.prompt("回复 "+replaynickname+ "：", '写点什么吧', "", btnArray, function(e) {
+						if (e.index == 0) { 
+							
+							if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+							//发起
+							var url=apiurl+"IActionReply.ashx?replyid="+replyid+"&type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname+"&msg="+encodeURIComponent(e.value)+"&reply_id="+replayuserid;
+							
+							sendtointerface(uid,replyid,url,function(responseText,status){
+								var data=eval("("+responseText+")");
+			                	if(data.retisok==1)
+			                	{
+			                		 mui.toast( "评论成功！"  ); 
+			                		 
+			                		 var str2 = { "replylist": [{"time":"刚刚","replyname":nickname,"replymsg":e.value,"nickname":nickname,"userid":uid,"avater":avatarsmall,"replyuserid":replayuserid,"replyusername":replaynickname,"goodnum":"0","commentnum":"0"}] };
+			                		 var pondsSource = document.getElementById("replylist-template").innerText;
+				                	 var myTemplate = Handlebars.compile(pondsSource);
+				                	 jQuery("#div_reply").prepend(myTemplate(str2));
+				                	
+				                	 jQuery("#reply_commentnum"+replyid).html(parseInt(jQuery("#reply_commentnum"+replyid).html())+1);
+			                		  
+									 jQuery("#p_comment").html(parseInt(jQuery("#p_comment").html())+1);
+									 
+			                	}else{
+			                		
+			                		mui.toast( "不小心失败了，"+data.retmessage );
+			                	}
+							});
+							 
+						} else {
+							//info.innerText = '你点了取消按钮';
+						}
+					})
+				}else{
+					
+					jQuery("#reply_goodnum"+replyid).html(parseInt(jQuery("#reply_goodnum"+replyid).html())+1);
+	                		  
+	                		  
+					var url=apiurl+"IActionReplyGoodAdd.ashx?replyid="+replyid+"&type="+type+"&id="+pid+"&uid="+uid;
+							
+					sendtointerface(uid,replyid,url,function(responseText,status){
+						var data=eval("("+responseText+")");
+	                	if(data.retisok==1)
+	                	{
+	                		 //mui.toast( "点赞成功！"  ); 
+	                		  
+	                	}else{
+	                		
+	                		//mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+					});
+				}
+			});
+			
+			
+			
+			
+		 });
+			
+		
+		
+		
+		
+		
+	</script>
+
+</html>

@@ -1,0 +1,196 @@
+/* 我的佣金 && 申请提现 */
+.bro-spare {
+	padding: 20px 15px 0px;
+	background: #7BC351 none repeat scroll 0% 0%;
+	box-shadow: 2px 2px 2px #DCDCDC;
+	overflow: hidden;
+}
+.bro-spare p.tip-txt {
+	margin-bottom: 0px;
+	font-size: 16px;
+	color: #FFF;
+	line-height: 25px;
+}
+.icon-money {
+	font-size: 24px;
+  	margin: 8px 8px 8px 0;
+}
+.bro-spare .number-big {
+	display: block;
+	margin: 0px;
+	font-size: 40px;
+	height: 42px;
+	color: #FFF;
+	text-shadow: 1px 2px 0px #4E9923;
+}
+.maneylist {
+	margin: 0px;
+	list-style: outside none none;
+	padding: 0px 10px;
+	background-color: #fff;
+}
+.maneylist-li:first-child {
+	border-top: 0px none;
+}
+.maneylist-li {
+	position: relative;
+	padding: 10px 0px;
+	border-bottom: 1px solid #EEE;
+}
+.maneylist-li a {
+	position: relative;
+	display: block;
+	color: #333;
+}
+.maneylist-li a::before,
+.maneylist-li a::after {
+	height: 0px;
+	display: block;
+	visibility: hidden;
+	clear: both;
+	content: ".";
+}
+.maneylist-li .icon-money-circle {
+	font-size: 16px;
+  	color: #F8AF75;
+}
+.maneylist-li .text {
+	vertical-align: middle;
+}
+.maneylist-li .money-number {
+	float: right;
+	margin: 5px 15px 0px 0px;
+	padding: 0px 5px;
+	border-radius: 10px;
+	height: 20px;
+	line-height: 20px;
+	color: #F00;
+	font-size: 14px;
+	vertical-align: middle;
+}
+.bro-extract-btn {
+	padding: 20px 15px 0;
+	background-color: #fff;
+}
+.button {
+	font-weight: normal;
+	margin: 0px 0px 1.25rem;
+	position: relative;
+	text-decoration: none;
+	text-align: center;
+	display: inline-block;
+	transition: background-color 300ms ease-out 0s;
+	color: #fff;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	padding: 0px;
+	border: 1px solid #3396C2;
+	border-radius: 3px;
+	font-size: 20px;
+	font-family: "微软雅黑", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
+.button.red {
+	background: #F37872 none repeat scroll 0% 0%;
+	border: 1px solid #E86660;
+}
+.button:hover{
+	color: #fff;
+}
+.qrcode-propu-tiptxt {
+	padding: 10px;
+	line-height: 20px;
+	background: #FFBA00 none repeat scroll 0% 0%;
+	border: 1px solid #FFBA00;
+	border-radius: 3px;
+	color: #FFF;
+	margin: 10px;
+}
+.qrcode-propu-img {
+	margin: 0px 10px 10px;
+}
+.qrcode-propu-img h6 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+	color: #999;
+	text-align: center;
+}
+.qrcode-propu-img img {
+	width: 100%;
+	height: auto;
+}
+.extract {
+	margin: 20px 15px 0px;
+	padding: 0px;
+	border: medium none;
+	background: transparent none repeat scroll 0% 0%;
+}
+.panel > :first-child {
+	margin-top: 0px;
+}
+.commision-total .span-title {
+	color: #999;
+}
+.commision-total .number {
+	color: #7BC351;
+	font-size: 30px;
+}
+.commision-total .icon-horn {
+	float: right;
+	margin: 0px;
+}
+.icon-horn {
+	background-position: -216px -355px;
+}
+.extract-monynumber {
+	margin: 10px 0px;
+}
+.extract-monynumber,
+.extract-monynumber .column,
+.extract-monynumber .columns {
+	padding: 0px;
+}
+.row::before,
+.row::after {
+	content: " ";
+	display: table;
+}
+.column,
+.columns {
+	width: 100%;
+	position: relative;
+}
+.panel .extract-monynumber input[type="text"] {
+	margin: 0px;
+	height: 45px;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	background-color: #FFF;
+	font-size: 16px;
+	color: rgba(0, 0, 0, 0.75);
+	padding: 0.5rem;
+	width: 100%;
+	transition: box-shadow 0.45s ease 0s, border-color 0.45s ease-in-out 0s;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+}
+.close-input {
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	background-position: -109px -81px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+.tip-text {
+	margin-bottom: 30px;
+	font-size: 14px;
+	color: #666;
+}
+.extract .tip-text {
+	margin-bottom: 20px;
+}
+.tip-text b {
+	color: #E86660;
+}

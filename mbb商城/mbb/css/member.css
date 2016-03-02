@@ -1,0 +1,105 @@
+.my-notrade .member-notrade-ul {
+    list-style: outside none none;
+    margin: 0px;
+    padding: 0;
+}
+.my-notrade .member-notrade-li {
+    padding: 10px;
+    border-bottom: 1px solid #EBEBEB;
+    background-color: #fff;
+}
+.row {
+    max-width: none;
+}
+.row {
+    width: 100%;
+    margin: 0px auto;
+    max-width: 62.5em;
+}
+.row::before, .row::after {
+    content: " ";
+    display: table;
+}
+.row::after {
+    clear: both;
+}
+.my-notrade .member-notrade-summey-info {
+    float: left;
+    width: 200px;
+}
+.my-notrade .member-notrade-hearder{
+    float: left;
+    margin-right: 10px;
+}
+.my-notrade .member-notrade-hearder .mui-icon{
+	font-size: 40px;
+    color: #449DC3;
+}
+.my-notrade .member-notrade-hearder img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.my-notrade .member-notrade-nt {
+    overflow: hidden;
+    line-height: 18px;
+}
+.my-notrade .member-notrade-name {
+    display: block;
+    font-size: 18px;
+    color: #333;
+}
+.my-notrade .member-notrade-level {
+    display: block;
+    font-size: 12px;
+    color: #999;
+}
+.my-notrade .member-notrade-time {
+    font-size: 12px;
+    color: #999;
+}
+.my-notrade .member-notrade-summey-talk {
+    float: right;
+    padding: 5px 10px;
+    height: 30px;
+    background: #7BC351 none repeat scroll 0% 0%;
+    border-radius: 16px;
+    font-size: 12px;
+    color: #FFF;
+    font-weight: bold;
+}
+.my-notrade .member-notrade-summey-talk i {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.icon-talk {
+    background-position: -67px -5px !important;
+    width: 20px;
+    height: 20px;
+}
+.icon-money, .icon-organization, .icon-nav-home, .icon-nav-search, .icon-nav-store, .icon-nav-cart, .icon-nav-order, .icon-nav-bag, .icon-nav-heart, .icon-talk, .icon-arrow2, .icon-arrow2-up, .icon-arrow2-down, .icon-light, .icon-hongbao, .icon-dealer {
+    display: inline-block;
+    vertical-align: middle;
+}
+.my-notrade .member-notrade-summey-talk span {
+    vertical-align: middle;
+}
+.my-notrade .member-notrade-detail {
+    margin: 0px 15px 0px 50px;
+}
+.my-notrade .info-list {
+    padding: 5px 0px;
+    border-bottom: 1px dashed #EEE;
+    color: #999;
+    font-size: 14px;
+}
+.my-notrade .info-list-label {
+    color: #333;
+}
+.my-notrade .info-list-value {
+    color: #333;
+    font-size: 16px;
+}
+.my-notrade .member-notrade-summey-talk.disabled {
+    background: #E0E0E0 none repeat scroll 0% 0%;
+}

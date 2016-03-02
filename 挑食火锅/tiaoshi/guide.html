@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.mui-slider-item,
+			.mui-slider-item a {
+				width: 100%;
+				height: 100%;
+			}
+			.mui-slider-item a img {
+				width: 100%;
+				min-height: 100%;
+			}
+			#enter {
+				position: absolute;
+				width: 100px;
+				left: 50%;
+				margin-left: -50px;
+				bottom: 2%;
+				padding: 5px 10px;
+				color: white;
+				border: 1px solid #fff;
+			}
+			.mui-slider-group .mui-slider-item {
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="slider" class="mui-slider mui-fullscreen">
+			<div class="mui-slider-group">
+				<!-- 第一张 -->
+				<div class="mui-slider-item" style="background-image: url(img/guide/user_guid_page1@2x.png);">
+				</div>
+				<!-- 第二张 -->
+				<div class="mui-slider-item" style="background-image: url(img/guide/user_guid_page2@2x.png);">
+				</div>
+				<!-- 第三张 -->
+				<div class="mui-slider-item" style="background-image: url(img/guide/user_guid_page3@2x.png);">
+				</div>
+				<!-- 第四张 -->
+				<div class="mui-slider-item" style="background-image: url(img/guide/user_guid_page4@2x.png);">
+					<button id='enter' class="mui-btn mui-btn-outlined">立即体验</button>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			(function($, doc) {
+				var enterButton = doc.querySelector('#enter');
+				enterButton.addEventListener('tap', function(event) {
+					plus.webview.currentWebview().close();
+				}, false);
+				$.plusReady(function() {
+					plus.navigator.closeSplashscreen();
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

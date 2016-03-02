@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/address.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收货地址</h1>
+		</header>
+		<div class="mui-content">
+			<div class="listAdd-btn">
+				<a id="editaddressurl" data-id="0" class="button [radius round]"><i>+</i>添加地址</a>
+			</div>
+			<ul class="side-nav address" id="ul">
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript" charset="utf-8">var user=null;mui.init({swipeBack:true,beforeback:notifyCart});mui.plusReady(function(){user=getCachedUser(true);if(!user){var a=plus.webview.getLaunchWebview();mui.fire(a,"login");mui.back();return}updateCachedUser();getAddress()});mui("#ul").on("tap",".classnone",setDefault);mui("#ul").on("tap",".a-del",delAddress);mui("#ul").on("tap",".a-edit",editAddress);document.getElementById("editaddressurl").addEventListener("tap",editAddress,false);document.addEventListener("address",refresh,false);document.addEventListener("refresh",refresh,false);function getAddress(){mui.sendRequest(mui.constMap.ROOT_PATH+"/address/list",{session:user.session},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);mui.back();return}fillUL(a.data)})}function fillUL(c){var d=document,b=d.createDocumentFragment(),a=d.getElementById("ul");mui.each(c,function(e,f){fillLI(b,f)});a.appendChild(b)}function fillLI(j,c){c.address=c.province_name+c.city_name+c.district_name+c.address;var o=document,q=o.createElement("li"),m=o.createElement("a"),p=o.createElement("span"),l=o.createElement("span"),h=o.createElement("span"),b=o.createElement("div"),i=o.createElement("a"),s=o.createElement("span"),k=o.createElement("a"),g=o.createElement("span"),r=o.createElement("br");g.className="mui-icon iconfont icon-shanchu icon-gray";k.className="a-del";k.setAttribute("href","javascript:void(0)");k.setAttribute("data-id",c.id);k.setAttribute("data-default",c.default_address);s.className="mui-icon iconfont icon-bianji icon-gray";i.className="a-edit";i.setAttribute("data-id",c.id);b.className="opera";h.className="payStatus";h.innerHTML="默认";l.className="mobile";l.innerHTML=c.tel;p.className="payInfo";var e=o.createTextNode(c.consignee),d=o.createTextNode(c.address);p.appendChild(e);p.appendChild(l);p.appendChild(r);p.appendChild(d);m.className="classnone";m.setAttribute("href","javascript:void(0)");m.setAttribute("data-default",c.default_address);m.setAttribute("data-id",c.id);if(c.default_address){q.className="current"}k.appendChild(g);i.appendChild(s);b.appendChild(i);b.appendChild(k);m.appendChild(p);m.appendChild(h);q.appendChild(m);q.appendChild(b);j.appendChild(q)}function delAddress(a){var b=this.getAttribute("data-default")==1?0:this.getAttribute("data-id");if(b==0){mui.alert("默认地址不可删除");return false}else{mui.sendRequest(mui.constMap.ROOT_PATH+"/address/delete",{session:user.session,address_id:b},function(d){if(!d.status.succeed){mui.toast(d.status.error_desc);return}var e=document.getElementById("ul"),c=document.getElementById(b);e.removeChild(c);mui.toast("操作成功")})}}function editAddress(b){var a=plus.webview.currentWebview();mui.openWindow({id:"address_edit.html",url:"address_edit.html",waiting:{autoShow:true},extras:{eid:this.getAttribute("data-id"),backurl:a.backurl}})}function setDefault(b){var a=this.getAttribute("data-default")==1?0:this.getAttribute("data-id");var c=this;if(a!="0"){mui.sendRequest(mui.constMap.ROOT_PATH+"/address/setDefault",{session:user.session,address_id:a},function(e){if(!e.status.succeed){mui.toast(e.status.error_desc);return}var h=document.getElementById("ul"),d=h.querySelector(".current"),f=c.parentNode;if(d){d.classList.remove("current");setLiDefault(d,0)}f.classList.add("current");setLiDefault(f,1);var g=plus.webview.currentWebview();if(g.backurl){notifyCart();plus.webview.show(g.backurl);plus.webview.hide("address.html")}})}}function setLiDefault(e,d){var a=e.querySelectorAll('a[data-default="'+(d==1?0:1)+'"]');for(var c=0,b=a.length;c<b;c++){a[c].setAttribute("data-default",d)}}function refresh(a){ul.innerHTML="";getAddress()}function notifyCart(){var a=plus.webview.currentWebview();if(a.backurl=="cart.html"){var b=plus.webview.getWebviewById("cart.html");mui.fire(b,"refresh")}};</script>
+	</body>
+
+</html>

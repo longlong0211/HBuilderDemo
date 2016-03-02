@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="../../css/mui.css">
+
+    <script src="../../js/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="../../js/common.js" type="text/javascript"></script>
+    <script src="../../js/config.js" type="text/javascript"></script>
+    <script src="../../js/common/mui.min.js" type="text/javascript"></script>
+    <script src="../../js/home/checkupdate.js" type="text/javascript"></script>
+    <style>
+        .a1 {
+            background: url('../../images/welcome/1.png') center center;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-size: 100%;
+        }
+
+        .a2 {
+            background: url('../../images/welcome/2.png') center center;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-size: 100%;
+        }
+
+        .a3 {
+            background: url('../../images/welcome/3.png') center center;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-size: 100%;
+        }
+
+        .a4 {
+            background: url('../../images/welcome/4.png') center center;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-size: 100%;
+        }
+
+        .btn {
+            background: url('../../images/welcome/btn.png') no-repeat center center;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-size: 60%;
+        }
+
+        div, img, a, li {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+        }
+
+        .uploadImg {
+            background: url('../../images/welcome/4.png') center center;
+            background-size: cover;
+            background-size: 100%;
+            max-width: 640px;
+            min-width: 320px;
+            width: 100%;
+            position: fixed;
+            text-align: center;
+            bottom: 0px;
+            margin: 0 auto;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="slider" class="mui-slider mui-fullscreen" style="display:none">
+        <div class="mui-slider-group">
+            <!-- 第一张 -->
+            <div class="mui-slider-item">
+                <a class="a1">
+
+                </a>
+            </div>
+            <!-- 第二张 -->
+            <div class="mui-slider-item">
+                <a class="a2">
+
+                </a>
+            </div>
+            <!-- 第三张 -->
+            <div class="mui-slider-item">
+                <a class="a3">
+
+                </a>
+            </div>
+
+            <!-- 第四张 -->
+            <div class="mui-slider-item">
+                <a class="a4">
+                    <div id="enter" class="btn" style="height: 60px; position: absolute; bottom: 16%; z-index: 3">
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <div class="mui-slider-indicator">
+            <div class="mui-indicator mui-active"></div>
+            <div class="mui-indicator"></div>
+            <div class="mui-indicator"></div>
+            <div class="mui-indicator"></div>
+        </div>
+    </div>
+
+    <div class="uploadImg" id='uploadImg' style="display: none;"></div>
+    <script>
+        // 版本信息
+        var versionInfo, _isdiffVersion = false, _shouldCloseCurrentView = false;
+        //创建子页面，首个选项卡页面显示，其它均隐藏；
+        mui.plusReady(function () {
+            //plus.navigator.closeSplashscreen();
+            //delPackage();
+            //return;
+            // 检测更新
+            $.ajax({
+                type: 'Get',
+                async: false,
+                url: configManager.RequstUrl + 'api/version/index'
+            }).done(function (data) {
+                if (data.state != "success") { console.log(data.message); return; }
+                versionInfo = data.data;
+                versionInfo["url"] = (plus.os.name == "iOS" ? versionInfo.ios : versionInfo.android);
+
+                // 更新JS版本
+                var latestJSVersion = plus.storage.getItem(storageManager.latestJSVersion);
+                if (versionInfo.js_version != latestJSVersion) {
+                    plus.cache.clear(function () {
+                        console.log("缓存清理成功");
+                        plus.storage.setItem(storageManager.latestJSVersion, versionInfo.js_version);
+                    });
+                }
+
+                // 获取本地应用资源版本号
+                plus.runtime.getProperty(plus.runtime.appid, function (inf) {
+                    updateApp(inf);
+                });
+            }).fail(function () {
+                enterApp();
+            });
+        });
+
+        // 更新APP
+        function updateApp(inf) {
+            var wgtVer = inf.version, newVer = versionInfo.version;
+
+            if (wgtVer && newVer && (wgtVer != newVer)) {
+                console.log("检测到新版本：" + newVer);
+                console.log("当前应用版本：" + inf.version);
+                var networkType = plus.networkinfo.getCurrentType();
+                // 是否升级包
+                var iswgtPackage = (versionInfo.url.indexOf('.wgt') > 0);
+                if (!iswgtPackage) {
+                    // 无线网下更新
+                    if (networkType != plus.networkinfo.CONNECTION_WIFI) {
+                        enterApp();
+                        return;
+                    }
+                }
+
+                _isdiffVersion = true;
+                // 强制更新
+                if (versionInfo.force) {
+                    plus.navigator.closeSplashscreen();
+                    plus.navigator.setFullscreen(true);
+                    $("#uploadImg").show();
+                    plus.storage.removeItem(storageManager.showWelcome);
+                    downWgt(versionInfo.url);	// 下载升级包
+                } else {
+                    plus.nativeUI.confirm(versionInfo.message, function (e) {
+                        if (e.index == 1) {
+                            plus.storage.removeItem(storageManager.showWelcome);
+                            downWgt(versionInfo.url);	// 下载升级包
+                        } else {
+                            // 非首页关闭
+                            var showWelcome = plus.storage.getItem(storageManager.showWelcome);
+                            if (showWelcome && showWelcome == "false") {
+                                plus.webview.currentWebview().close();
+                            } else {
+                                _shouldCloseCurrentView = true;
+                            }
+                        }
+                    }, "更新提示", ["取消", "更新"]);
+
+                    // 可以先进入应用
+                    enterApp();
+                }
+
+            } else {
+                // 无新版本可更新
+                enterApp();
+            }
+        }
+
+        // 进入APP
+        function enterApp() {
+            // 解决部分魅族，大神手机某项页面不执行PlusReady方法
+            plus.storage.removeItem(storageManager.exctPlusReadyPages);
+            plus.storage.setItem(storageManager.exctPlusReadyPages, JSON.stringify([]));
+
+            checkNetworkHeath();
+
+            var showWelcome = plus.storage.getItem(storageManager.showWelcome);
+            if (showWelcome && showWelcome == "false") {
+                // 跳入主页面
+                plus.webview.open("main.html", "main.html", {}, "none", 10, {});
+                if (!_isdiffVersion) { plus.webview.currentWebview().close(); }
+                return;
+            }
+
+            // 首次使用APP进入欢迎页
+            $("#slider").show();
+            plus.navigator.setFullscreen(true);
+            plus.navigator.closeSplashscreen();
+            $("#enter").on("click", function () {
+                plus.storage.setItem(storageManager.showWelcome, "false");
+                plus.navigator.setFullscreen(false);
+                plus.webview.open("main.html", "main.html", {}, "slide-in-right", 100, {});
+                if ((!_isdiffVersion) || _shouldCloseCurrentView) { plus.webview.currentWebview().close(); }
+            });
+        }
+
+        // 删除升级包
+        function delPackage() {
+            plus.io.resolveLocalFileSystemURL("_doc/update", function (entry) {
+                entry.removeRecursively(function (e) {
+                    plus.console.log("Remove Recursively Succeeded");
+                }, function (e) {
+                    alert(e.message);
+                });
+            }, function (e) {
+                alert("Resolve file URL failed: " + e.message);
+            });
+        }
+
+        // 检查网络
+        function checkNetworkHeath() {
+            // 判断当前网络状况
+            var currentNetworkType = plus.networkinfo.getCurrentType();
+            if (currentNetworkType && (plus.networkinfo.CONNECTION_UNKNOW == currentNetworkType || plus.networkinfo.CONNECTION_NONE == currentNetworkType)) {
+                plus.navigator.closeSplashscreen();
+            }
+        }
+    </script>
+
+</body>
+</html>

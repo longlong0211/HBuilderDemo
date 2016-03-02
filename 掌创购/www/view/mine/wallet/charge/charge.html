@@ -1,0 +1,94 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title>充值</title>
+    <link href="../../../../css/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../../../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../../../js/config.js"></script>
+    <script type="text/javascript" src="../../../../js/common.js"></script>
+    <script type="text/javascript" src="../../../../js/mine/wallet/charge/charge.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2">账户充值</h2>
+        </span>
+        <span class=" tab_mune tab_a t-c">
+        </span>
+    </div>
+
+
+    <div id="content" class="bg-f2">
+        <!--银行卡信息-->
+        <div class="item-03-wrap  mt20">
+            <ul class="select-pay-block">
+                <li>
+                    <a class="check-right"></a>
+                    <div class="pay-item" id="cardinfo">
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!--限额-->
+        <div class="tips-text-block" id="limitamount"></div>
+
+        <!--充值金额-->
+        <div class="item-01-wrap ">
+            <div class="data-input-block">
+                <label>充值类型:</label>
+                <span>
+                    <select lass='f-r' id="chargetype">
+                        <option value="0">会员卡账户充值</option>
+                        <option value="1">余额账户充值</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <!--充值金额-->
+        <div class="item-01-wrap ">
+            <div class="data-input-block"> <label>金额:</label> <span> <input type="number" id="chargeAmount" class="date-text-inp" placeholder="请输入充值金额" /></span></div>
+        </div>
+
+
+        <!--充值-->
+        <div class="item-02-wrap">
+            <input id="btncharge" type="button" class="base-btn-inp t-c gray-bg" value="充值" />
+        </div>
+
+    </div>
+
+    <!--------------------------------密码----------------------------------->
+    <div class="pop-wrap" style="display:none">
+        <div class="passwrod-bank-inp">
+            <h2>请输入支付密码</h2>
+            <div class="inner-blokc">
+                <span> <input type="text" class=" base-text-inp" /></span>
+                <span> <input type="text" class=" base-text-inp" /></span>
+                <span> <input type="text" class=" base-text-inp" /></span>
+                <span> <input type="text" class=" base-text-inp" /></span>
+                <span> <input type="text" class=" base-text-inp" /></span>
+                <span> <input type="text" class=" base-text-inp" /></span>
+            </div>
+
+            <div class="pass-btn-block">
+                <input type="button" class="base-btn-inp gray-bg f-l" value="取消" />
+                <input type="button" onclick="clicked('../wallet.html')" class="base-btn-inp f-r" value="确认" />
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fontstyles.css">
+		<script type="text/javascript" src="../../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../../js/sea.js"></script>
+		<script type="text/javascript" src="../../js/json2.js"></script>
+		<script type="text/javascript" src="../../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../../js/modules/"
+			});
+			seajs.use('view/common/provinceCity_head');
+			var showOkBtn=false;
+		</script>
+	</head>
+
+	<body>
+		<header class="header clearfix">
+			<span class="floatleft" id="backAction"><i class="icon-iback font22"></i></span>
+			<span class="mid_name font14 aligncenter" id="selectName"></span>
+			<span class="floatright" id="okBtn" style="display: none;">确定</span>
+		</header>
+	</body>
+
+</html>

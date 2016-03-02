@@ -1,0 +1,360 @@
+{
+	"id": "H5B2A27D8",
+	"name": "渔乐钓鱼",
+	"version": {
+		"name": "2.0.2",
+		"code": "86"
+	},
+	"description": "",
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",
+	"developer": {
+		"name": "Juice",
+		"email": "qh-hsy@foxmail.com",
+		"url": "http:\/\/www.dcloud.io"
+	},
+	"permissions": {
+		"Accelerometer": {
+			"description": "访问加速度感应器"
+		},
+		"Audio": {
+			"description": "访问麦克风"
+		},
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Camera": {
+			"description": "访问摄像头"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Device": {
+			"description": "访问设备信息"
+		},
+		"Downloader": {
+			"description": "文件下载管理"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Gallery": {
+			"description": "访问系统相册"
+		},
+		"Geolocation": {
+			"description": "访问位置信息"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+		"Messaging": {
+			"description": "访问通讯能力"
+		},
+		"Orientation": {
+			"description": "访问方向感应器"
+		},
+		"Proximity": {
+			"description": "访问距离感应器"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+		"UI": {},
+		"Uploader": {
+			"description": "管理文件上传任务"
+		},
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Zip": {
+			"description": "文件压缩与解压缩"
+		},
+		"Barcode": {
+			"description": "管理二维码扫描插件"
+		},
+		"Maps": {
+			"description": "管理地图插件"
+		},
+		"Speech": {
+			"description": "管理语音识别插件"
+		},
+		"push": {
+			"description": "管理推送消息插件"
+		},
+		"Webview": {},
+		"NativeUI": {},
+		"Navigator": {}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": true,
+			"waiting": true
+		},
+		"runmode": "liberate",
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw=="
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"js/common.js",
+					"js/mui.min.js",
+					"js/fish_config.js",
+					"css/mui.min.css",
+					"js/update.js",
+					"js/global.js",
+					"js/fish_interface.js",
+					"js/fish_cache.js",
+					"js/jquery.js",
+					"js/md5.js",
+					"fonts/mui.ttf",
+					"tab-webview-subpage-index.html"
+				],
+				"refer": [
+					"index-menu.html",
+					"tab-webview-subpage-setting.html",
+					"tab-webview-subpage-group.html",
+					"tab-webview-subpage-sign.html",
+					"tab-webview-subpage-friends.html",
+					"tab-webview-subpage-messages.html",
+					"tab-webview-subpage-pointlist.html",
+					"tab-webview-subpage-baike.html",
+					"tab-webview-subpage-groupmsgs.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-subpage-setting.html": {
+				"resources": [
+					"images/user-photo.png"
+				],
+				"refer": [
+					"login.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-subpage-group.html": {
+				"resources": [
+					"js/mui.imageViewer.js",
+					"images/ico_group.png",
+					"js/group.js",
+					"js/app.js",
+					"js/fish_noback.js",
+					"js/handlebars-v2.0.0.js",
+					"images/ico_friend.png",
+					"images/ico_publish.png",
+					"css/mui.imageviewer.css",
+					"images/ico_message.png",
+					"images/ico_groupmsg.png"
+				],
+				"refer": [
+					"group_publish.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-subpage-sign.html": {
+				"resources": [
+					"logo.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"tab-webview-subpage-friends.html": {
+				"resources": [
+					"images/ico_addfriend.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"tab-webview-subpage-groupmsgs.html": {
+				"resources": [
+					"images/ico_addgroup.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"tab-webview-subpage-index.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"css/app.css",
+					"js/mui.pullToRefresh.material.js",
+					"css/fish.css",
+					"images/imagebg.png"
+				],
+				"refer": [
+					"pullrefresh_main.html",
+					"template.html"
+				],
+				"priority": 0
+			},
+			"group_publish.html": {
+				"resources": [
+					"js/app.js",
+					"fonts/mui.ttf",
+					"css/mui.listpicker.css",
+					"images/iconfont-tianjia.png",
+					"js/fish_noback.js",
+					"js/handlebars-v2.0.0.js",
+					"css/app.css",
+					"js/mui.min.js",
+					"js/mui.listpicker.js",
+					"js/mui.poppicker.js",
+					"images/ico_point.png",
+					"css/mui.min.css",
+					"js/global.js",
+					"js/fish_interface.js",
+					"css/mui.poppicker.css",
+					"js/jquery.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/common.css",
+					"fonts/mui.ttf",
+					"js/fish_share.js",
+					"css/mui.min.css",
+					"js/global.js",
+					"js/fish_interface.js",
+					"js/fish_cache.js",
+					"images/user-photo.png",
+					"js/jquery.js",
+					"js/md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"plugins/projekktor/swf/jarisplayer.swf",
+				"set_about.html",
+				"images/ico_chat.png",
+				"js/mui.dtpicker.js",
+				"js/mui.previewimage.js",
+				"plugins/projekktor/images/maccaco.png",
+				"js/mui.js",
+				"js/city.data.js",
+				"css/read.mode.css",
+				"images/ico_radar.png",
+				"css/chat.css",
+				"js/mui.view.js",
+				"fishpoint_map.html",
+				"article_search.html",
+				"set_message_system.html",
+				"images/add_emoticons.png",
+				"js/mui.locker.md",
+				"js/mui.lazyload.js",
+				"js/city.data-3.js",
+				"images/good_red.png",
+				"css/mui.dtpicker.css",
+				"plugins/projekktor/swf/StrobeMediaPlayback_hls_mss.swf",
+				"css/mui.picker.all.css",
+				"js/feedback.js",
+				"images/add.png",
+				"friend_add_side.html",
+				"friend-chat.html",
+				"images/weixin.png",
+				"libs/echarts-all.js",
+				"js/ad.js",
+				"images/ico_fish.png",
+				"images/comment.png",
+				"images/logo.png",
+				"images/sinaweibo.png",
+				"about.html",
+				"scores_list.html",
+				"baike_list.html",
+				"libs/easymob-webim-sdk/jquery-1.11.1.js",
+				"js/mui.indexedlist.js",
+				"group_create.html",
+				"guide.html",
+				"set_notification.html",
+				"set_message_friend.html",
+				"reg.html",
+				"question.html",
+				"friend_detail.html",
+				"plugins/projekktor/images/maccaco-load.gif",
+				"css/mui.indexedlist.css",
+				"images/ico_camera.png",
+				"set_common.html",
+				"plugins/projekktor/images/maccaco-load-static.png",
+				"plugins/projekktor/images/buffering.gif",
+				"js/mui.locker.js",
+				"manifest - 副本.json",
+				"js/mui.picker.min.js",
+				"about_scores.html",
+				"images/pull_arrow.png",
+				"js/mui.zoom.js",
+				"audio/msg.mp3",
+				"css/mui.picker.min.css",
+				"images/talk_recordtextme.png",
+				"plugins/projekktor/swf/StrobeMediaPlayback.swf",
+				"images/ico_contact.png",
+				"images/ico_good.png",
+				"plugins/projekktor/css/projekktor.style.css",
+				"barcode_scan.html",
+				"images/contactlogo.png",
+				"set_account.html",
+				"plugins/projekktor/swf/StrobeMediaPlayback_mss.swf",
+				"js/mui.picker.js",
+				"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+				"js/pinyin.js",
+				"images/pull_fresh.png",
+				"set_privacy.html",
+				"css/mui.css",
+				"template_pullrefresh.html",
+				"images/ico_code.png",
+				"friend-chat-group.html",
+				"js/qr.js",
+				"css/feedback-page.css",
+				"friend_add.html",
+				"images/talk_recordtext.png",
+				"js/arttmpl.js",
+				"images/phoneNumber.png",
+				"js/update.json",
+				"plugins/projekktor/images/intro.png",
+				"images/qq.png",
+				"fishpoint_add.html",
+				"js/mui.lazyload.img.js",
+				"plugins/projekktor/js/projekktor-1.3.07.min.js",
+				"js/mui.tpl.min.js",
+				"plugins/projekktor/images/start.png",
+				"fishpoint_detai.html",
+				"libs/easymob-webim-sdk/json2.js",
+				"plugins/projekktor/swf/StrobeMediaPlayback_hls.swf",
+				"plugins/projekktor/images/noise.gif",
+				"images/ok.png",
+				"js/feedback-page.js",
+				"js/doZoom.js",
+				"css/comment.css",
+				"images/good.png",
+				"product_detail.html",
+				"libs/easymob-webim-sdk/quickstart.md",
+				"js/sqlite.js",
+				"css/mui.picker.css",
+				"js/fish_image.js",
+				"js/mui.picker.all.js",
+				"images/videoloading.png",
+				"article_detail_pics.html",
+				"friend_add_telphonebook.html",
+				"libs/easymob-webim-sdk/strophe-custom-2.0.0.js"
+			]
+		}
+	}
+}
+

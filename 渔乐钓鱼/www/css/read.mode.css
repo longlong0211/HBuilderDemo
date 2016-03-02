@@ -1,0 +1,30 @@
+		
+		.nightMode .mui-backdrop{background: rgba(0,0,0,.3) !important;}
+		.nightMode .mui-popover-arrow{background:none !important;}
+		.nightMode .mui-popover-arrow:after{background:#333333;}
+		.nightMode li .mui-active a{background:#4171a1 !important;}
+		.nightMode .mui-switch.mui-active{background:#4171a1 !important;}
+
+		.nightMode .mui-bar .mui-title { right: 0px;padding-right: 40px;}
+		.nightMode .mui-bar-nav{box-shadow: 0 0 1px rgba(0,0,0,.85);}
+		.nightMode,.nightMode *{background:#333333 !important;color:#A0A0A0 !important;border-color:#A0A0A0 !important;}
+		.nightMode	input,button,textarea,select,option,optgroup{background-color:#444444 !important;color:#CCCCCC !important;border-color:#A0A0A0 !important;}
+		.nightMode a,.nightMode>a *{color:#93BCEC !important;background-color:#333333 !important;}
+		.nightMode img{opacity: 0.5; color: rgb(255, 255, 255); background: rgb(0, 0, 0);}
+		
+		.font-size6{ font-size: 0.6em;}
+		.font-size8{ font-size: 0.8em;}
+		.font-size10{ font-size: 1.0em;}
+		.font-size12{ font-size: 1.2em;}
+		.font-size14{ font-size: 1.4em;}
+		.font-size16{ font-size: 1.6em;}
+		.font-size18{ font-size: 1.8em;}
+		.font-size20{ font-size: 2.0em;}
+		.font-size24{ font-size: 2.4em;}
+		.font-size30{ font-size: 3.0em;}
+		
+		.size-small{font-size: 10px;}
+		.size-medium{font-size: 12px;}
+		.size-large{font-size: 14px;}
+		.size-b-large{font-size: 18px;}
+		

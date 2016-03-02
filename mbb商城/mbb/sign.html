@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/layer.css"/>
+		<style>
+			body, .mui-content{
+				background-color: #F74618;
+			}
+			.layer_main {
+				background-color: #FBF5A1;
+			}
+			.layer_main img{
+				width: 80%;
+			}
+			.user {
+				margin-top: 40%; 
+				text-align: center;
+			}
+			.user img{
+				width: 30%;
+				-webkit-border-radius: 50%;
+				-moz-border-radius: 50%;
+				border-radius: 50%;
+			}
+			.user p{
+				color: #fff;
+			}
+			.user h1{
+				color: #FFF75E;
+			}
+			.user span{
+				color: #FDD14C;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">领超币</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user">
+				 <img src="" alt=""/>
+				 <p></p>
+				 <h1>0</h1>
+				 <span class="mui-hidden">签到获得0个超币</span>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/layer.js"></script>
+		<script>
+			var user=null;mui.init({swipeBack:true});mui.plusReady(function(){user=getCachedUser(true);if(!user){var a=plus.webview.getLaunchWebview();mui.fire(a,"login");mui.back();return}init();sign()});function init(){var d=document.querySelector(".user"),a=d.querySelector("img"),c=d.querySelector("p"),b=d.querySelector("h1");if(user.user.wx&&user.user.wx.headimgurl){a.src=user.user.wx.headimgurl.replace(/\/0$/,"/132")}else{a.src="images/iconfont-nantouxiang.png"}c.innerHTML=user.user.wx.nickname;b.innerHTML=user.user.pay_points}function sign(){mui.sendRequest(mui.constMap.ROOT_PATH+"/user/sign",{session:user.session,config:{silence:true}},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);return}update(a.data);layerOpen({title:"",content:'<p><img src="images/sign_money.png" alt=""/></p><p style="font-size: 14px;margin-top: 10px;color: #000;">'+a.data.contentStr+"</p>",shadeClose:true,style:{content:"text-align: center;"}})})}function update(c){var d=document.querySelector(".user"),a=d.querySelector("h1"),b=d.querySelector("span");a.innerHTML=c.pay_points;b.innerHTML="签到获得"+c.points+"个超币";if(c.points>0){b.classList.remove("mui-hidden")}user.user.pay_points=c.pay_points;user.expire=mui.now();user.expire+=15*60*1000;window.localStorage.setItem("user",JSON.stringify(user))};
+		</script>
+	</body>
+</html>

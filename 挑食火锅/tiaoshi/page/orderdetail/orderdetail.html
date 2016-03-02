@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 订单详情</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			ul.ts-orderdetail {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				font-size: 13px;
+			}
+			#ts_order_cancel {
+				background-color: #ffa902;
+				border-color: #ffa902;
+				color: #fff;
+			}
+			#ts_order_follow,
+			#ts_order_pay {
+				background-color: #ff5d3a;
+				border-color: #ff5d3a;
+				color: #fff;
+			}
+			#orderdetail {
+				min-height: 100%;
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body class="ts-statusbaroffset">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 id="ts_title" class="mui-title">订单详情</h1>
+		</header>
+		<nav id="nav" class="mui-bar mui-bar-tab">
+			<a id="ts_order_cancel" class="mui-tab-item mui-hidden">取消订单</a>
+			<a id="ts_order_follow" class="mui-tab-item mui-hidden">订单跟踪</a>
+			<a id="ts_order_pay" class="mui-tab-item mui-hidden">去支付</a>
+		</nav>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div id="orderdetail" class="mui-scroll">
+
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.h5.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/orderdetail/orderdetail.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/orderdetail/orderdetail.min.js"></script>
+		<script>
+			new TS.Init('Orderdetail');
+		</script>
+	</body>
+
+</html>

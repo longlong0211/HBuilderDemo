@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-table h4,
+			.mui-table h5,
+			.mui-table .mui-h5,
+			.mui-table .mui-h6,
+			.mui-table p {
+				margin-top: 0;
+			}
+			.mui-table h4 {
+				line-height: 21px;
+				font-weight: 500;
+			}
+			.mui-table .oa-icon {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			.mui-table .oa-icon-star-filled {
+				color: #f14e41;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单详情内容</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-card">
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="mui-table-view">
+					<li class="mui-table-view-cell">
+
+						<h4 class="mui-ellipsis">订单信息</h4>
+						<h5>订单号：<span id='dingdanhao'></span></h5>
+						<h5>订单状态：<span id='dingdanzt'></span></h5>
+						<h5>配送方式：<span id='psfs'></span></h5>
+						<h5>支付方式：<span id='zffs'></span></h5>
+
+					</li>
+					<li class="mui-table-view-cell">
+
+						<h4 class="mui-ellipsis">收货信息</h4>
+						<h5>顾客姓名：<span id='dingdanhaogkxm'></span></h5>
+						<h5>送货地址：<span id='dingdanhaoshdz'></span></h5>
+						<h5>手机号码：<span id='dingdanhaosjhm'></span></h5>
+						<h5>固定电话：<span id='dingdanhaogdsh'></span></h5>
+						<h5>备注留言：<span id='dingdanhaobzly'></span></h5>
+
+					</li>
+				</ul>
+			</div>
+			<div class="title">
+				商品列表信息
+			</div>
+			<ul class="mui-table-view" id="mui-table-view1">
+
+			</ul>
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="mui-table-viewtwo">
+				<li class="mui-table-view-cell">
+					<div class="mui-table">
+						<div class="mui-table-cell mui-col-xs-10">
+							<h5>应付总金额：<span id='dingdanhaoyfje'></span></h5>
+							<h5>商品：<span id='dingdanhaosp'></span></h5>
+							<h5>运费：<span id='dingdanhaoyf'></span></h5>
+							<h5>手续费：<span id='dingdanhaosxf'></span></h5>
+							<h5>总积分：<span id='dingdanhaozjf'></span></h5>
+						</div>
+					</div>
+				</li>
+
+			</ul>
+
+		</div>
+		<nav class="mui-bar mui-bar-tab" id="btndisplay">
+			<button class="mui-btn mui-btn-negative" style="padding-left:30px;padding-right: 30px;margin-left: 20px;" id="querenfukuan">去付款</button>
+			<button class="mui-btn mui-btn-negative" style="padding-left: 30px;padding-right: 30px;margin-right: 20px;float: right;" id="quxiaodingdan">取消订单</button>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script>
+			var order_no = null;
+			var total=null;
+			mui.init();
+			 // 用户名获取
+			mui.plusReady(function() {
+				var type=GetQueryString("type");
+				if(type=="1"){
+					document.getElementById("btndisplay").style.display="none";
+				}
+				mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=get_order_Msg&id=' + GetQueryString("id"), {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						document.querySelector('#dingdanhao').innerText = data.order_no;
+						document.querySelector('#dingdanzt').innerText = data.paymentzt;
+						document.querySelector('#psfs').innerText = data.express;
+						document.getElementById("zffs").innerText = data.payment;
+						document.querySelector('#dingdanhaogkxm').innerText = data.accept_name;
+						document.querySelector('#dingdanhaoshdz').innerText = data.address;
+						document.querySelector('#dingdanhaosjhm').innerText = data.mobile;
+						document.querySelector('#dingdanhaogdsh').innerText = data.telphone;
+						document.querySelector('#dingdanhaobzly').innerText = data.message;
+						document.querySelector('#dingdanhaoyfje').innerText = data.order_amount;
+						document.querySelector('#dingdanhaosp').innerText = data.real_amount;
+						document.querySelector('#dingdanhaoyf').innerText = data.express_fee;
+						document.querySelector('#dingdanhaosxf').innerText = data.payment_fee;
+						document.querySelector('#dingdanhaozjf').innerText = data.point;
+						order_no = data.order_no;
+						total= data.order_amount;
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(errorThrown);
+					}
+				});
+				mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=get_order_MsgSp&id=' + GetQueryString("id"), {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 20000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						var table = document.body.querySelector('#mui-table-view1');
+						var obj2 = eval(data['TableInfo']);
+						for (var i = 0; i < obj2.length; i++) {
+							content += '<li class="mui-table-view-cell mui-media"> <a href="javascript:;">';
+							content += '<img class="mui-media-object mui-pull-left" src="http://www.guoshe.cc' + obj2[i].image + '">';
+							content += '<div class="mui-media-body">' + obj2[i].goods_title + '<p class="mui-ellipsis">￥' + obj2[i].real_price + '元 数量:' + obj2[i].quantity + '</p>';
+							content += '<p class="mui-ellipsis">小计:' + obj2[i].real_price * obj2[i].quantity + '元</p></div></a></li>';
+						}
+						table.innerHTML = content;
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+					}
+				});
+				initTemplates(); //预加载所有模板
+			});
+			document.querySelector('#quxiaodingdan').addEventListener('tap', function(event) {
+				console.log(order_no);
+				var username;
+				var users = JSON.parse(localStorage.getItem('$users') || '[]');
+				users.some(function(user) {
+					username = user.account;
+				});
+				mui.ajax('http://www.guoshe.cc/tools/submit_ajax.ashx?action=order_cancel&order_no=' + order_no, {
+					data: {
+						"uuid": "1",
+						"accout": username
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 20000, //超时时间设置为10秒；
+					success: function(data) {
+						mui.toast(data.msg);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(errorThrown);
+					}
+				});
+			});
+			document.querySelector('#querenfukuan').addEventListener('tap', function(event) {
+				var template = getTemplate('default');
+				var showMenu = false;
+				var headerWebview = template.header;
+				var contentWebview = template.content;
+				var title = "订单提交成功";
+				mui.fire(headerWebview, 'updateHeader', {
+					title: title,
+					showMenu: showMenu
+				});
+				var reload = true;
+				if (!template.loaded) {
+					if (contentWebview.getURL() != this.href) {
+						//contentWebview.loadURL("re_confirm.html?order_no=" + order_no+"&total="+total);
+						contentWebview.loadURL("payment.html?order_no=" + order_no);
+					} else {
+						reload = false;
+					}
+				} else {
+					reload = false;
+				}
+				(!reload) && contentWebview.show();
+				headerWebview.show("pop-in", 150);
+			});
+			var templates = {};
+			var getTemplate = function(name, header, content) {
+				var template = templates[name];
+				if (!template) {
+					//预加载共用父模板；
+					var headerWebview = mui.preload({
+						url: header,
+						id: name + "-main",
+						styles: {
+							popGesture: "hide",
+						},
+						extras: {
+							mType: 'main'
+						}
+					});
+					//预加载共用子webview
+					var subWebview = mui.preload({
+						url: !content ? "" : content,
+						id: name + "-sub",
+						styles: {
+							top: '45px',
+							bottom: '0px',
+						},
+						extras: {
+							mType: 'sub'
+						}
+					});
+					subWebview.addEventListener('loaded', function() {
+						setTimeout(function() {
+							subWebview.show();
+						}, 50);
+					});
+					subWebview.hide();
+					headerWebview.append(subWebview);
+					//iOS平台支持侧滑关闭，父窗体侧滑隐藏后，同时需要隐藏子窗体；
+					if (mui.os.ios) { //5+父窗体隐藏，子窗体还可以看到？不符合逻辑吧？
+						headerWebview.addEventListener('hide', function() {
+							subWebview.hide("none");
+						});
+					}
+					templates[name] = template = {
+						name: name,
+						header: headerWebview,
+						content: subWebview,
+					};
+				}
+				return template;
+			};
+			var initTemplates = function() {
+				getTemplate('default', 'examples/template.html');
+			};
+
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			}
+			
+		</script>
+
+	</body>
+
+</html>

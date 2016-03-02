@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fontstyles.css">
+		<script type="text/javascript" src="../../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../../js/sea.js"></script>
+		<script type="text/javascript" src="../../js/json2.js"></script>
+		<script type="text/javascript" src="../../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../../js/modules/"
+			});
+			seajs.use('view/req/view');
+		</script>
+	</head>
+
+	<body>
+		<!--分类begin-->
+			<!--分类over-->
+			<!--列表begin-->
+			<section class="main list_main" id="wrapper" style="top:0px;bottom: 0px;">
+				<div class="clearfix" id="scroller">
+					<!--单据详情begin-->
+					<div class="details" id="reqDataContainer">
+						<section class="form_box">
+							<p class="color-3">申请信息</p>
+							<table class="mart5">
+								<tr>
+									<th>申请人：</th>
+									<td id="userName"></td>
+								</tr>
+								<tr>
+									<th>申请编号：</th>
+									<td id="reqNo"></td>
+								</tr>
+								<tr>
+									<th>申请日期：</th>
+									<td id="sendDate"></td>
+								</tr>
+							</table>
+						</section>
+						<section class="form_box mart10">
+							<p class="color-3">单据信息</p>
+							<table class="mart5" id="reqViewData">
+								
+							</table>
+						</section>
+					</div>
+					<!--单据详情over-->
+				</div>
+			</section>
+	</body>
+
+</html>

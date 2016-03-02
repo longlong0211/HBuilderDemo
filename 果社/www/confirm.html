@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mui.picker.min.css" />
+		<link rel="stylesheet" href="css/mobiscroll.custom-2.6.2.min.css" />
+		<link rel="stylesheet" href="css/app.css" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<style>
+			body {
+				font-size: 14px;
+			}
+			input,
+			select,
+			textarea {
+				font-size: 12px;
+			}
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 10px;
+				font-size: 15px;
+				color: #000000;
+			}
+			.oa-contact-name {
+				float: left;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+			}
+			.ui-login-form {
+				border: solid 1px #ddd;
+				border-radius: 5px;
+				margin: 10px;
+				overflow: hidden;
+				background-color: #ddd;
+			}
+			.ui-login-form input,
+			select {
+				width: 75%;
+				border: none;
+				margin: 0px;
+				font-size: 14px;
+				border-radius: 0px;
+				height: auto;
+			}
+			.ui-login-form label {
+				padding: 10px 5px;
+				line-height: 21px;
+				width: 25%;
+				float: left;
+				background: #fff;
+				text-align: right;
+			}
+			.ui-login-form input,
+			select {
+				margin-bottom: 1px;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: #809a00;
+			}
+			.mui-pciker-list li {
+				font-size: 0.7pc;
+			}
+			.mui-input-group .mui-input-row {
+				height: 35px;
+			}
+			.mui-checkbox label, .mui-radio label{
+				line-height: 15px;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: green;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="mui-bar mui-bar-tab">
+			<div style="padding-left:10px;padding-top:13px;float:left;" id="heji">合计</div>
+			<button class="mui-btn mui-btn-negative" style="padding-left: 40px;padding-right: 40px;margin-right: 20px;float: right;" id="jiesuan">结算</button>
+		</nav>
+		<div class="mui-content">
+
+			<form class="ui-login-form">
+				<label>收货姓名:</label>
+				<input id='nick_name' type="text" class="mui-input-clear mui-input" placeholder="收货姓名*">
+				<label>手机号码:</label>
+				<input id='mobile' type="tel" class="mui-input-clear mui-input" placeholder="手机号码*">
+				<!--<input id='telphone' type="tel" class="mui-input-clear mui-input" placeholder="电话号码*">-->
+				<label>配送地址:</label>
+				<input id='showCityPicker' type="text" class="mui-input-clear mui-input" placeholder="配送地址*">
+				<!--<select id="payment_id" class="mui-input-clear mui-input">
+				</select>-->
+				<label>付款方式:</label>
+				
+				<select name="payment" id="payment" style="height: 41px;">
+					<option value="7" selected>微信支付</option>
+					<option value="3" selected>支付宝</option>
+				</select>
+				<div id="dayhour" style="color: #dd524d;text-align: center;height: 20px; background-color: #fff;display: none;">
+
+				</div>
+				<label style="margin-bottom: 1px;">配送日期:</label>
+				<input id='date' type="text" class="mui-input-clear mui-input" placeholder="配送日期*" style="margin-bottom: 0px;">
+				<div id="peisongshiduan">
+
+				</div>
+
+				<textarea rows="3" id="message" placeholder="如需特殊时间配送或其他事宜请备注*" style="border:none;margin-bottom: -10px;"></textarea>
+
+				<input type="hidden" id="daolua" value="" />
+				<input type="hidden" id="xiaoqua" value="" />
+				<input type="hidden" id="xiaoquid" value="" />
+				<input type="hidden" id="ma" value="" />
+				<input type="hidden" id="fukuanfangshi" value="" />
+				<!--付款方式-->
+			</form>
+
+			<!--购物车列表-->
+			<div class="mui-card" style="margin-top:20px;">
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top:0px;" id="gouwuche">
+				</ul>
+			</div>
+
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="js/mobiscroll.custom-2.6.2.min.js"></script>
+		<script type="text/javascript" src="js/cart.js"></script>
+		<script>
+			var minyear = null,
+				minmonth = null,
+				minday = null,
+				maxyear = null,
+				maxmonth = null,
+				maxday = null;
+			var provinces = null;
+			var cityPicker = new mui.PopPicker({
+				layer: 2
+			});
+			mui.init({
+				swipeBack: false,
+			});
+			mui.plusReady(function() {
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_maxmintime', {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						minyear = data.minyear;
+						minmonth = data.minmonth - 1;
+						minday = data.minday;
+						maxyear = data.maxyear;
+						maxmonth = data.maxmonth - 1;
+						maxday = data.maxday;
+						//初始化日期选择控件
+						var opt = {
+							theme: 'android',
+							preset: 'date', //日期
+							display: 'modal', //显示方式 
+							mode: 'scroller', //日期选择模式
+							dateFormat: 'yy-mm-dd', // 日期格式
+							setText: '确定', //确认按钮名称
+							cancelText: '取消', //取消按钮名籍我
+							dateOrder: 'yymmdd', //面板中日期排列格式
+							dayText: '日',
+							monthText: '月',
+							yearText: '年',
+							minDate: new Date(minyear, minmonth, minday),
+							maxDate: new Date(maxyear, maxmonth, maxday)
+						};
+						$("#date").mobiscroll(opt).date(opt);
+						var myDate = new Date(minyear, minmonth, minday).pattern("yyyy-MM-dd");
+						$("#date").val(myDate);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+					}
+				});
+				Date.prototype.pattern = function(fmt) {
+						var o = {
+							"M+": this.getMonth() + 1, //月份           
+							"d+": this.getDate(), //日           
+							"h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时           
+							"H+": this.getHours(), //小时           
+							"m+": this.getMinutes(), //分           
+							"s+": this.getSeconds(), //秒           
+							"q+": Math.floor((this.getMonth() + 3) / 3), //季度           
+							"S": this.getMilliseconds() //毫秒           
+						};
+						var week = {
+							"0": "/u65e5",
+							"1": "/u4e00",
+							"2": "/u4e8c",
+							"3": "/u4e09",
+							"4": "/u56db",
+							"5": "/u4e94",
+							"6": "/u516d"
+						};
+						if (/(y+)/.test(fmt)) {
+							fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+						}
+						if (/(E+)/.test(fmt)) {
+							fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "") + week[this.getDay() + ""]);
+						}
+						for (var k in o) {
+							if (new RegExp("(" + k + ")").test(fmt)) {
+								fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+							}
+						}
+						return fmt;
+					}
+					//购物车列表
+				setTimeout(function() {
+					GetCartList()
+				}, 1000);
+				var users = JSON.parse(localStorage.getItem('$users') || '[]');
+				var username;
+				users.some(function(user) {
+					username = user.account;
+				});
+				mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=user_centermsg&account=' + username, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						$("#nick_name").val(data.nick_name);
+						$("#mobile").val(data.mobile);
+						document.getElementById('showCityPicker').value = data.xiaoquji + data.daoluji;
+						$("#daolua").val(data.daoluji);
+						$("#xiaoquid").val(data.xiaoquid);
+						$("#xiaoqua").val(data.xiaoquji);
+						//配送地址
+						mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_peisongdizhi&catalogid=69', {
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							success: function(data) {
+								provinces = data;
+								cityPicker.setData(provinces);
+								//绑定
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								console.log(type + errorThrown);
+							}
+						});
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(errorThrown);
+					}
+				});
+				$("#payment_id").change(function() {
+					$("#xiaoquid").val($("#payment_id").find("option:selected").val());
+				});
+				//配送时段
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_express_time_list', {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "<div class='mui-input-group'>";
+						if (data.TableInfo[0].id != "0") {
+							var table = document.body.querySelector('#peisongshiduan');
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<div class="mui-input-row mui-radio mui-left">';
+								content += '<label style="width:100%;text-align:left;">' + v.starttime + '-' + v.endtime + '</label>';
+								content += '<input name="radio1" type="radio" checked></div>';
+							});
+							if (data.TableInfo[0].is_lijigoumai == "true") {
+								content += '<div class="mui-input-row mui-radio mui-left">';
+								content += '<label style="width:100%;text-align:left;">立即配送</label>';
+								content += '<input name="radio1" id="ljps" type="radio" checked></div>';
+							}
+							content += '</div>';
+						} else {
+							content += "";
+						}
+						$("#peisongshiduan").append(content);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log("content");
+					}
+				});
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_presettime', {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = '最早提前' + data.max + '天订货， 需提前' + data.m + '小时订货';
+						$("#dayhour").append(content);
+						$("#ma").val(data.m);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log("dayhour");
+					}
+				});
+				GetTotal();
+				initTemplates(); //预加载所有模板
+			});
+
+			function GetTotal() {
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=GetTotal', {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						if (data.TableInfo[0].id != "0") {
+							$("#heji").text('合计:￥' + data.TableInfo[0].real_amount);
+						} else {
+							$("#heji").text('合计:￥');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						$("#heji").text('合计:￥');
+					}
+				});
+			}
+			document.getElementById('showCityPicker').addEventListener('tap', function(event) {
+				cityPicker.show(function(items) {
+					var a = items[0].text + items[1].text;
+					if (a.indexOf("undefined") > 0) {
+						a = a.replace("undefined", "");
+						document.getElementById('daolua').value = "";
+					} else {
+						document.getElementById('daolua').value = items[1].text;
+					}
+					document.getElementById('xiaoqua').value = items[0].text;
+					document.getElementById('showCityPicker').value = a;
+					//返回 false 可以阻止选择框的关闭
+					//return false;
+				});
+			}, false);
+			document.querySelector('#jiesuan').addEventListener('tap', function(event) {
+				console.log($("#payment").val());
+				var users = JSON.parse(localStorage.getItem('$users') || '[]');
+				var username;
+				users.some(function(user) {
+					username = user.account;
+				});
+				if (istrueform()) {
+					mui.ajax('http://www.guoshe.cc/tools/submit_ajax.ashx?action=order_save', {
+						data: {
+							"uuid": "1",
+							"accout": username,
+							//"payment_id": document.querySelector('#fukuanfangshi').value,
+							"payment_id": $("#payment").val(),
+							"express_id": "0",
+							"accept_name": document.querySelector('#nick_name').value,
+							"post_code": "0",
+							//							"telphone": document.querySelector('#telphone').value,
+							"telphone": "",
+							"mobile": document.querySelector('#mobile').value,
+							//"address": document.querySelector('#showCityPicker').value,
+							"address": document.querySelector('#showCityPicker').value,
+							"message": document.querySelector('#message').value,
+							"Text1": "",
+							"Text2": "",
+							"Text3": "",
+							"Text4": document.querySelector('#xiaoqua').value,
+							"Text5": document.querySelector('#daolua').value,
+							"xiaoquid": document.querySelector('#xiaoquid').value,
+							"express_time_id": $("input[name='radio1']:checked").siblings("label").text(),
+							"preset_time": document.querySelector('#ma').value,
+							"date": document.querySelector('#date').value
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							if (data.status == 1) { //验证成功
+								//获得首界面的webview
+								var index = plus.webview.getLaunchWebview();
+								//触发自定义事件（gouwuchenum）,从而进行数据刷新
+								mui.fire(index, 'gouwuchenum');
+								var template = getTemplate('default');
+								var showMenu = false;
+								var headerWebview = template.header;
+								var contentWebview = template.content;
+								var title = "订单提交成功";
+								mui.fire(headerWebview, 'updateHeader', {
+									title: title,
+									showMenu: showMenu
+								});
+								var reload = true;
+								if (!template.loaded) {
+									if (contentWebview.getURL() != this.href) {
+										contentWebview.loadURL("payment.html?order_no=" + data.order_no+"&payment="+$("#payment").val());
+									} else {
+										reload = false;
+									}
+								} else {
+									reload = false;
+								}
+								(!reload) && contentWebview.show();
+								headerWebview.show("pop-in", 150);
+							} else {
+								mui.alert(data.msg);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log(type);
+						}
+					});
+				}
+			});
+			var templates = {};
+			var getTemplate = function(name, header, content) {
+				var template = templates[name];
+				if (!template) {
+					//预加载共用父模板；
+					var headerWebview = mui.preload({
+						url: header,
+						id: name + "-main",
+						styles: {
+							popGesture: "hide",
+						},
+						extras: {
+							mType: 'main'
+						}
+					});
+					//预加载共用子webview
+					var subWebview = mui.preload({
+						url: !content ? "" : content,
+						id: name + "-sub",
+						styles: {
+							top: '45px',
+							bottom: '0px',
+						},
+						extras: {
+							mType: 'sub'
+						}
+					});
+					subWebview.addEventListener('loaded', function() {
+						setTimeout(function() {
+							subWebview.show();
+						}, 50);
+					});
+					subWebview.hide();
+					headerWebview.append(subWebview);
+					//iOS平台支持侧滑关闭，父窗体侧滑隐藏后，同时需要隐藏子窗体；
+					if (mui.os.ios) { //5+父窗体隐藏，子窗体还可以看到？不符合逻辑吧？
+						headerWebview.addEventListener('hide', function() {
+							subWebview.hide("none");
+						});
+					}
+					templates[name] = template = {
+						name: name,
+						header: headerWebview,
+						content: subWebview,
+					};
+				}
+				return template;
+			};
+			var initTemplates = function() {
+				getTemplate('default', 'examples/template.html');
+			};
+
+			function istrueform() {
+				if (document.querySelector('#nick_name').value == "") {
+					mui.alert("请填写收货人姓名");
+					return false;
+				} else if (document.querySelector('#mobile').value == "") {
+					mui.alert("请填写手机号");
+					return false;
+				} else if ($("#payment_id").find("option:selected").text() == "-请选择-") {
+					mui.alert("请填写收货地址");
+					return false;
+				} else if ($("input[name='radio1']:checked").siblings("label").text() == "") {
+					mui.alert("请选择配送时段");
+					return false;
+				} else if (document.querySelector('#date').value == "") {
+					mui.alert("请填写领取日期");
+					return false;
+				} else {
+					return true;
+				}
+			}
+		</script>
+	</body>
+
+</html>

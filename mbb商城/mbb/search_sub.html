@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<style>
+			.listBox_2 {
+				padding: 0 5px;
+				margin: 0;
+			}
+			
+			.listBox_2 ul {
+				font-size: 0;
+				margin: 0;
+				padding: 0;
+			}
+			
+			.listBox_2 ul li {
+				display: inline-block;
+				width: 50%;
+				padding: 5px;
+				overflow: hidden;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+			}
+			
+			.listBox_2 ul li a {
+				display: block;
+				background-color: #fff;
+				border: 1px solid #d7d7d7;
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+			}
+			
+			.listBox_2 ul li a.selected {
+				border: 1px solid #FFD700;
+			}
+			
+			.listBox_2 ul li a i {
+				display: block;
+				width: 100%;
+				padding-top: 100%;
+				position: relative;
+			}
+			
+			.listBox_2 ul li a i em {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.listBox_2 ul li a img {
+				display: block;
+				width: 100%;
+			}
+			
+			.listBox_2 ul li a p {
+				display: block;
+				color: #323232;
+				font-size: 14px;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				height: 50px;
+				line-height: 1.2;
+				border-bottom: 1px solid #dddddd;
+				margin: 4px 4px;
+			}
+			
+			.listBox_2 ul li a span {
+				display: block;
+				color: #999999;
+				font-size: 12px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				margin-top: 4px;
+				padding: 0px 4px;
+			}
+			
+			.listBox_2 ul li a b {
+				display: block;
+				color: #f32d31;
+				margin-top: 4px;
+				font-size: 12px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				margin-top: 4px;
+				padding: 0px 4px;
+				position: relative;
+			}
+			
+			.listBox_2 ul li a b del {
+				color: #000;
+				position: absolute;
+				right: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper my-notrade">
+			<div class="mui-scroll listBox_2">
+				<!--数据列表-->
+				<ul id='theList'>
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/common.js "></script>
+		<script type="text/javascript" charset="utf-8">var user=null,page=1;var keywords="";mui.init({pullRefresh:{container:"#pullrefresh",down:{callback:pulldownRefresh},up:{contentrefresh:"正在加载...",callback:pullupRefresh}}});delayimg.init({throttle:300});mui("#theList").on("tap","a",showDetail);function pulldownRefresh(){setTimeout(function(){page=1;loadGoods("down",true)},1500)}var count=0;function pullupRefresh(){setTimeout(function(){loadGoods("up")},1500)}if(mui.os.plus){mui.plusReady(function(){user=getCachedUser(true)})}else{mui.ready(function(){user=getCachedUser(true)})}function loadGoods(g){if(keywords==""){if(g=="up"){mui("#pullrefresh").pullRefresh().endPullupToRefresh(true)}else{if(g=="down"){mui("#pullrefresh").pullRefresh().endPulldownToRefresh()}}return false}var h=(typeof arguments[1]=="boolean"&&arguments[1]);var e=document.getElementById("theList"),f=document.createDocumentFragment();if(h){e.innerHTML=""}mui.sendRequest(mui.constMap.ROOT_PATH+"/search",{filter:{keywords:keywords,category_id:0,price_range:"",brand_id:0,sort_by:"sort_order,id_desc"},pagination:{page:page++,count:10},config:{silence:g!=""}},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);return}if(g=="up"){mui("#pullrefresh").pullRefresh().endPullupToRefresh(!a.paginated.more)}mui.each(a.data,function(c,b){f.appendChild(fillGoodsLI(b))});e.appendChild(f);delayimg.render();if(g=="down"){mui("#pullrefresh").pullRefresh().endPulldownToRefresh()}if(g==""&&a.data.length<1){mui.toast('没有找到与"'+keywords+'"相关的产品')}})}function fillGoodsLI(r){var i=document,b=i.createElement("li"),n=i.createElement("a"),q=i.createElement("i"),s=i.createElement("em"),p=i.createElement("img"),t=i.createElement("p"),o=i.createElement("b"),a=i.createElement("del");n.setAttribute("eid",r.goods_id);p.setAttribute("class","mui-media-object");p.src="images/loading.gif";p.setAttribute('data-delay',r.img.thumb);t.innerHTML=r.name;o.innerHTML=r.shop_price;a.innerHTML=r.market_price;o.appendChild(a);s.appendChild(p);q.appendChild(s);n.appendChild(q);n.appendChild(t);n.appendChild(o);b.appendChild(n);return b}function showDetail(b){mui.openWindow({id:"goods.html",url:"goods.html",waiting:{autoShow:true},extras:{eid:this.getAttribute("eid")}})}function search(b){keywords=b;loadGoods("",true)};</script>
+	</body>
+
+</html>

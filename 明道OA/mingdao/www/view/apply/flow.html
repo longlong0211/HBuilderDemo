@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fontstyles.css">
+		<script type="text/javascript" src="../../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../../js/sea.js"></script>
+		<script type="text/javascript" src="../../js/json2.js"></script>
+		<script type="text/javascript" src="../../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../../js/modules/"
+			});
+			seajs.use('view/apply/flow');
+			var setSelectItem = false;
+		</script>
+	</head>
+
+	<body>
+		<div class="view">
+			<header class="header clearfix">
+				<span class="floatleft" id="backAction"><i class="icon-iback font22"></i></span>
+				<span class="mid_name font14 aligncenter" id="subject"></span>
+				<!--<span class="floatright"><i class="icon-plus font20"></i></span>-->
+			</header>
+			<form method="POST" class="formStyle" name="editForm" id="editForm" onsubmit="return false;">
+				<section class="main process_main" id="wrapper">
+					<div id="scroller">
+						<ul class="item_list">
+							<li id="currentFlow" uuid="currentFlow">
+								<div class="inner">
+									<span class="floatleft">审批流程</span>
+									<span class="color-8 text_int"></span>
+									<i class="icon-expand-more"></i>
+								</div>
+							</li>
+						</ul>
+						<p class="li_top">详细流程</p>
+						<ul class="item_list item_list_step mart5" id="approveNodesUL">
+							
+						</ul>
+						<p class="li_top">提醒设置</p>
+						<ul class="item_list item_list_step mart5">
+							<li id="exigencyYn">
+								<div class="inner">
+									<span>置顶在TA的待审列表中</span>
+									<span class="touch_off"><em></em></span>
+								</div>
+							</li>
+							<li id="confirmYn">
+								<div class="inner">
+									<span>经办完成后请通知我确认</span>
+									<span class="touch_off"><em></em></span>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<input type="hidden" id="applyId" name="applyId">
+				<input type="hidden" id="id" name="id">
+				<input type="hidden" id="approveCount" name="approveCount">
+				<input type="hidden" id="exigency" name="exigency">
+				<input type="hidden" id="confirmExecutive" name="confirmExecutive">
+				<input type="hidden" id="org.guiceside.web.jsp.taglib.Token" name="org.guiceside.web.jsp.taglib.Token">
+				 <div id="approveNodeHidden">
+
+                </div>
+			</form>
+			<span class="btn btn_commit" id="sendAction">提交申请</span>
+		</div>
+	</body>
+
+</html>

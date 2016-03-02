@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content{
+				margin: 10px 0px 0px 0px; 
+		 
+			}
+			 
+			 
+		</style>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+				   <span class="mui-icon mui-icon-left-nav"></span>
+				        设置
+			</button>
+		    <h1 class="mui-center mui-title">隐私</h1>
+		    <button id="save"  class="mui-btn mui-btn-link mui-btn-nav mui-pull-right">
+			  	保存
+			</button>
+		</header>
+		<div class="mui-content">
+			 
+					<ul class="mui-table-view">
+						<li class="mui-table-view-divider">通讯录</li> 
+						<li class="mui-table-view-cell">
+							加我为朋友时需要验证
+							<div id="config_privacy_friendverification" class="mui-switch mui-active mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+ 
+						<li class="mui-table-view-cell" style="display: none;">
+							通过手机通讯录搜索到好友
+							<div id="config_privacy_recommendaddressbookfriend"  class="mui-switch mui-active mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							通过手机通讯录搜索到我
+							<div id="config_privacy_searchbyaddressbook" class="mui-switch mui-active mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-divider">开启后，为你推荐已经开通渔友的手机联系人</li>
+						
+					</ul>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							可通过手机号搜索到我
+							<div id="config_privacy_searchbytelphone" class="mui-switch mui-active mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							可通过邮箱搜索到我
+							<div id="config_privacy_searchbyemail"  class="mui-switch mui-active mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							可通过QQ号码搜索到我
+							<div id="config_privacy_searchbyqq"  class="mui-switch mui-active mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							可通过真实姓名搜索到我
+							<div id="config_privacy_searchbyrealname"  class="mui-switch mui-active mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-divider">关闭后，其他用户将不能通过以上方法搜索到你</li>
+					</ul>
+			 
+				 
+		</div>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	 
+	<script src="js/fish_cache.js"></script>
+	<script src="js/fish_interface.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		mui.plusReady(function() {
+			
+			getconfigprivacy();
+ 
+			
+			if(config_privacy_friendverification!="1"){ jQuery("#config_privacy_friendverification").removeClass("mui-active"); }
+			if(config_privacy_recommendaddressbookfriend!="1"){ jQuery("#config_privacy_recommendaddressbookfriend").removeClass("mui-active"); }
+			if(config_privacy_searchbyaddressbook!="1"){ jQuery("#config_privacy_searchbyaddressbook").removeClass("mui-active"); }
+			if(config_privacy_searchbytelphone!="1"){ jQuery("#config_privacy_searchbytelphone").removeClass("mui-active"); }
+			if(config_privacy_searchbyemail!="1"){ jQuery("#config_privacy_searchbyemail").removeClass("mui-active"); }
+			if(config_privacy_searchbyqq!="1"){ jQuery("#config_privacy_searchbyqq").removeClass("mui-active"); }
+			if(config_privacy_searchbyrealname!="1"){ jQuery("#config_privacy_searchbyrealname").removeClass("mui-active"); }
+		}); 
+		 
+		//保存到缓存
+		document.getElementById('save').addEventListener('tap', function() {
+			
+			
+			
+			if(uid<=0)
+			{
+				getlogin(); 
+			}
+			
+			
+			if(uid>0)
+			{
+			
+				config_privacy_friendverification = jQuery("#config_privacy_friendverification").hasClass("mui-active")?"1":"0";  
+				config_privacy_recommendaddressbookfriend = jQuery("#config_privacy_recommendaddressbookfriend").hasClass("mui-active")?"1":"0";  
+				config_privacy_searchbyaddressbook = jQuery("#config_privacy_searchbyaddressbook").hasClass("mui-active")?"1":"0";  
+				config_privacy_searchbyemail = jQuery("#config_privacy_searchbyemail").hasClass("mui-active")?"1":"0";  
+				config_privacy_searchbyqq = jQuery("#config_privacy_searchbyqq").hasClass("mui-active")?"1":"0";  
+				config_privacy_searchbyrealname = jQuery("#config_privacy_searchbyrealname").hasClass("mui-active")?"1":"0";  
+				config_privacy_searchbytelphone = jQuery("#config_privacy_searchbytelphone").hasClass("mui-active")?"1":"0";  
+				
+				var url=apiurl+"IActionUserConfigPrivacy.ashx?uid="+uid.toString();
+				
+				url += "&config_privacy_friendverification="+config_privacy_friendverification;
+				url += "&config_privacy_recommendaddressbookfriend="+ config_privacy_recommendaddressbookfriend;
+				url += "&config_privacy_searchbyaddressbook="+config_privacy_searchbyaddressbook;
+				url += "&config_privacy_searchbyemail="+ config_privacy_searchbyemail;
+				url += "&config_privacy_searchbyqq="+config_privacy_searchbyqq;
+				url += "&config_privacy_searchbyrealname="+config_privacy_searchbyrealname;
+				url += "&config_privacy_searchbytelphone="+config_privacy_searchbytelphone;
+		 
+			    sendtointerface(uid,"",url,function(responseText,status){
+			    	var data=eval("("+ responseText+")");
+	                	if(data.retisok==1 )
+	                	{
+	                	 
+	                	 	//记录信息
+		                	 var configdata = {"config_privacy_friendverification":config_privacy_friendverification,"config_privacy_recommendaddressbookfriend":config_privacy_recommendaddressbookfriend,"config_privacy_searchbyaddressbook":config_privacy_searchbyaddressbook,"config_privacy_searchbytelphone":config_privacy_searchbytelphone,"config_privacy_searchbyemail":config_privacy_searchbyemail,"config_privacy_searchbyqq":config_privacy_searchbyqq,"config_privacy_searchbyrealname":config_privacy_searchbyrealname};
+	 
+							 setconfigprivacy(configdata);
+				 
+							 mui.toast("保存成功！");
+							 
+							 mui.back(); 
+	                	 	
+	                	}else{
+	                		mui.toast( "修改失败，请重试，"+data.retmessage );
+	                	}
+			    });
+				
+				 
+				
+			}else{
+				
+				mui.toast("请先登陆！");
+			}
+			
+			 
+			   
+			  
+		});  
+		
+		
+	</script>
+</html>

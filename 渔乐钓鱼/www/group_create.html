@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.indexedlist.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			.mui-bar-nav .mui-btn {
+				padding: 4px 8px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">选择好友</h1>
+			<button id='done' class="mui-btn mui-pull-right mui-btn-blue">创建群</button>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-search mui-input-row mui-search">
+					<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索机场">
+				</div>
+				<div class="mui-indexed-list-bar">
+					<a>A</a>
+					<a>B</a>
+					<a>C</a>
+					<a>D</a>
+					<a>E</a>
+					<a>F</a>
+					<a>G</a>
+					<a>H</a>
+					<a>I</a>
+					<a>J</a>
+					<a>K</a>
+					<a>L</a>
+					<a>M</a>
+					<a>N</a>
+					<a>O</a>
+					<a>P</a>
+					<a>Q</a>
+					<a>R</a>
+					<a>S</a>
+					<a>T</a>
+					<a>U</a>
+					<a>V</a>
+					<a>W</a>
+					<a>X</a>
+					<a>Y</a>
+					<a>Z</a>
+				</div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					<ul class="mui-table-view" id="userslist">
+						 					
+					</ul>
+				</div>
+			</div>
+		</div>
+ 
+		<script id='userslist-template' type="text/template">
+			
+		<% for(var i in fontlist){ 
+			var font=fontlist[i];
+		 %>
+			
+		<li data-group="<%=font%>" class="mui-table-view-divider mui-group-list-group"><%=font%></li>	
+		<% for(var i in list){ 
+			var item=list[i];
+			if(item.pic.charAt(0)==font){
+		 %>
+		 <li  data-value="<%=item.uid%>" data-tags="<%=item.pic%>" class="mui-table-view-cell mui-group-list-item mui-checkbox mui-left"><input type="checkbox"/><%=item.nickname%></li>
+		<%}%>	 
+		<%}%>
+		<%}%>
+		</script>
+		
+		<script src="js/jquery.js"></script>	
+		<script src="js/mui.min.js"></script>
+		<script src="js/global.js"></script>
+		<script src="js/md5.js"></script>	
+	 
+		<script src="js/mui.indexedlist.js"></script>
+		<script src="js/arttmpl.js"></script>
+		<script src="js/pinyin.js"></script>
+		<script src="js/fish_interface.js"></script>
+		<script src="js/fish_cache.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			
+			
+			var nickname  = "";
+			var uid = 0;
+			var fontlist =  ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+			                	
+		 
+			
+			function initlist()
+			{
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				var done = document.getElementById('done');
+				//calc hieght
+				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+				//done event
+				done.addEventListener('tap',function(){
+					var checkboxArray = [].slice.call(list.querySelectorAll('input[type="checkbox"]'));
+					var checkedValues = [];
+					var checkedValues = "";
+					var checkednames = ""
+					checkboxArray.forEach(function(box){
+						if(box.checked){
+//							checkedValues.push(box.parentNode.getAttribute('data-value'));
+							//checkedValues.push(box.parentNode.innerText);
+							
+							if(checkedValues=="")
+							{
+								checkedValues= box.parentNode.getAttribute('data-value');
+								checkednames = box.parentNode.innerText;
+							}
+							else
+							{
+								checkedValues += ","+box.parentNode.getAttribute('data-value');
+								checkednames += ","+box.parentNode.innerText;
+							}
+						}
+					});
+					postsubmit(checkedValues,checkednames);
+					//mui.alert('你选择了: '+checkedValues);
+				},false);
+			}
+			
+			
+			function initindex(){
+			
+				getlogin();
+				 
+				
+				if(uid>0)
+				{
+				 
+					//发起
+					var url_index=apiurl+"IMyFriendsList.ashx?uid="+uid;
+					
+					sendtointerface(uid,"",url_index,function(responseText,status){
+						var data=eval("("+ responseText+")");
+	                	 
+	                	for(i=0;i<data.list.length;i++)
+	                	{
+	                		
+	                		data.list[i].pic =  codefans_net_CC2PY(data.list[i].nickname);
+	                	}
+	                	
+	                	
+	                	document.getElementById('userslist').innerHTML = template('userslist-template', {
+							"list": data.list,
+							"fontlist":fontlist
+						});
+						
+	                	initlist();
+					});
+					 
+				}else
+				{
+					mui.toast("请先登陆");
+				}
+			}
+			
+			function postsubmit(userids,usernames){
+				 
+				 
+				if(uid<=0){ 
+					mui.toast( "请先登陆！" );
+					return;
+				}
+				
+				var wt=plus.nativeUI.showWaiting();
+				
+				//发送文本信息
+				var url=apiurl+"IActionGroupCreate.ashx?uid="+uid+"&nickname="+encodeURIComponent(nickname)+"&usernames="+encodeURIComponent(usernames)+"&userids="+userids;
+				
+				sendtointerface(uid,"",url,function(responseText,status){
+					var data=eval("("+ responseText+")");
+                	if(data.retisok==1 )
+                	{
+                		mui.toast("发起群聊成功！");
+                	    mui.back();
+                	}else{
+                		mui.toast( "不小心失败了，"+data.retmessage );
+                	}
+                	 plus.nativeUI.closeWaiting();
+				});
+				
+				 
+			}
+			
+			
+			 
+			
+			mui.plusReady(function() {
+				
+				
+				 initindex();
+		  
+			 
+			});
+			
+		</script>
+	</body>
+
+</html>

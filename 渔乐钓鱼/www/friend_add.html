@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>添加好友</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no"/>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			body{ background: #fff;}
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
+				font-size: 15px;
+				margin-top:0px;
+				color: #333;
+			}
+			
+			.mui-content{background-color: #fff;}
+			
+			.qrcode{ height: 300px;   text-align: center;}
+			
+			 
+			.mui-table .mui-table-cell {
+				padding: 0px;
+				vertical-align: middle;
+			}
+			
+			
+	
+			.oa-contact-avatar {
+				width: 50px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 10%;
+			}
+			 
+			.oa-contact-avatar img{ width: 45px; height: 45px;}
+			
+			#user_info { width: 200px; height: 60px; margin: 0 auto; padding-top: 10px; overflow: hidden;}
+			#user_info .oa-contact-avatar,#user_info .oa-contact-content{ float:left;}
+			#user_info .oa-contact-content{  padding-left: 5px;}
+			#user_info .oa-contact-content h4,#user_info .oa-contact-content p {
+				 text-align: left;
+				 clear: both;
+				 
+			}
+			#qr-canvas{border: 1px solid #ccc; margin-top: 5px;}
+		</style>
+		 
+	</head>
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+	    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+			   <span class="mui-icon mui-icon-left-nav"></span>
+			        通讯录
+		</button>
+	    <h1 class="mui-center mui-title">添加新朋友</h1>
+	      
+	</header>
+	
+	<div class="mui-content" >
+		<form name="formsearch"  method="get" action="friend_add_telphonebook.html?type=search">
+			<div class="mui-input-row mui-search mui-content-padded">
+				
+					<input id="search" type="search" name="keyword" class="mui-input-speech mui-input-clear" placeholder="带语音输入的搜索框">
+				
+			</div>
+		</form> 
+		 <ul class="mui-table-view" >
+		 	<li class="mui-table-view-cell mui-media"  >
+				<a href="friend_add_side.html"  open-type="common"  title="雷达加朋友">
+					<img class="mui-media-object mui-pull-left " src="images/ico_radar.png">
+					<div class="mui-media-body">
+						雷达加朋友
+						<p class='mui-ellipsis'>添加身边的渔友</p>
+					</div>
+				</a>
+			</li>  
+			<li class="mui-table-view-cell mui-media" >
+				<a href="#" onclick="clicked('barcode_scan.html',true,true);"  title="扫一扫">
+					<img class="mui-media-object mui-pull-left " src="images/ico_code.png">
+					<div class="mui-media-body">
+						扫一扫
+						<p class='mui-ellipsis'>扫描二维码名片</p>
+					</div>
+				</a>
+			</li> 
+			<li class="mui-table-view-cell mui-media" >
+				<a href="friend_add_telphonebook.html?type=telphone" open-type="common"  title="手机联系人">
+					<img class="mui-media-object mui-pull-left " src="images/ico_contact.png">
+					<div class="mui-media-body">
+						手机联系人
+						<p class='mui-ellipsis'>添加通讯录中的朋友</p>
+					</div>
+				</a>
+			</li>  
+		</ul>
+		
+		
+		<div class="qrcode" id="qrcode">
+			 <div id="user_info"   >
+					 
+					<div class="oa-contact-avatar  "   >
+						<img src="images/user-photo.png" width="60"/> 
+					</div> 
+					<div class="oa-contact-content ">
+						<h4 class="oa-contact-name"></h4>
+						<p class="oa-contact-email mui-h6"></p>
+					</div>
+					 
+			</div>
+			 
+			 <canvas id="qr-canvas" width="200"  height="200"></canvas>
+		</div>
+	 
+		
+	</div>
+	
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script  src="js/common.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+	
+	<script src="js/app.js"></script>
+	
+	<script  src="js/qr.js"></script>
+ 	<script  src="js/fish_cache.js"></script>
+ 	<script  src="js/fish_interface.js"></script>
+ 	<script  src="js/fish_cache.js"></script>
+	<script>
+		//纠正原生态返回第二次点空白问题
+		var oldback = mui.back;
+		mui.back = function () {
+			  oldback();
+		} 
+	 
+		
+		mui.plusReady(function() {
+			
+			//先获取当前页面的参数
+			getlogin();
+			
+			QR.canvas = document.getElementById('qr-canvas');
+            QR.draw(wwwurl+"user/?uid="+uid,QR.canvas); 
+            
+            jQuery("#user_info img").attr("src",avatarsmall);
+			var nickname2 = (nickname).length>6?nickname.substr(0,6)+"...":nickname;
+			jQuery("#user_info .oa-contact-name").html(nickname2);
+			   
+			  
+			if(msg==null || msg==""){msg = appdesc;}
+			var msg2 = (msg).length>10?msg.substr(0,10)+"...":msg;
+			  
+			jQuery("#user_info .oa-contact-email").html(""+msg2);
+		})
+		
+	 
+	 
+		function scaned( t, r, f ) {
+			friendadd( t, r, f );
+		}
+		
+		function friendadd( type,code,img ) {
+			 
+			if(uid>0)
+			{
+				//发起
+				var url_index=apiurl+"IActionFriendAdd.ashx?uid="+uid;
+				url_index += "&nickname="+encodeURIComponent(nickname);
+				url_index += "&type="+encodeURIComponent(type);
+				url_index += "&code="+encodeURIComponent(code);
+				url_index += "&img="+encodeURIComponent(img);
+				
+				sendtointerface(uid,"",url_index,function(responseText,status){
+					var data=eval("("+responseText+")");
+                	if(data.retisok==1 )
+                	{
+                		mui.toast(data.retmessage);
+                	}else{
+                		alert( "不小心失败了，"+data.retmessage );
+                	}
+				});
+				 
+				
+			}else
+			{
+				mui.toast("请先登陆");
+			}
+		
+			 
+		}
+		
+		document.getElementById("search").addEventListener('recognized', function(e) {
+				console.log(e.detail.value);
+		});
+		 
+		
+	
+	</script>
+	
+	 
+		
+	</body>
+</html>

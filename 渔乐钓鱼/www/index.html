@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>渔乐</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no"/>
+	<link rel="stylesheet" href="css/mui.min.css">
+</head>
+<body>   
+			<header class="mui-bar mui-bar-nav">
+				 
+				<button id="menunow" class="mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+				    <span class="mui-icon mui-icon-arrowdown"></span>杭州  
+				</button>    
+				 
+				<a id="menusearch" class="mui-icon mui-icon-search mui-pull-left" ></a>
+				
+				<h1 id="title" class="mui-title">渔乐</h1>
+				 
+				 <button id="signnow"  class="mui-btn mui-btn-link mui-btn-nav mui-pull-right">
+				  	签到
+				    <span class="mui-icon mui-icon-person"></span>
+				 </button>
+			</header>  
+			 
+			<nav class="mui-bar mui-bar-tab">
+			  <a  id="defaultTab" class="mui-tab-item mui-active"  href="tab-webview-subpage-index.html">
+					<span class="mui-icon mui-icon-home"><span class="mui-badge" id="num_home" style="display: none;"></span></span>
+					<span class="mui-tab-label">渔讯</span>
+				</a>
+				<a class="mui-tab-item" href="tab-webview-subpage-pointlist.html">
+					<span class="mui-icon mui-icon-map"><span class="mui-badge" id="num_pond"  style="display: none;"></span></span>
+					<span class="mui-tab-label">钓点</span>
+				</a>
+				<a class="mui-tab-item" href="tab-webview-subpage-group.html">
+					<span class="mui-icon   mui-icon-weixin"><span class="mui-badge" id="num_group"  style="display: none;"></span></span> 
+					<span class="mui-tab-label">圈子</span>
+				</a>
+				<a class="mui-tab-item" href="tab-webview-subpage-baike.html">
+					<span class="mui-icon mui-icon-info"><span class="mui-badge" id="num_equipment"  style="display: none;"></span></span>
+					<span class="mui-tab-label">百科</span> 
+				</a>
+				<a class="mui-tab-item" href="tab-webview-subpage-setting.html"  >
+					<span class="mui-icon mui-icon-contact"><span class="mui-badge" id="num_set"  style="display: none;"></span></span>
+					<span class="mui-tab-label">我的</span> 
+				</a>
+			</nav> 
+	<script src="js/jquery.js"></script>	
+	<script src="js/mui.min.js"></script>
+	<script src="js/fish_cache.js"></script> 
+    <script src="js/global.js"></script>
+    <script src="js/md5.js"></script>	
+	 
+	<script src="js/update.js" charset="utf-8"></script>
+	<script src="js/common.js"></script> 
+	<script src="http://api.map.baidu.com/api?v=1.3"></script>  
+	<script src="js/fish_config.js"></script> 
+
+	<script src="js/fish_interface.js"></script> 
+	<script type="text/javascript" >
+	   var appisactive  = true;
+	   var imsi = "";
+	   var imei = "";
+	   //两个监控
+	   var getPositionOnlyInterval;
+	   var getMessageNumOnlyInterval;
+	   
+	   function initlogin(){
+			 getlogin();
+			 
+			 getconfignotify();
+		}
+	    
+		//mui初始化
+		mui.init();
+		
+		var subpages = ['tab-webview-subpage-index.html', 'tab-webview-subpage-sign.html','tab-webview-subpage-pointlist.html', 'tab-webview-subpage-group.html', 'tab-webview-subpage-setting.html',  'tab-webview-subpage-baike.html','tab-webview-subpage-messages.html','tab-webview-subpage-groupmsgs.html','tab-webview-subpage-friends.html'];
+		var subpage_style = {
+			top: '45px',
+			bottom: '51px' 
+		};
+
+		var aniShow = {};
+		
+		document.addEventListener( "plusready", function(){
+			plus.push.addEventListener( "click", function( msg ) {
+			// 判断是从本地创建还是离线推送的消息
+			switch( msg.payload ) {
+				case "LocalMSG":
+					outSet( "点击本地创建消息启动：" );
+				break;
+				default:
+					outSet( "点击离线推送消息启动：");
+				break;
+			}
+			// 提示点击的内容
+			plus.nativeUI.alert( msg.content );
+			// 处理其它数据
+			logoutPushMsg( msg );
+		}, false );
+		// 监听在线消息事件
+		plus.push.addEventListener( "receive", function( msg ) {
+				logoutPushMsg( msg );
+			}, false );
+		}, false );
+
+		function logoutPushMsg( msg ) {
+			outLine( "title: "+msg.title );
+			outLine( "content: "+msg.content );
+			if ( msg.payload ) {
+				if ( typeof(msg.payload)=="string" ) {
+					outLine( "payload(String): "+msg.payload );
+				} else {
+					outLine( "payload(JSON): "+JSON.stringify(msg.payload) );
+				}
+			} else {
+				outLine( "payload: undefined" );
+			}
+			if ( msg.aps ) {
+				outLine( "aps: "+JSON.stringify(msg.aps) );
+			}
+		}
+		
+		//以下是菜单处理程序
+		var menu = null,
+			main = null;
+		var showMenu = false;
+		
+		//创建子页面，首个选项卡页面显示，其它均隐藏；
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			for (var i = 0; i < subpages.length; i++) {
+				var temp = {};
+				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+				if (i > 0) {
+					sub.hide(); 
+				}else{
+					temp[subpages[i]] = "true";
+					mui.extend(aniShow,temp);
+				}
+				self.append(sub);
+			}
+			
+		 
+			plus.screen.lockOrientation("portrait-primary");
+			
+			main = plus.webview.currentWebview();
+			main.addEventListener('maskClick', closeMenu);
+			//处理侧滑导航，为了避免和子页面初始化等竞争资源，延迟加载侧滑页面；
+			setTimeout(function() {
+				menu = mui.preload({
+					id: 'index-menu',
+					url: 'index-menu.html',
+					styles: {
+						left: 0,
+						width: '70%',
+						zindex: -1 
+					},
+					show: {
+						aniShow: 'none'
+					}
+				});
+			}, 1000);  
+			
+			//获取是否登陆
+			initlogin(); 
+			
+			//获取坐标等
+			getposition();
+			
+			if(position_cityname!="")
+			{
+				changecity(position_cityname);  
+			}else{
+				changecity("选城市"); 
+			}
+
+			//发送信息
+			sendsysteminfo();
+	 		//判断升级
+	 		if(GetSystem()=="android")
+	 		{
+				update("index");
+			}
+			
+			//获取地图
+			setTimeout(getPosBaidu,5000); 
+			
+			//没隔10分钟上传一次坐标
+			getPositionOnlyInterval = setInterval(getPositionOnly,600000);
+			
+			//没隔2分钟取一次信息
+			getMessageNumOnlyInterval = setInterval(getMessageNumOnly,120000);
+		});
+		
+		
+	 
+		
+		 //当前激活选项
+		var activeTab = subpages[0];
+		var title = document.getElementById("title");
+	
+ 
+		function syw_opentab(titlesub,targetTabsub){
+			
+			if (targetTabsub == activeTab) {
+				return;
+			}
+			//更换标题
+			title.innerHTML = titlesub;
+			 
+			//显示目标选项卡
+			if(mui.os.ios||aniShow[targetTabsub]){
+				plus.webview.show(targetTabsub);
+			}else{
+				var temp = {};
+				temp[targetTabsub] = "true";
+				mui.extend(aniShow,temp);
+				plus.webview.show(targetTabsub,"fade-in",300);
+			}
+			//隐藏当前;
+			plus.webview.hide(activeTab);
+			
+			//刷新
+			if(targetTabsub=="tab-webview-subpage-sign.html" || targetTabsub=="tab-webview-subpage-setting.html" || targetTabsub=="tab-webview-subpage-pointlist.html"  )
+			{
+				mui.fire(plus.webview.getWebviewById(targetTabsub),'fishinit',{});
+			} 
+			
+			if(targetTabsub=="tab-webview-subpage-group.html" || targetTabsub=="tab-webview-subpage-groupmsgs.html"  || targetTabsub=="tab-webview-subpage-messages.html"  || targetTabsub=="tab-webview-subpage-friends.html" )
+			{
+				mui.fire(plus.webview.getWebviewById(targetTabsub),'fishinit',{});
+			} 
+			
+			if(targetTabsub=="tab-webview-subpage-group.html")
+			{
+				jQuery("#num_group").html(""); 
+				jQuery("#num_group").css("display","none");
+				
+				 
+			}
+			
+			if(targetTabsub=="tab-webview-subpage-setting.html")
+			{
+				jQuery("#num_set").html(""); 
+				jQuery("#num_set").css("display","none");
+				
+				 
+			} 
+			
+			//更改当前活跃的选项卡
+			activeTab = targetTabsub;
+		}
+		
+		 //选项卡点击事件
+		mui('.mui-bar-tab').on('tap', 'a', function(e) {
+			var targetTab = this.getAttribute('href');
+			syw_opentab(this.querySelector('.mui-tab-label').innerHTML,targetTab);
+		});
+		 
+		
+		//自定义事件，模拟点击“首页选项卡” 
+		document.addEventListener('gohome', function() {
+			var defaultTab = document.getElementById("defaultTab");
+			//模拟首页点击
+			mui.trigger(defaultTab, 'tap');
+			//切换选项卡高亮
+			var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+			if (defaultTab !== current) {
+				current.classList.remove('mui-active');
+				defaultTab.classList.add('mui-active');
+			}
+		});
+	 
+		//自定义事件，换城市
+		document.addEventListener('changecity', function(event) {
+		 
+			 changecity(event.detail.city);
+			 
+		});
+		
+		
+	 
+		var changecity = function(city){
+			
+			document.getElementById("menunow").innerHTML="<span class=\"mui-icon mui-icon-arrowdown\"></span>"+city;
+		};
+		
+		//自定义事件
+		document.addEventListener('gotaburl', function(event) {
+			 var targetTab=event.detail.targetsub;
+			 var targetTitle = decodeURIComponent(event.detail.titlesub);
+			 
+			syw_opentab(targetTitle,targetTab);
+		});
+		
+		//自定义事件
+		document.addEventListener('changeconfig', function(event) {
+			  initlogin();
+		});
+		
+		 
+		var isInTransition = false;
+		/**
+		 * 显示侧滑菜单
+		 */
+		function openMenu() {
+			if (isInTransition) {
+				return;
+			} 
+			if (!showMenu) {
+				//侧滑菜单处于隐藏状态，则立即显示出来；
+				isInTransition = true;
+				menu.setStyle({
+					mask: 'rgba(0,0,0,0)'
+				}); //menu设置透明遮罩防止点击
+				menu.show('none', 0, function() {
+					//主窗体开始侧滑并显示遮罩
+					main.setStyle({
+						mask: 'rgba(0,0,0,0.4)',
+						left: '70%',
+						transition: {
+							duration: 150
+						}
+					});
+					mui.later(function() {
+						isInTransition = false;
+						menu.setStyle({
+							mask: "none"
+						}); //移除menu的mask
+					}, 160);
+					showMenu = true;
+				});
+			}
+		};
+		/**
+		 * 关闭菜单
+		 */
+		function closeMenu() {
+			if (isInTransition) {
+				return;
+			}
+			if (showMenu) {
+				//关闭遮罩；
+				//主窗体开始侧滑；
+				isInTransition = true;
+				main.setStyle({
+					mask: 'none',
+					left: '0',
+					transition: {
+						duration: 200
+					}
+				});
+				showMenu = false;
+				//等动画结束后，隐藏菜单webview，节省资源；
+				mui.later(function() {
+					isInTransition = false;
+					menu.hide();
+				}, 300);
+			}
+		};
+		 
+			
+		//点击左上角侧滑图标，打开侧滑菜单；
+		document.querySelector('#menunow').addEventListener('tap', function(e) {
+			 
+			if (showMenu) {
+				closeMenu();
+			} else {
+				openMenu();
+			}
+		});
+		
+		//敲击顶部导航，内容区回到顶部 
+		
+		document.querySelector('header').addEventListener('doubletap',function () {
+			main.children()[0].evalJS('mui.scrollTo(0, 100)');
+		});
+		
+		 //主界面向右滑动，若菜单未显示，则显示菜单；否则不做任何操作
+		window.addEventListener("swiperight", openMenu);
+		 //主界面向左滑动，若菜单已显示，则关闭菜单；否则，不做任何操作；
+		window.addEventListener("swipeleft", closeMenu);
+		 //侧滑菜单触发关闭菜单命令
+		window.addEventListener("menu:close", closeMenu);
+		window.addEventListener("menu:open", openMenu);
+
+		 //重写mui.menu方法，Android版本menu按键按下可自动打开、关闭侧滑菜单；
+		mui.menu = function() {
+			if (showMenu) {
+				closeMenu();
+			} else {
+				openMenu();
+			}
+		}
+
+		 //处理右上角关于图标的点击事件；default
+		document.getElementById('signnow').addEventListener('tap', function() {
+									
+			 syw_opentab("签到","tab-webview-subpage-sign.html");
+ 
+		});  
+ 
+		document.getElementById('menusearch').addEventListener('tap', function() {
+									
+			//打开搜索
+ 			mui.openWindow({
+				id: "article_search",
+				url: "article_search.html?keyword=",
+				styles: { 
+					
+					popGesture: "none"
+				},
+				waiting: {
+					autoShow: false
+				}
+			});
+		});  
+		
+		 
+		
+		//首页返回键处理
+		//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+		/*
+		var first = null;
+		mui.back = function() {
+			if (showMenu) {
+				closeMenu();
+				 
+			} else {
+				//首次按键，提示‘再按一次退出应用’
+				if (!first) {
+					first = new Date().getTime();
+					mui.toast('再按一次退出应用');
+					setTimeout(function() {
+						first = null;
+					}, 1000);
+				} else {
+					if (new Date().getTime() - first < 1000) {
+						appisactive = false;
+						plus.runtime.quit();
+					}
+				}
+			}  
+			
+			 
+		}; 
+		*/
+		
+		mui.back = function() {
+			if (showMenu) {
+				closeMenu();
+				 
+			}
+			appisactive = false;
+		}
+		 
+		
+		// 通过百度定位模块获取位置信息
+	    function getPosBaidu(){
+			plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+				console.log( "获取百度定位位置信息失败："+e.message );
+			},{provider:'baidu'});
+		}
+		 
+		function geoInf( position ) {  
+			 
+			var codns = position.coords;//获取地理坐标信息；
+			var longt = codns.longitude;//获取到当前位置的经度
+			var lat = codns.latitude;//获取到当前位置的纬度；
+			 
+		    var map = new BMap.Map("container");
+				map.centerAndZoom(new BMap.Point(longt,lat ), 11);
+				// 创建地理编码服务实例 
+				var myGeo = new BMap.Geocoder();
+				// 根据坐标得到地址描述 应该是东经  北纬
+				myGeo.getLocation(new BMap.Point(longt,lat), function(result){
+				if (result){
+					//alert(result.address );
+					var addComp = result.addressComponents;
+            		//alert(addComp.province + addComp.city +" 具体："+result.address );
+            		
+            		var  citynow= addComp.city;
+					if(citynow.substr(citynow.length-1,citynow.length))
+					{
+						citynow = citynow.substr(0,citynow.length-1);
+					} 
+            		
+            		changecity(citynow);  
+            		
+            		setposition(addComp.province,citynow,longt,lat);
+            		
+            		//发送坐标信息到服务器
+            		sendpositioninfo(lat,longt,result.address,addComp.province,addComp.city,addComp.district,addComp.street,addComp.streetNumber);
+				} 
+			});
+		}
+		
+		
+		
+		
+		function sendpositioninfo(lat,longt,address,province,city,district,street,streetNumber)  
+		{
+			 
+			
+			console.log("uid:"+uid); 
+
+			
+			var url=apiurl+"IActionPositionsAdd.ashx?uid="+uid+"&nickname="+encodeURIComponent(nickname);
+			
+			url += "&address="+encodeURIComponent(address);
+			url += "&city="+encodeURIComponent(city);
+			url += "&district="+encodeURIComponent(district);
+			url += "&lat="+encodeURIComponent(lat);
+			url += "&longt="+encodeURIComponent(longt);
+			url += "&province="+encodeURIComponent(province);
+			url += "&street="+encodeURIComponent(street);
+			url += "&streetNumber="+encodeURIComponent(streetNumber);
+			url += "&imsi="+encodeURIComponent(imsi);
+			url += "&imei="+encodeURIComponent(imei);
+		    console.log("imsi:"+imsi);
+		    console.log("imei:"+imei);
+		    
+		    sendtointerface(uid,imsi,url,function(responseText,status){
+		    	console.log("发送坐标信息成功！");
+		    }
+		    ,function(){console.log( "发送设备信息失败");}
+		    );
+			
+			 
+		}
+		
+		
+		
+		
+		function sendsysteminfo()  
+		{
+   
+			
+			imei = plus.device.imei;
+			 
+			
+			if(imsi == "")
+			{
+			    for ( i=0; i<plus.device.imsi.length; i++ ) {
+			        imsi += plus.device.imsi[i];
+			    }
+			}
+			
+			var uuid = plus.device.uuid;
+			if(imsi==""){
+				imsi = uuid;
+			}
+			
+			var url=apiurl+"IActionDeviceAdd.ashx?uid="+uid+"&nickname="+encodeURIComponent(nickname);
+			
+			url += "&model="+encodeURIComponent(plus.device.model);
+			url += "&vendor="+encodeURIComponent(plus.device.vendor);
+			url += "&imei="+encodeURIComponent(imei);
+			url += "&uuid="+encodeURIComponent(uuid);
+			
+			
+		    
+			url += "&IMSI="+encodeURIComponent(imsi);
+			url += "&screenresolution="+encodeURIComponent(plus.screen.resolutionWidth*plus.screen.scale + " x " + plus.screen.resolutionHeight*plus.screen.scale);
+			url += "&DPI="+encodeURIComponent(plus.screen.dpiX + " x " + plus.screen.dpiY);
+			url += "&name="+encodeURIComponent(plus.os.name);
+			url += "&version="+encodeURIComponent(plus.os.version);
+			url += "&language="+encodeURIComponent(plus.os.language);
+			url += "&vendor="+encodeURIComponent(plus.os.vendor);
+			
+			var  osnetwork = "";
+		    var types = {}; 
+		    types[plus.networkinfo.CONNECTION_UNKNOW] = "未知";
+		    types[plus.networkinfo.CONNECTION_NONE] = "未连接网络";
+		    types[plus.networkinfo.CONNECTION_ETHERNET] = "有线网络";
+		    types[plus.networkinfo.CONNECTION_WIFI] = "WiFi网络";
+		    types[plus.networkinfo.CONNECTION_CELL2G] = "2G蜂窝网络";
+		    types[plus.networkinfo.CONNECTION_CELL3G] = "3G蜂窝网络";
+		    types[plus.networkinfo.CONNECTION_CELL4G] = "4G蜂窝网络";
+		    osnetwork += types[plus.networkinfo.getCurrentType()];
+		    
+		    url += "&osnetwork="+encodeURIComponent(osnetwork);
+		    
+		    console.log(url);
+		    
+		    sendtointerface(uid,imsi,url,function(responseText,status){
+		    	console.log("发送设备信息成功！");
+		    },function(){console.log( "发送设备信息失败");}
+		    );
+			 
+		}
+		
+		
+		//定时发送坐标信息
+		function getPositionOnly(){
+			plus.geolocation.getCurrentPosition( sendpositiononly, function ( e ) {
+				console.log( "获取定位信息失败："+e.message );
+			},{provider:'baidu'});
+		}
+		
+		function sendpositiononly(position)  
+		{
+			var codns = position.coords;//获取地理坐标信息；
+			var longt = codns.longitude;//获取到当前位置的经度
+			var lat = codns.latitude;//获取到当前位置的纬度；
+			
+			console.log("发送实时定位："+longt+"::"+lat);
+	 
+			
+			var url=apiurl+"IActionPositionsOnlyAdd.ashx?uid="+uid+"&nickname="+encodeURIComponent(nickname);
+			
+		 
+			url += "&lat="+encodeURIComponent(lat);
+			url += "&longt="+encodeURIComponent(longt);
+			url += "&lat="+encodeURIComponent(lat);
+			url += "&longt="+encodeURIComponent(longt);
+			url += "&imsi="+encodeURIComponent(imsi);
+			url += "&imei="+encodeURIComponent(imei);
+			
+		 
+		 	sendtointerface(uid,imsi,url,function(responseText,status){
+		 		console.log("发送坐标信息成功！");
+		 	},function(){console.log( "发送坐标信息失败!" );});
+			 
+		
+		}
+		
+		function getMessageNumOnly()
+		{
+			
+			if(uid<=0){
+				initlogin();   
+			}
+			
+			if(uid<=0){
+				return;
+			}
+			
+			
+			
+			var MessageNum_lasttime =  plus.storage.getItem("MessageNum_lasttime");
+			 
+			var url=apiurl+"IMyMessageNum.ashx?uid="+uid.toString();
+			url += "&MessageNum_lasttime="+encodeURIComponent(MessageNum_lasttime);
+			 
+			sendtointerface(uid,"",url,function(responseText,status){
+				var data=eval("("+responseText+")");
+	                	
+                	if(data.MessageNum_lasttime != "" )
+                	{
+                		//alert(data.MessageNum_lasttime);
+                		
+                		plus.storage.setItem("MessageNum_lasttime",data.MessageNum_lasttime);
+                		 
+                		 
+                		setMessageNum("MessageNum_usermsgnum",data.usermsgnum.toString());
+						setMessageNum("MessageNum_usergourpmsgnum",data.usergourpmsgnum.toString());
+						setMessageNum("MessageNum_userpostnum",data.userpostnum.toString());
+                	 	setMessageNum("MessageNum_systemaddfriendnum",data.systemaddfriendnum.toString());
+            			setMessageNum("MessageNum_systemothernum",data.systemothernum.toString());
+            			
+            			
+            			 
+                		var tempnum = parseInt(data.usermsgnum)+parseInt(data.usergourpmsgnum)+parseInt(data.userpostnum);
+                			
+                		var tempnumall = tempnum + parseInt(data.systemothernum)+parseInt(data.systemaddfriendnum)
+                		
+                		if(tempnum>0 ){
+                		 
+                			tempnum = parseInt(getMessageNum("MessageNum_usermsgnum"))+parseInt(getMessageNum("MessageNum_usergourpmsgnum"))+parseInt(getMessageNum("MessageNum_userpostnum"));
+            				
+            				jQuery("#num_group").html(tempnum);
+            				jQuery("#num_group").css("display","block");
+            			 
+                		}
+                		
+                		if(parseInt(data.userpostnum)>0 && config_notify_userpostnum=="1" ){
+                			
+                			createLocalPushMsg("有"+data.userpostnum+"条朋友圈动态，请注意查收！","userpostnum");
+                		}
+                		
+                		if(parseInt(data.usermsgnum)>0 && config_notify_message=="1")
+                		{
+                			createLocalPushMsg("有"+data.usermsgnum+"条留言，请注意查收！","usermsgnum");
+                		}
+                		
+                		if(parseInt(data.usergourpmsgnum)>0 && config_notify_groupmsg=="1")
+                		{
+                			createLocalPushMsg("有"+data.usergourpmsgnum+"条群留言，请注意查收！","usergourpmsgnum");
+                		}
+                		
+                		
+                		
+                		tempnum = parseInt(data.systemaddfriendnum);
+                			
+                		if(tempnum>0)
+                		{
+                			createLocalPushMsg("有"+tempnum+"条加为好友请求，看看都有谁！","systemaddfriendnum");
+                		}
+                		 
+                		var tempnum = parseInt(data.systemothernum) ; 
+                		if(tempnum>0)
+                		{
+                			createLocalPushMsg("有"+(tempnum)+"条系统消息，请注意查收！","systemothernum");
+                		}
+                		
+                		//设置的提醒
+                		var tempnumset = parseInt(data.systemaddfriendnum)+ parseInt(data.systemothernum) ; 
+                		if(tempnumset>0){
+                			
+                			tempnum = parseInt(getMessageNum("MessageNum_systemothernum"))+parseInt(getMessageNum("MessageNum_systemaddfriendnum"))+parseInt(getMessageNum("MessageNum_systemothernum"))+parseInt(getMessageNum("MessageNum_systemaddfriendnum"));; 
+            				jQuery("#num_set").html(tempnum);
+            				jQuery("#num_set").css("display","block");
+                		}
+                		
+                		 
+                		
+                		if(tempnumall>0){
+                			
+                			//声音
+                			if(config_notify_messagesound == "1"){
+                				startPlay('_www/audio/msg.mp3')
+                				 
+                				
+                			}
+                			
+                			
+                			//震动
+                			if(config_notify_messageshake == "1")
+                			{
+                				deviceVibrate();
+                			}
+                		}
+                		
+                		
+                		   
+                	}else{ 
+                		
+                		console.log( "不小心失败了!" );
+                	}
+			});
+			 
+			
+		}
+		
+		 
+		
+	
+		function setMessageNum(name,value){
+			
+			
+			if(getMessageNum(name) ==null)
+			{
+				plus.storage.setItem(name,value);
+			}
+			else{
+				 
+				plus.storage.setItem(name,(parseInt(getMessageNum(name))+parseInt(value)).toString());
+			}
+		}
+		
+		function getMessageNum(name){
+			
+			 return  plus.storage.getItem(name);
+		}
+		
+		/**
+		 * 本地创建一条推动消息
+		*/
+		function createLocalPushMsg(str,type){
+			
+			if(config_notify_disturb=="0" && appisactive == false)
+			{
+				
+				var options = {cover:false,"type":type};
+				plus.push.createMessage( str, "LocalMSG", options );
+				//outSet( "创建本地消息成功！" );
+				console.log( "请到系统消息中心查看！" );
+				if(plus.os.name=="iOS"){
+					console.log('*如果无法创建消息，请到"设置"->"通知"中配置应用在通知中心显示!');
+				}    
+			}
+		}
+		
+		
+		/**
+		 * 清空所有推动消息
+		 */
+		function clearAllPush(){
+			plus.push.clear();
+			console.log( "清空所有推送消息成功！" );
+		}
+		
+		
+	</script>
+	<div style="display: none;" id="container"></div>  
+</body>
+</html>

@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title>我的</title>
+    <link href="../../css/style.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../css/icon.min.css" />
+
+    <script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/common/share.js"></script>
+    <script type="text/javascript" src="../../js/home/scanbarcode.js"></script>
+    <script type="text/javascript" src="../../js/mine/mine.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" style="width: 25%;">
+        </span>
+        <span class=" tab_mune tab_b" style="width: 50%;">
+            <h1 class="hd-tit">我的</h1>
+        </span>
+        <span class=" tab_mune tab_a t-c" style="position: relative; width: 25%;">
+            <a id="btnshare" class="share-btn" style="color: #fff;">
+                <i class="share icon" style="font-size:1.7em; margin:0; left:0; position: absolute; top:0.7em; right:3em"></i>
+            </a>
+            <a id="headertalk" style="color: #fff; display: inline-block;">
+                <i class="outline comment icon" style="font-size:1.7em; margin:0; position: absolute; width: 2em; top: 0.6em; right:0.1em"></i>
+            </a>
+        </span>
+    </div>
+
+    <div class="content" >
+        <!--------------------hd---------------------------------->
+        <div class="user-hd-block">
+            <div class="user-info">
+                <ul>
+                    <li class="hd-img" id="personinfo"> <img id="avatar" src="../../images/unkownuser.png" width="80" height="80" /></li>
+                    <li class="hd-text">
+                        <h2 id="real_name">&nbsp;</h2>
+                        <p id="name">&nbsp;</p>
+                    </li>
+                    <li class="hd-ma" id="personbarcode" style="padding-top:10px">
+                        <img src="../../images/user-ma.png" width="30" height="30">
+                    </li>
+                    <li class="hd-arrow" style="padding-top: 8px;">
+                        <i class="angle right icon" style="color:#fff; font-size: 2.5em; margin: 0;"></i>
+                    </li>
+                </ul>
+
+            </div>
+            <!------------------------------------------------>
+            <div class="user-info2">
+                <span id="mycoin" class="mid-line">
+                    <p id="coin">0.00</p>
+                    <p>我的金币</p>
+                </span>
+
+                <span id="mycode">
+                    <p id="code">XXXXXX</p>
+                    <p>我的邀请码</p>
+                </span>
+            </div>
+        </div>
+
+        <!---功能列表-->
+        <div class="item-02-wrap mt10" id="itemlist"></div>
+    </div>
+
+    <!-- weixin: 0  weixinquan:1  sinaweibo:2  tencentweibo:3  QQ: 4-->
+    <div class=" pop-wrap" id="sharepop" style="display:none">
+        <div class="share-icon-blokc">
+            <ul>
+                <li name="shareitem" tip='2'> <a><img src="../../images/share_01.png" /> <span>新浪微博</span></a></li>
+                <li name="shareitem" tip="0"> <a><img src="../../images/share_02.png" /> <span>微信</span></a></li>
+                <li name="shareitem" tip="1"> <a><img src="../../images/share_03.png" /> <span>微信朋友圈</span></a></li>
+                <!--<li name="shareitem" tip="4"> <a><img src="../../images/share_04.png" /> <span>QQ好友</span></a></li>
+                <li name="shareitem" tip="3"> <a><img src="../../images/share_06.png" /> <span>腾讯微博</span></a></li>-->
+                <li name="shareitem" tip="-1"> <a><img src="../../images/share_07.png" /> <span>短信</span></a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

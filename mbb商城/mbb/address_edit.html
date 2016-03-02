@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/address_edit.css"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收货地址</h1>
+			<a id="saveaddress" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">保存</a>
+		</header>
+		<div class="mui-content">
+			<input type="hidden" value="-1" id="AddressID" />
+			<!--form begin-->
+			<form class="mt-55 mlr-15">
+				<div class="panel callout radius formstyle addressnm">
+					<!--01 begin-->
+					<div class="row collapse">
+						<div class="small-3 large-2 columns">
+							<span class="prefix">姓名</span>
+						</div>
+						<div class="small-9 large-10 columns">
+							<input type="text" placeholder="输入收件人姓名" class="pl0" id="Name">
+							<span class="close-input" style="display: none;"></span>
+						</div>
+					</div>
+					<!--01 end-->
+					<!--02 begin-->
+					<div class="row collapse">
+						<div class="small-3 large-2 columns">
+							<span class="prefix last">手机</span>
+						</div>
+						<div class="small-9 large-10 columns">
+							<input type="text" placeholder="手机号" class="pl0 last" id="Moblie">
+							<span class="close-input" style="display: none;"></span>
+						</div>
+					</div>
+					<!--02 end-->
+				</div>
+				<input type="hidden" id="AreaCode" value="" />
+				<input type="hidden" id="SeletctAreaId" value="" />
+				<label class="address-label">收货地址</label>
+				<div class="panel callout radius formstyle">
+					<!--01 begin-->
+					<div class="row collapse">
+						<div class="small-3 large-2 columns">
+							<span class="prefix">省</span>
+						</div>
+						<div class="small-9 large-10 columns">
+							<select class="pl0" id="seleAreaNext">
+								<option value="">选择省</option>
+							</select>
+						</div>
+					</div>
+					<!--01 end-->
+					<!--02 begin-->
+					<div class="row collapse">
+						<div class="small-3 large-2 columns">
+							<span class="prefix">市</span>
+						</div>
+						<div class="small-9 large-10 columns">
+							<select class="pl0" id="seleAreaThird">
+								<option value="">选择市</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row collapse">
+						<div class="small-3 large-2 columns">
+							<span class="prefix">区/县</span>
+						</div>
+						<div class="small-9 large-10 columns">
+							<select class="pl0" id="seleAreaFouth">
+								<option value="-1">选择区/县</option>
+							</select>
+						</div>
+					</div>
+					<!--02 end-->
+					<!--03 begin-->
+					<div class="row collapse">
+						<div class="small-3 large-2 columns">
+							<span class="prefix last">详细</span>
+						</div>
+						<div class="small-9 large-10 columns">
+							<input type="text" placeholder="输入详细地址" class="pl0 last" id="AddressInfo">
+							<span class="close-input" style="display: none;"></span>
+						</div>
+					</div>
+					<!--03 end-->
+				</div>
+			</form>
+			<!--form end-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/address.select.area.js"></script>
+		<script src="js/address.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var user=null;mui.init({swipeBack:true,beforeback:function(){var a=plus.webview.currentWebview().opener();mui.fire(a,"address");return true}});mui.plusReady(function(){user=getCachedUser(true);if(!user){var c=plus.webview.getLaunchWebview();mui.fire(c,"login");mui.back();return}updateCachedUser();var b=plus.webview.currentWebview();if(b.eid){var a=document.getElementById("AddressID");a.value=b.eid;getAddress(b.eid)}else{loadRegion()}});document.getElementById("saveaddress").addEventListener("tap",saveAddress,false);function getAddress(a){mui.sendRequest(mui.constMap.ROOT_PATH+"/address/info",{session:user.session,address_id:a},function(c){if(!c.status.succeed){mui.toast(c.status.error_desc);mui.back();return}var e=c.data,h=document.getElementById("Name"),b=document.getElementById("Moblie"),d=document.getElementById("AreaCode"),g=document.getElementById("SeletctAreaId"),f=document.getElementById("AddressInfo");h.value=e.consignee;b.value=e.tel;d.value=e.country+","+e.province+","+e.city+","+e.district;f.value=e.address;loadRegion()})}function loadRegion(){selectNextarea(1)};
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-table h4,
+			.mui-table h5,
+			.mui-table .mui-h5,
+			.mui-table .mui-h6,
+			.mui-table p {
+				margin-top: 0;
+			}
+			.mui-table h4 {
+				line-height: 21px;
+				font-weight: 500;
+			}
+			.mui-table .oa-icon {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+			}
+			.mui-table .oa-icon-star-filled {
+				color: #f14e41;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<div class="mui-content">
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="mui-table-view">
+
+					</ul>
+
+				</div>
+				<div id="dianji" style="width:100%;text-align:center;padding: 15px 0;" onclick="dianji()">
+					<h5>====点击加载更多信息====</h5>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="order_addtime" />
+		<script src="js/mui.min.js"></script>
+		<script>
+			var catalogid = 0;
+			var hasMore = true;
+			if (mui.os.android) {
+				mui.init({
+					swipeBack: false,
+					pullRefresh: {
+						container: '#pullrefresh',
+						up: {
+							contentrefresh: '正在加载...',
+							callback: loadMore
+						}
+					}
+				});
+			} else {
+				mui.init({
+					swipeBack: false //启用右滑关闭功能
+				});
+			}
+			 // 用户名获取
+			var username;
+			var users = JSON.parse(localStorage.getItem('$users') || '[]');
+			users.some(function(user) {
+				username = user.account;
+			});
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function loadMore() {
+				if (hasMore) {
+					pullupRefresh();
+				}
+			}
+			mui.plusReady(function() {
+				if (!mui.os.android) {
+					$("#pullrefresh").removeClass().addClass("mui-content");
+					$(".mui-scroll").removeClass();
+				} else {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 8000);
+					$('#dianji').hide();
+				}
+				get_orders_list();
+			});
+
+			function get_orders_list() {
+				mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=get_order_list&account=' + username, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						var payment_status = "";
+						if (data) {
+							var table = document.body.querySelector('.mui-table-view');
+							var obj2 = eval(data['TableInfo']);
+							for (var i = 0; i < obj2.length; i++) {
+								if (obj2[i].payment_status == "1") {
+									payment_status = "未支付";
+								} else if (obj2[i].payment_status == "2") {
+									payment_status = "已支付";
+								}
+								content += '<li class="mui-table-view-cell">';
+								content += '<a href="userorderxxmsg.html?id=' + obj2[i].id + '"><div class="mui-table">';
+								content += '<div class="mui-table-cell mui-col-xs-10">';
+								content += '<h5 style="color:#dd524d;">订单号：' + obj2[i].order_no + '</h5>';
+								content += '<p class="mui-h6 mui-ellipsis">下单时间：' + obj2[i].add_time + ' </p><p class="mui-h6 mui-ellipsis">订单总金额：￥' + obj2[i].order_amount + '&nbsp;&nbsp;支付状态：' + payment_status + '</p>';
+								content += '</div><div class="mui-table-cell mui-col-xs-2 mui-text-right">';
+								content += '<span class="mui-h5"></span>';
+								content += '</div> </div> </a></li>';
+								$("#order_addtime").val(obj2[i].add_time);
+							}
+						} else {
+							$('#mui-table-view li').remove();
+							content = "<li class='mui-table-view-cell mui-media mui-col-xs-12' >无内容</li>";
+						}
+						$("#mui-table-view").append(content);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+					}
+				});
+			};
+
+			function pullupRefresh() {
+					setTimeout(function() {
+						mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=get_order_listxl&account=' + username + '&order_addtime=' + $("#order_addtime").val(), {
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							success: function(data) {
+								var content = "";
+								var payment_status = "";
+								if (data) {
+									$.each(data["TableInfo"], function(i, v) {
+										if (v.payment_status == "1") {
+											payment_status = "未支付";
+										} else if (v.payment_status == "2") {
+											payment_status = "已支付";
+										}
+										content += '<li class="mui-table-view-cell">';
+										content += '<a href="userorderxxmsg.html?id=' + v.id + '"><div class="mui-table">';
+										content += '<div class="mui-table-cell mui-col-xs-10">';
+										content += '<h5 style="color:#dd524d;">订单号：' + v.order_no + '</h5>';
+										content += '<p class="mui-h6 mui-ellipsis">下单时间：' + v.add_time + '</p><p class="mui-h6 mui-ellipsis">订单总金额：￥' + v.order_amount + '&nbsp;&nbsp;支付状态：' + payment_status + '</p>';
+										content += '</div><div class="mui-table-cell mui-col-xs-2 mui-text-right">';
+										content += '<span class="mui-h5"></span>';
+										content += '</div> </div></a> </li>';
+										$("#order_addtime").val(v.add_time);
+									});
+									$("#mui-table-view").append(content);
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+								} else {
+									hasMore = false;
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							}
+						});
+					}, 1000);
+				}
+				//点击夹在更多
+
+			function dianji() {
+				mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=get_order_listxl&account=' + username + '&order_addtime=' + $("#order_addtime").val(), {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data) {
+							var table = document.body.querySelector('.mui-table-view');
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<li class="mui-table-view-cell">';
+								content += '<a href="userorderxxmsg.html?id=' + v.id + '"><div class="mui-table">';
+								content += '<div class="mui-table-cell mui-col-xs-10">';
+								content += '<h5 style="color:#dd524d;">订单号：' + v.order_no + '</h5>';
+								content += '<p class="mui-h6 mui-ellipsis">下单时间：' + v.add_time + '</p><p class="mui-h6 mui-ellipsis">订单总金额：￥' + v.order_amount + '</p>';
+								content += '</div><div class="mui-table-cell mui-col-xs-2 mui-text-right">';
+								content += '<span class="mui-h5"></span>';
+								content += '</div> </div></a> </li>';
+								$("#order_addtime").val(v.add_time);
+							});
+							$("#mui-table-view").append(content);
+						} else {
+							mui.toast("无更多数据了");
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+					}
+				});
+			}
+		</script>
+
+	</body>

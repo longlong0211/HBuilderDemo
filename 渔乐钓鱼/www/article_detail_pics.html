@@ -1,0 +1,759 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐资讯</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/read.mode.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="css/comment.css">
+		<style type="text/css">
+		 
+		.mui-loader {
+				position:absolute;
+				top: 105px;
+				width: 100%; 
+				height: 60%;
+				color: #888;
+				font-size: 14px;
+				text-align: center;
+			}
+			
+			.mui-fullscreen{
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+	    .mui-content{ margin-bottom: 0px; padding-bottom: 10px;}
+		 
+		.mui-content h3{color:#000;  text-align: left; padding: 10px;  line-height: 1.4em;}
+		.mui-content h6{  padding: 10px; padding-bottom: 20px;line-height: 1.4em; }
+		.mui-content h6 .mui-pull-left a{ font-size: 16px; color:#0062CC;}
+		.mui-content h6 .mui-pull-right{  color: #6d6d72; padding-top:5px ;}
+		
+     	.content{ margin: 10px 15px 10px;   }
+  
+		.content p{ margin:0px; margin-top: 20px;}
+		
+		.content{ font-size: 1.6em; line-height: 2em; }
+		.content *{   font-size: 1em; }
+	
+		.content *,.content{color:#222222;font-weight:300;  list-style-type:none;}
+		
+		.content img{
+			max-width: 100%;
+			height: auto;
+		}
+		
+	 
+		
+		.content table{ border-top:1px #D8D8D8  solid ;border-left:1px #D8D8D8  solid ;}
+		.content th,.content td{ border-bottom:1px #D8D8D8  solid ;border-right:1px #D8D8D8  solid ;}
+		
+		  .oa-contact-gooduser, .oa-contact-reply{ 
+			clear: both;   font-weight: normal;font-size: 13px;  line-height: 20px;
+			margin: 5px 10px 5px 10PX; 
+				color:#222222;
+		 }
+			
+		 
+		.oa-contact-gooduser{ padding-left: 20px ; background: url(images/ico_good.png) no-repeat left;}
+		 
+		 body{ margin-bottom: 50px; font-size: 10px;}
+		 html{font-size: 10px;}
+		 .mui-ellipsis{ font-size: 13px;}
+		 
+		 
+		 #tougao{ background:#DDD; clear:both; line-height: 20px; font-size:14px; margin: 20px 10px 0px 10px;   border: 1px dotted #C0C0C0; padding: 10px;}
+	     #div_good{  margin-top: 0px;}
+	     #mailto{ font-size: 16px; color:red;}   
+	     
+	     .oa-contact-reply h6{ color:#222222; font-size: 13px; line-height: 16px; padding:0px; margin: 0px ;} 
+		    
+		 h6{ font-size: 13px;}
+		</style> 
+	    <link rel="stylesheet" href="plugins/projekktor/css/projekktor.style.css" type="text/css" media="screen" />
+	    <script src="js/jquery.js"></script>
+	    <script type="text/javascript" src="plugins/projekktor/js/projekktor-1.3.07.min.js"></script>
+	    
+	</head>
+	<body class="">
+
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title" style="font-size: 16px;">渔乐资讯</h1>
+				<a href="javascript:void(0);#popover " class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="font-size:20px ;margin-left: 0px;width: 34px;">A<sup>+</sup></a>
+			</header>
+			
+	<div id="popover" class="mui-popover">
+	  <div class="mui-table-view" style="background-color: #f7f7f7;background-image: none;">
+	    <li class="mui-table-view-cell">
+	    		<span style="line-height: 28px;  font-size:16px ;">字体大小</span>
+	    		<ul id="sizeUl" class="mui-pagination mui-pagination-sm" style="margin: 0; padding: 0; display: inline-table; float: right;">
+	
+					<li class="mui-active" data-fontsize="1">
+						<a href="javascript:void(0);">
+								小
+						</a>
+					</li>
+					<li data-fontsize="2">
+						<a href="javascript:void(0);">
+								中
+							</a>
+					</li>
+					<li data-fontsize="3">
+						<a href="javascript:void(0);">
+								大
+							</a>
+					</li>
+					<li data-fontsize="4">
+						<a href="javascript:void(0);">
+								特大
+							</a>
+					</li>
+				</ul>
+	    </li>
+	
+	    <li class="mui-table-view-cell" id="mySwitch" style=" font-size:16px ;">
+	    		夜间模式
+	    		<div class="mui-switch">
+	  		<div class="mui-switch-handle"></div>
+			</div>
+	    </li>
+	  </div>
+	</div>
+			
+			<nav class="mui-bar mui-bar-tab">
+			  	<a id="btn_prompt" class="mui-tab-item mui-active" href="#tabbar" style=" width:25%">
+			  		<span class="mui-icon mui-icon-chatboxes"></span>
+					<span class="mui-tab-label">评论</span>
+				</a>
+				<a id="btn_good" class="mui-tab-item" href="#tabbar-with-chat" style=" width:25%">
+					<span class="mui-icon  mui-icon-flag"></span>
+					<span class="mui-tab-label">点赞</span> 
+				</a>
+				<a  id="btn_collect" class="mui-tab-item" href="#tabbar-with-sms" style=" width:25%">
+					<span class="mui-icon mui-icon-star"></span>
+					<span class="mui-tab-label">收藏</span>
+				</a>
+				<a id="btn_share" class="mui-tab-item" href="#tabbar-with-map" style=" width:25%; display: none;">
+					<span class="mui-icon mui-icon-redo"></span>
+					<span class="mui-tab-label">分享</span> 
+				</a>
+			</nav>
+		  <div class="mui-loader"><span class="mui-spinner" title="加载中..."></span></div>
+			
+		  <div class="mui-content" id="mui-content" >
+				<h3 id="title" class="font-size24" ></h3>
+				<h6 id="time" class="font-size14"></h6>
+				
+				<div class="mui-content-padded content projekktor" id="contentvideo">
+	
+				</div>
+				 
+				<div class="mui-content-padded content" id="content" >
+					
+				</div>
+				<ul class="mui-table-view" id="relatenews" style="display: none; font-size: 17px;" >
+				
+				</ul>
+				<div id="tougao" style="display: none;">
+					
+				</div> 
+				<div id="div_replycommand" style="display: none;" >
+				 	<div class="no-action comment-share-container">
+						<div class="collect_comment">
+							<div class="article_collect" id="collect"><div class="article_collect_praise" id="p_collect">0</div></div>
+							<div class="article_comment" id="comment"><div class="article_comment_praise" id="p_comment">0</div></div>
+						</div>
+						 
+						<h4>热门评论</h4>
+						
+					
+						<div id="div_reply" ></div>
+					</div>
+				</div>
+			</div>
+			
+	</body>
+	
+	<script id="relatelist-template" type="text/x-handlebars-template">
+	 	<li class="mui-table-view-divider font-size10">相关新闻</li>
+	 	{{#each relatelist}}
+	 	<li class="mui-table-view-cell mui-media font-size10" data-id="{{id}}">
+			<a class="font-size10" href="article_detail_pics.html?id={{id}}"  open-type="common"   title="渔乐资讯-{{catename}}">
+				<img class="mui-media-object mui-pull-left" src="{{pic}}">
+				<div class="mui-media-body font-size10">
+					{{title}} 
+					<p class='mui-ellipsis'>{{abstract}}{{time}}</p>
+				</div>
+			</a>
+		</li>  
+		{{/each}}
+	</script>
+	
+	<script id="replylist-template" type="text/x-handlebars-template">
+	 	
+		
+			{{#each replylist}}
+			 
+			<div class="comment-content" id="comment{{id}}">
+				<div class="avatar btn">
+					<img src="{{avater}}">
+				</div>
+				<div class="name">
+					
+					<a href="friend_detail.html?type=telphone&id={{userid}}" open-type="common" title="{{nickname}}" class="btn text-ellipsis">{{nickname}}</a>
+					{{#if replyusername}}
+					<a href="friend_detail.html?type=telphone&id={{replyuserid}}" open-type="common" title="{{replyusername}}" class="btn text-ellipsis">&nbsp;&nbsp;回复&nbsp;&nbsp;{{replyusername}}</a>
+					{{/if}}
+					
+				</div>
+				<div class="content"><span class="btn">{{replymsg}}</span></div>
+				
+				<div class="action_pane_left" >{{time}}</div>
+				<div class="action_pane2" ><h6 class="btn digg2 " type="comment" nickname="{{nickname}}" userid="{{userid}}" replyid="{{id}}" id="reply_commentnum{{id}}">{{commentnum}}</h6></div>
+				<div class="action_pane"><h6 class="btn digg " type="good" nickname="{{nickname}}" userid="{{userid}}" replyid="{{id}}" id="reply_goodnum{{id}}">{{goodnum}}</h6></div> 
+			</div>
+			{{/each}}
+		 
+		
+	</script>
+	
+	 
+	
+	<script id="video-template" type="text/x-handlebars-template">
+		 
+	  
+	</script>
+ 
+	
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+	<script src="js/app.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+	<script src="js/fish_cache.js"></script>
+	<script src="js/fish_interface.js"></script>
+	<script src="js/fish_share.js"></script>
+	<script src="js/doZoom.js"></script>
+	<script>
+		var pid= GetQueryString("id");
+		var title = "";
+		var abstract = "";
+		var type = 270;
+		var isvideo = false;
+		var myvideo = null;
+		var picsmall = "";
+		var iscommented = "0";
+		
+		mui.init({swipeBack: true});  
+	 
+		  
+		var imageinit = function() {
+			var imgs = document.querySelectorAll("img");
+			imgs = mui.slice.call(imgs);
+			var slider = null;
+			if(imgs&&imgs.length>0){
+				slider = document.createElement("div");
+				slider.setAttribute("id","__mui-imageview__");
+				slider.classList.add("mui-slider");
+				slider.classList.add("mui-fullscreen");
+				slider.style.display = "none";
+				slider.addEventListener("tap",function () {
+					slider.style.display = "none";
+				});
+				slider.addEventListener("touchmove",function (event) {
+					event.preventDefault();
+				})
+				
+				var slider_group = document.createElement("div");
+				slider_group.setAttribute("id","__mui-imageview__group");
+				slider_group.classList.add("mui-slider-group");
+				
+				imgs.forEach(function (value,index,array) {
+					//给图片添加点击事件，触发预览显示；
+					value.addEventListener('tap',function () {
+						slider.style.display = "block";
+						_slider.refresh();
+						_slider.gotoItem(index,0);
+					})
+					
+					var item = document.createElement("div");
+					item.classList.add("mui-slider-item");
+					var a = document.createElement("a");
+					// a.setAttribute("href","#");
+					 
+					var img = document.createElement("img");
+					img.setAttribute("src",value.src);
+					a.appendChild(img)
+					item.appendChild(a);
+					slider_group.appendChild(item);
+				});
+				
+				slider.appendChild(slider_group);
+				document.body.appendChild(slider);
+				var _slider = mui(slider).slider();
+			}
+			
+			var oldback = mui.back;
+			mui.back = function () {
+				if(slider&&slider.style.display=="block"){
+					slider.style.display = "none";
+				}else{
+					
+					if(isvideo && myvideo != null ){ 
+					  	myvideo.setStop();
+					  	//plus.screen.lockOrientation("portrait-primary");
+					  	jQuery("#contentvideo").html("");  
+					  	 
+					}
+					
+					oldback();
+				}
+			}
+			
+		}
+		
+	  
+		mui.plusReady(function() {
+			//分析一下是否需要显示分享
+			if(getisshowshare())
+			{
+				jQuery("#btn_share").show();
+			}
+			
+			//先获取当前页面的参数
+			getlogin();
+			
+			var read_font_size = getConfigParams("readFontSize","small");
+			var read_moby= getConfigParams("readMode","day");
+			
+			try{
+				//根据缓存调取字体样式
+				if(read_font_size){
+					
+					$("li .mui-active").removeClass("mui-active");
+	
+					
+					
+					switch(read_font_size){
+						case "small":
+							changeFontSize(1,1);
+							$("#sizeUl :nth-child(1) ").addClass("mui-active");
+							break;
+						case "medium":
+							changeFontSize(2,1);
+							$("#sizeUl :nth-child(2) ").addClass("mui-active");
+
+							break;
+						case "large":
+							changeFontSize(3,1);
+							$("#sizeUl :nth-child(3) ").addClass("mui-active");
+
+							break;
+						case "b-large":
+							changeFontSize(4,1);
+							$("#sizeUl :nth-child(4) ").addClass("mui-active");
+
+							break;
+						default:
+							alert("缓存获取错误!")
+						
+					}
+				}
+				
+				
+				//根据缓存调取阅读模式样式
+				if(read_moby){
+					switch(read_moby){
+						case "day":
+							$("body").addClass("day");
+							
+							break;
+						case "night":
+							$("body").addClass("nightMode");
+							$(".mui-switch").addClass("mui-active");
+							break;
+						
+						default:
+							mui.toast("模式缓存获取错误!")
+						
+					}
+				}
+			}catch(err){
+				mui.toast(err);
+			}
+			
+			
+			
+			var url=apiurl+"IArticlesDetail.ashx?id="+pid+"&uid="+uid;
+			
+			sendtointerface(uid,pid,url,function(responseText,status){
+				$(".mui-loader").hide();
+            	
+            	var data=eval("("+responseText+")");
+            	//开始写入数据
+            	title = data.title;
+            	abstract = data.abstract;
+            	content = decodeURIComponent(data.content);
+            	data.content = content;
+            	playtypeid = data.playtypeid;
+            	videopath = data.videopath;
+            	picsmall = data.picsmall;
+            	tougao = decodeURIComponent(data.tougao);
+            	iscommented = data.iscommented;
+            	
+            	
+            	jQuery('#title').html(title);
+            	var time = "";
+            	if(data.pondname !=""){
+            		time += "<span class=\"mui-pull-left mui-text-left\"><span class=\"mui-icon mui-icon-location\"></span><a href=\"fishpoint_detai.html?id="+data.pondid.toString()+"\" open-type=\"common\">"+data.pondname+"</a></span>";
+            	}
+            	time += "<span class=\"mui-pull-right mui-text-right\">"+data.author+"&nbsp;&nbsp;"+data.time+"</span>";
+            	jQuery('#time').html(time);
+            	jQuery('#content').html(content);
+            	//判断是否视频
+            	 
+            	if(playtypeid==275) 
+            	{
+            		isvideo  = true;
+            		//视频
+            	 
+            		projekktor('#contentvideo', {
+				        poster: 'images/videoloading.png',
+				        autoplay: false,
+				        title: title,
+				        playerFlashMP4: 'plugins/projekktor/swf/StrobeMediaPlayback.swf',
+				        playerFlashMP3: 'plugins/projekktor/swf/StrobeMediaPlayback.swf',
+				        width: jQuery(window).width()-30,
+				        height: 226,
+				        playlist: [
+				            {
+				            //0: {src: "media/intro.ogv", type: "video/ogg"},
+				            0: {src: data.videopath, type: "video/mp4"}
+				            //2: {src: "media/intro.webm", type: "video/webm"}
+				            }
+				        ]    
+			        	}, function(player) { myvideo = player; } // on ready 
+			        );
+            	 	
+            	 	//plus.screen.unlockOrientation();
+            	}else{ 
+            		//plus.screen.lockOrientation("portrait-primary");
+            	}
+            	
+            	imageinit();
+            	
+            	//回复
+            	var pondsSource = document.getElementById("replylist-template").innerText;
+            	var myTemplate = Handlebars.compile(pondsSource);
+            	jQuery("#div_reply").append(myTemplate(data));
+            	 
+            	 
+            	//设置是否赞过
+            	if(iscommented=="1")
+            	{
+            		jQuery("#p_collect").removeClass("article_collect_praise");
+            		jQuery("#p_collect").addClass("article_collect_praise2");
+            		 
+            	}
+            	
+            	//显示数量
+            	jQuery("#p_collect").html(data.goodusernum);
+            	jQuery("#p_comment").html(data.replynum);
+            	jQuery("#div_replycommand").show();
+            	 
+            	
+            	//显示投稿
+            	jQuery("#tougao").css("display","block");
+            	jQuery("#tougao").html(tougao);
+  
+                	
+                	
+                var relatelistcount = data.relatelist.length;
+                	
+                //相关新闻
+            	if( data.relatelist.length  >0)
+            	{
+                	var pondsSourcerelate = document.getElementById("relatelist-template").innerText;
+                	var myTemplaterelate = Handlebars.compile(pondsSourcerelate);
+                	jQuery("#relatenews").append(myTemplaterelate(data));
+                	jQuery("#relatenews").css("display","block");
+            	}
+            	
+            	
+			});
+			 
+				
+			//分享shares
+			var shares = {};
+			plus.share.getServices(function (s) {
+				if(s&&s.length>0){
+					for (var i = 0; i < s.length; i++) {
+						var t = s[i];
+						shares[t.id] = t;
+					}
+				}
+			},function () {
+				console.log("获取分享服务列表失败");
+			});
+		 
+			//分享链接点击事件
+			document.getElementById("btn_share").addEventListener('tap',function () {
+				
+				var ids = getshareids;
+				var bts = getsharenames;
+				 
+				plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},function(e){
+					var i=e.index;  
+					if(i>0){
+						var s_id = ids[i-1].id;
+						var share = shares[s_id];
+						if ( share.authenticated ) {
+							shareMessage(share,ids[i-1].ex);
+						} else {
+							share.authorize( function(){
+									shareMessage(share,ids[i-1].ex);
+								},function(e){
+								console.log( "认证授权失败："+e.code+" - "+e.message );
+							});
+						}
+					}
+				});
+			});
+			
+			function shareMessage(share,ex){    
+				var addtime = CurentDate();
+				var md5 = hex_md5(pid+addtime+apikey);
+				var msg={extra:{scene:ex}};
+				msg.href=wwwurl+"article/?id="+pid+"&datetime="+addtime+"&md5="+md5;
+				msg.title=title+" - "+appname; 
+				msg.content=abstract;
+				if(~share.id.indexOf('weibo')){
+					msg.content += "；地址："+msg.href;
+				}
+				if(picsmall!="")
+				{
+					msg.thumbs=[picsmall];
+				}
+				else{
+					msg.thumbs=["_www/images/logo.png"];
+				}
+				share.send( msg, function(){
+					console.log( "分享到\""+share.description+"\"成功！ " );
+				}, function(e){
+					console.log( "分享到\""+share.description+"\"失败: "+e.code+" - "+e.message );
+				} );
+			}
+			
+			 
+			//点赞btn_good
+			document.getElementById("collect").addEventListener('tap',function (e) {
+		
+				actiongood(e);
+			});
+			
+			document.getElementById("btn_good").addEventListener('tap',function (e) {
+		
+				actiongood(e);
+			});
+			
+			function actiongood(e){
+				 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				var url=apiurl+"IActionGood.ashx?type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname;
+				
+				sendtointerface(uid,pid,url,function(responseText,status){
+					var data=eval("("+responseText+")");
+	                	var oldnum = parseInt($(".goodusernum").html());
+	                	if(data.retisok==1)
+	                	{
+	                		//jQuery("#div_good").prepend(nickname+",")
+	                		jQuery("#p_collect").html(parseInt(jQuery("#p_collect").html())+1);
+	                		 
+	                		jQuery("#p_collect").removeClass("article_collect_praise");
+            				jQuery("#p_collect").addClass("article_collect_praise2");
+	                		 
+	                		mui.toast( "点赞成功！" );
+	                	}else{
+	                		
+	                		mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+				});
+			}
+			
+			
+			
+			//收藏
+			document.getElementById("btn_collect").addEventListener('tap',function () {
+				
+				 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				var url=apiurl+"IActionCollect.ashx?type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname+"&title="+title;
+				
+				sendtointerface(uid,pid,url,function(responseText,status){
+					var data=eval("("+responseText+")");
+	                	if(data.retisok==1)
+	                	{
+	                		 mui.toast( "收藏成功！"+data.retmessage );
+	                	}else{
+	                		
+	                		mui.toast( "不小心失败了，"+data.retmessage );
+	                	} 
+				});
+				 
+				
+			});
+			
+			//评论
+			document.getElementById("comment").addEventListener('tap', function(e) {
+				 actioncomment(e);
+			});
+			
+			document.getElementById("btn_prompt").addEventListener('tap', function(e) {
+				actioncomment(e);
+				  
+			});
+			
+			function actioncomment(e){
+				
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				 
+				
+				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+				var btnArray = ['确定', '取消'];
+				mui.prompt('发表评论：', '写点什么吧', "", btnArray, function(e) {
+					if (e.index == 0) {
+						
+						if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+						//发起
+						var url=apiurl+"IActionReply.ashx?type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname+"&msg="+encodeURIComponent(e.value);
+						
+						sendtointerface(uid,pid,url,function(responseText,status){
+							var data=eval("("+responseText+")");
+		                	if(data.retisok==1)
+		                	{
+		                		 mui.toast( "评论成功！" );
+		                		 
+		                		 var str2 = { "replylist": [{"time":"刚刚","replyname":nickname,"replymsg":e.value,"nickname":nickname,"userid":uid,"avater":avatarsmall,"replyuserid":"0","replyusername":"","goodnum":"0","commentnum":"0"}] };
+		                		 var pondsSource = document.getElementById("replylist-template").innerText;
+			                	 var myTemplate = Handlebars.compile(pondsSource);
+			                	 jQuery("#div_reply").prepend(myTemplate(str2));
+			                	
+			                	 jQuery("#p_comment").html(parseInt(jQuery("#p_comment").html())+1);
+								 
+		                	}else{
+		                		
+		                		mui.toast( "不小心失败了，"+data.retmessage );
+		                	}
+						});
+						 
+					} else {
+						//info.innerText = '你点了取消按钮';
+					}
+				})
+			}
+			
+			mui('#div_reply').on('tap', 'h6', function(e){
+				
+				 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				 
+				var replyid =  this.getAttribute('replyid'); 
+				var replaytype = this.getAttribute('type'); 
+				var replaynickname = this.getAttribute('nickname');
+				var replayuserid = this.getAttribute("userid");
+				
+				if(replaytype=="comment")
+				{ 
+			 
+				    if(replayuserid==uid){ 
+				    	mui.toast( "不能自己回复自己！" );
+				    	return;
+				    }
+					
+					e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+					var btnArray = ['确定', '取消'];
+					mui.prompt("回复 "+replaynickname+ "：", '写点什么吧', "", btnArray, function(e) {
+						if (e.index == 0) { 
+							
+							if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+							//发起
+							var url=apiurl+"IActionReply.ashx?replyid="+replyid+"&type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname+"&msg="+encodeURIComponent(e.value)+"&reply_id="+replayuserid;
+							
+							sendtointerface(uid,replyid,url,function(responseText,status){
+								var data=eval("("+responseText+")");
+			                	if(data.retisok==1)
+			                	{
+			                		 mui.toast( "评论成功！"  ); 
+			                		 
+			                		 var str2 = { "replylist": [{"time":"刚刚","replyname":nickname,"replymsg":e.value,"nickname":nickname,"userid":uid,"avater":avatarsmall,"replyuserid":replayuserid,"replyusername":replaynickname,"goodnum":"0","commentnum":"0"}] };
+			                		 var pondsSource = document.getElementById("replylist-template").innerText;
+				                	 var myTemplate = Handlebars.compile(pondsSource);
+				                	 jQuery("#div_reply").prepend(myTemplate(str2));
+				                	
+				                	 jQuery("#reply_commentnum"+replyid).html(parseInt(jQuery("#reply_commentnum"+replyid).html())+1);
+			                		  
+									 jQuery("#p_comment").html(parseInt(jQuery("#p_comment").html())+1);
+									 
+			                	}else{
+			                		
+			                		mui.toast( "不小心失败了，"+data.retmessage );
+			                	}
+							});
+							 
+						} else {
+							//info.innerText = '你点了取消按钮';
+						}
+					})
+				}else{
+					
+					jQuery("#reply_goodnum"+replyid).html(parseInt(jQuery("#reply_goodnum"+replyid).html())+1);
+	                		  
+	                		  
+					var url=apiurl+"IActionReplyGoodAdd.ashx?replyid="+replyid+"&type="+type+"&id="+pid+"&uid="+uid;
+							
+					sendtointerface(uid,replyid,url,function(responseText,status){
+						var data=eval("("+responseText+")");
+	                	if(data.retisok==1)
+	                	{
+	                		 //mui.toast( "点赞成功！"  ); 
+	                		  
+	                	}else{
+	                		
+	                		//mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+					});
+				}
+			});
+		 });
+			
+		
+		
+		
+		
+		
+	</script>
+
+</html>

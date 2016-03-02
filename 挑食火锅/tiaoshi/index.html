@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/ts.css" />
+		<style>
+			#banners,
+			#banners img {
+				height: 150px;
+			}
+			#menus {
+				background: transparent;
+				padding: 0;
+				min-height: 66px;
+			}
+			#menus .mui-table-view-cell {
+				height: 66px;
+			}
+			#menus img {
+				width: 100%;
+			}
+			.mui-bar .mui-title {
+				left: 60px;
+				right: 40px;
+				color: #505050;
+				font-size: 13px;
+				height: 44px;
+			}
+			.mui-bar .mui-title .mui-icon {
+				font-size: 20px;
+				top: 1px;
+			}
+			.mui-grid-view {
+				display: table;
+			}
+			#menus.mui-active {
+				border-left: 1px solid #eee;
+			}
+			#menus.mui-table-view:before,
+			#menus.mui-table-view:after {
+				height: 0;
+			}
+			#menus.mui-active.mui-table-view:before,
+			#menus.mui-active.mui-table-view:after {
+				height: 1px;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				display: table-cell;
+				padding: 0;
+				margin: 0;
+				width: 1%;
+			}
+			#menus.mui-active.mui-table-view.mui-grid-view .mui-table-view-cell {
+				border-right: 1px solid #eee;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell>a:not(.mui-btn) {
+				margin: 0;
+				padding: 5px;
+			}
+			#banners,
+			#menus,
+			#item {
+				display: none;
+			}
+			#banners.mui-active,
+			#menus.mui-active,
+			#item.mui-active {
+				display: block;
+			}
+			#item .mui-scroll {
+				background-color: #fff;
+			}
+			.ts-dis {
+				padding-top: 0!important;
+				position: relative;
+			}
+			.ts-dis span {
+				left: 15px;
+				top: -2px;
+			}
+			.ts-dis:last-child {
+				margin-bottom: -5px;
+			}
+		</style>
+	</head>
+
+	<body class="ts-index">
+		<header class="mui-bar mui-bar-nav">
+			<a class="ts-logo mui-pull-left"></a>
+			<a class="mui-title" data-href="page/sites/sites.html" data-login="true"><span id="ts_title">正在定位您的位置</span><span class="mui-icon mui-icon-arrowdown"></span></a>
+			<a href="tel:4000121777" class="mui-icon mui-icon-phone mui-pull-right"></a>
+		</header>
+		<nav id="nav" class="mui-bar mui-bar-tab"></nav>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div id="banners" class="mui-slider"></div>
+				<ul id="menus" class="mui-table-view mui-grid-view" style="display: none!important;"></ul>
+				<ul id="item" class="mui-table-view"></ul>
+			</div>
+		</div>
+		<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=xfGYVAIbHHQHXGusD2X31qMk"></script>
+		<script type="text/javascript" src="js/cache.min.js"></script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+
+		<script type="text/javascript" src="js/ts.min.js"></script>
+		<script type="text/javascript" src="js/page/index/index.tpl.min.js"></script>
+		<script type="text/javascript" src="js/page/index/index.min.js"></script>
+		<script>
+			new TS.Init('Index');
+		</script>
+	</body>
+
+</html>

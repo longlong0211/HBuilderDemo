@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+    <meta charset="utf-8">
+    <title>地区</title>
+
+    <link href="../../css/scrollbar.css" rel="stylesheet" type="text/css" />
+    <link href="http://appstatic.o2abc.com/css/style.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../js/jquery-2.1.4.min.js"></script>
+    <script src="../../js/common.js" type="text/javascript"></script>
+    <script src="http://appstatic.o2abc.com/js/config.js" type="text/javascript"></script>
+    <script src="../../js/common/isscroll.js" type="text/javascript"></script>
+    <script src="../../js/home/citydata.js" type="text/javascript"></script>
+    <script src="http://appstatic.o2abc.com/js/home/city.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2" id="currentcitytitle"></h2>
+        </span>
+        <span class=" tab_mune tab_a t-c">
+        </span>
+    </div>
+
+
+    <div id="wrapper" style="position: absolute;z-index: 1;top: 0px;bottom: 0px;left: 0;width: 100%;overflow: auto;">
+        <div id="scroller">
+            <div id="content" class="bg-f2">
+                <div class="city-wrap" id="cityinfo">
+                    <h2 class="city-tit bottom-line"> <a class="city-current" id="currentcity">杭州</a>定位城市</h2>
+                    <div class="bottom-line">
+                        <h2 class="city-tit ">热门城市</h2>
+                        <div id="hotcities">
+                        </div>
+                    </div>
+                    <div class=" mt10">
+                        <h2 class="city-tit">全部城市</h2>
+                        <div class="mt10" id="allcities">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-float-bar" id="citychar">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>明道OA</title>
+		<link rel="stylesheet" type="text/css" href="../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../css/fontstyles.css">
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../js/sea.js"></script>
+		<script type="text/javascript" src="../js/json2.js"></script>
+		<script type="text/javascript" src="../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../js/modules/"
+			});
+			seajs.use('view/login');
+		</script>
+	</head>
+
+	<body>
+		<div class="view">
+			<span class="login block aligncenter"><img src="../img/logo.png"></span>
+			<div class="login_box">
+				<p>
+					<i class="icon-person font20"></i>
+					<input type="text" placeholder="请输入明道账号" id="account"/>
+				</p>
+				<p>
+					<i class="icon-vpn-key font16"></i>
+					<input type="password" placeholder="请输入密码" id="password"/>
+				</p>
+			</div>
+			<p class="company_name aligncenter">上海万企明道软件有限公司</p>
+			<p class="btnItem">
+				<span class="btn btn_reg" id="regBtn">注 册</span>
+				<span class="btn btn_login" id="loginBtn">登 录</span>
+			</p>
+		</div>
+		<div class="mask" style="display: none;"></div>
+		<!--选择网络弹出begin-->
+		<div class="choosenet" style="display:none;" id="companyList">
+			<div class="choosenet_out">
+				<div class="choosenetin">
+					<ul>
+						
+					</ul>
+				</div>
+			</div>
+			<span class="quitBtn aligncenter">取消</span>
+		</div>
+		<!--选择网络弹出over-->
+		
+		<!--提示更新 begin-->
+		<div class="choosenet update" style="display:none;" id="updateTip">
+			<div class="choosenetin font12" id="updateContent">
+
+			</div>
+			<p class="bottomB font14 clearfix">
+				<span class="quitBtn aligncenter" id="cancelUpdate">下次提醒</span>
+				<span class="quitBtn aligncenter" id="nowUpdate">立刻更新</span>
+			</p>
+		</div>
+		<!--提示更新 over-->
+		
+		<div style="display:none;" class="choosenet update" id="regTip">
+			<div style="height:150px;" class="choosenet_out">
+				<div style="min-height:100px;" class="choosenetin">
+					<p style="line-height:26px;">明道OA是明道的扩展应用，注册明道不仅能够使用明道OA，还能让全员拥有一个强大的协作平台，实现灵活便利的内部沟通，任务日程管理和全方位的知识共享</p>
+				</div>
+			</div>
+			<p class="bottomB font14 clearfix">
+				<span class="quitBtn aligncenter" id="closeRegTip">稍&nbsp;&nbsp;&nbsp;后</span>
+				<span class="quitBtn aligncenter" id="goOnLogin">继&nbsp;&nbsp;&nbsp;续</span>
+			</p>
+		</div>
+	</body>
+
+</html>

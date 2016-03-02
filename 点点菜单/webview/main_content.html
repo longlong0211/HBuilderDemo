@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/animate.css" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../layer.m/need/layer.css"/>
+	</head> 
+	<body style="background: #F0F0F0 !important;" id="container"> 
+		<!--<div class="mui-content">--> 
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll"> 
+		<div id="slider" class="mui-slider">
+			<div class="mui-slider-group mui-slider-loopanimated">
+				
+				<div class="mui-slider-item">
+					<a href="#"> 
+						<img src="../image/banner01.jpg">
+					</a>
+					<p class="mui-slider-title">
+						今日早餐推荐：早餐之高能小炸弹
+					</p>
+				</div>
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../image/banner02.jpg">
+					</a>
+					<p class="mui-slider-title">
+						今日午餐推荐：餐桌上的国民美食
+					</p>
+				</div>
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../image/banner03.jpg">
+					</a>
+					<p class="mui-slider-title">
+						今日下午茶推荐：我才不会告诉你东北小吃有多美味
+					</p>
+				</div>
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="../image/banner04.jpg">
+					</a>
+					<p class="mui-slider-title">
+						今日夜宵推荐：夜猫子的轻脂美食
+					</p> 
+				</div>
+				
+			</div>
+			<div class="mui-slider-indicator mui-text-right">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+			</div>
+		</div>
+		<div class="mui-content"> 
+			<div class="kind  animated">
+				<div class="top">
+					<div class="icon s1"  name="盖饭"> 
+						<i class="i1 k1 animated zoomInUp">盖</i>
+						<a>盖饭</a>
+					</div>
+					<div class="icon s2" name="盖饭">
+						<i class="i1 k2 animated zoomInUp">菜</i>
+						<a>炒菜</a>
+					</div>
+					<div class="icon s3" name="炒饭">
+						<i class="i1 k3 animated zoomInUp">饭</i>
+						<a>炒饭</a>
+					</div>
+					<div class="icon s4" name="面">
+						<i class="i1 k4 animated zoomInUp">面</i>
+						<a>面食</a>
+					</div>
+				</div>
+				<div class="bottom">
+					<div class="icon s1 s5" name="麻辣烫">
+						<i class="i1 k5 animated zoomInDown">烫</i>
+						<a>麻辣烫</a>
+					</div>
+					<div class="icon s1 s6" name="过桥米线">
+						<i class="i1 k6 animated zoomInDown">云</i>
+						<a>过桥米线</a>
+					</div>
+					<div class="icon s1 s7" name="麻辣香锅">
+						<i class="i1 k7 animated zoomInDown">香</i>
+						<a>麻辣香锅</a>
+					</div> 
+					<div class="icon s1 s8" name="凉菜">
+						<!--<i class="i1 iconfont icon-food k8 animated zoomInDown"></i>-->
+						<i class="i1 k8 animated zoomInDown">凉</i>
+						<a>其他</a>
+					</div>
+				</div>
+			</div>
+			<div class="rush fix">
+				<!--抢购-->
+				<div class="r_top fix">
+					<div class="r_top_left">
+						<img src="../image/rush.gif" />
+					</div>
+					<div class="r_top_right">
+						<a>距离开始</a>&nbsp;<span>|</span>&nbsp;<a><b id="hour" class="h">12</b><i class="dott">:</i><b id="min" class="h">10</b><i class="dott">:</i><b id="sec" class="h">10</b></a>
+					</div>
+				</div> 
+				<div class="r_buttom animated">
+					<ul class="r_shop">
+						<li name="laoyuxiaoguan" id="tangculiji"> 
+							<img src="../image/laoyu.png"/>  
+							<!--<h1>老于小馆</h1>-->
+							<h3>糖醋里脊</h3>
+							<a><b class="r_shop_money">6</b>元</a>
+							<i>8元</i> 
+						</li> 
+						<li name="dongbeichengxinkuaicandian" id="disanxian">
+							<img src="../image/dongbeichengxinkuaicandian.png"/> 
+							<!--<h1>老于小馆</h1>-->
+							<h3>地三鲜</h3>
+							<a><b class="r_shop_money">7</b>元</a>
+							<i class="r_shop_oldmoney">9元</i>
+						</li>
+						<li name="chuanyumeishi" id="muxurou">
+							<img src="../image/chuanyumeishi.png"/>
+							<!--<h1>老于小馆</h1>-->
+							<h3>木须肉</h3>
+							<a><b class="r_shop_money">6</b>元</a>
+							<i class="r_shop_oldmoney">8元</i>
+						</li>
+					</ul> 
+				</div>
+			</div> 
+			<div class="like"> 
+				<h3>猜你喜欢<b class="fr change"> <i class="mui-icon iconfont icon-huanyipi"></i>换一批</b></h3>
+				<ul class="mui-table-view" id="list">
+				 
+					
+				</ul>
+			</div>
+		</div><!--content-->
+	</div>  
+</div>
+		<script src="../js/mui.min.js" ></script>
+		<!--<script src="../js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="../js/zepto_1.1.6.min.js"  charset="utf-8"></script>
+		<script src="../js/timeCountDown.js"  type="text/javascript" charset="utf-8"></script>
+		<script src="../js/main_content.js" async="async"  type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+		mui.init({
+	swipeBack: false,
+	pullRefresh: {
+		container: "#pullrefresh",
+	}
+});
+
+if (mui.os.plus) {
+	mui.plusReady(function() {
+		setTimeout(function() {
+			mui("#pullrefresh").pullRefresh()
+		}, 1000)
+	})
+} else {
+	mui.ready(function() {
+		mui("#pullrefresh").pullRefresh()
+		})
+}
+		</script>
+	</body>
+
+</html>

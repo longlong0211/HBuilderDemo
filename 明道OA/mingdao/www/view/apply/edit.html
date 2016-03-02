@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fontstyles.css">
+		<script type="text/javascript" src="../../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../../js/sea.js"></script>
+		<script type="text/javascript" src="../../js/json2.js"></script>
+		<script type="text/javascript" src="../../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../../js/modules/"
+			});
+			seajs.use('view/apply/edit');
+			var setSelectItem = false;
+			var setProvinceItem = false;
+			var setProvinceCityItem = false;
+			var setSelectDeptItem = false;
+			var setSelectUserItem = false;
+			var sendApply = false;
+			var addDetail = false;
+		</script>
+	</head>
+
+	<body>
+		<section class="main process_main" id="wrapper" style="top: 0px;bottom: 0px;">
+			<!--当是安卓机子的时候就不用这个滚动条插件了，并且给main加    style="overflow-y:auto;"-->
+			<form  method="POST" class="formStyle" name="editForm" id="editForm" onsubmit="return false;">
+				<input type="hidden" id="applyId" name="applyId">
+				<input type="hidden" id="org.guiceside.web.jsp.taglib.Token" name="org.guiceside.web.jsp.taglib.Token">
+				<div id="layoutDIV">
+
+				</div>
+			</form>
+		</section>
+	</body>
+
+</html>

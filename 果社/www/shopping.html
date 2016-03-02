@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			.oa-contact-name {
+				float: left;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">购物车</h1>
+		</header>
+		<div class="mui-content" style="padding-bottom: 51px;">
+
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top:0px;">
+
+			</ul>
+
+		</div>
+		<nav class="mui-bar mui-bar-tab">
+			<div style="padding-left:10px;padding-top:13px;float:left;" id="heji">合计</div>
+			<button class="mui-btn mui-btn-negative" style="padding-left: 40px;padding-right: 40px;margin-right: 20px;float: right;" id="jiesuan">结算</button>
+		</nav>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/cart.js"></script>
+	<script>
+		var count = 0;
+		mui.init({
+			beforeback: function() {
+				//获得首界面的webview
+				var index = plus.webview.getLaunchWebview();
+				//触发自定义事件（gouwuchenum）,从而进行数据刷新
+				mui.fire(index, 'gouwuchenum');
+				var goods_show = plus.webview.getWebviewById("goods_show.html");
+				//console.log(goods_show);
+				if (goods_show != null) {
+					plus.webview.close(goods_show);
+					plus.webview.close(plus.webview.currentWebview());
+				} else {
+					plus.webview.close(plus.webview.currentWebview());
+				};
+			},
+			swipeBack: false //启用右滑关闭功能
+		});
+		mui.plusReady(function() {
+			//去掉滚动条
+			plus.webview.currentWebview().setStyle({
+				'scrollIndicator': 'none'
+			});
+			GetCartList();
+			GetTotal();
+			initTemplates();
+		});
+		 
+		document.querySelector('#jiesuan').addEventListener('click', function(event) {
+			if (count == 1) {
+				// 判断是否登录
+				var users = JSON.parse(localStorage.getItem('$users') || '[]');
+				var authed = users.some(function(user) {
+					return user.account;
+				});
+				//登录了
+				if (authed) {
+					var template = getTemplate('default');
+					var showMenu = false;
+					var headerWebview = template.header;
+					var contentWebview = template.content;
+					var title = "填写订单";
+					mui.fire(headerWebview, 'updateHeader', {
+						title: title,
+						showMenu: showMenu
+					});
+					var reload = true;
+					if (!template.loaded) {
+						if (contentWebview.getURL() != this.href) {
+							contentWebview.loadURL("confirm.html");
+						} else {
+							reload = false;
+						}
+					} else {
+						reload = false;
+					}
+					(!reload) && contentWebview.show();
+					headerWebview.show("pop-in", 150);
+				} else {
+					mui.openWindow({
+						id: "login",
+						url: "login.html",
+						waiting: {
+							autoShow: true,
+							title: "正在加载,请稍等"
+						},
+						styles: {
+							scrollIndicator: 'none'
+						}
+					});
+				}
+			}else{
+				mui.alert('请先添加商品', '果社');
+			}
+		});
+		var templates = {};
+		var getTemplate = function(name, header, content) {
+			var template = templates[name];
+			if (!template) {
+				//预加载共用父模板；
+				var headerWebview = mui.preload({
+					url: header,
+					id: name + "-main",
+					styles: {
+						popGesture: "hide",
+					},
+					extras: {
+						mType: 'main'
+					}
+				});
+				//预加载共用子webview
+				var subWebview = mui.preload({
+					url: !content ? "" : content,
+					id: name + "-sub",
+					styles: {
+						top: '45px',
+						bottom: '0px',
+					},
+					extras: {
+						mType: 'sub'
+					}
+				});
+				subWebview.addEventListener('loaded', function() {
+					setTimeout(function() {
+						subWebview.show();
+					}, 50);
+				});
+				subWebview.hide();
+				headerWebview.append(subWebview);
+				//iOS平台支持侧滑关闭，父窗体侧滑隐藏后，同时需要隐藏子窗体；
+				if (mui.os.ios) { //5+父窗体隐藏，子窗体还可以看到？不符合逻辑吧？
+					headerWebview.addEventListener('hide', function() {
+						subWebview.hide("none");
+					});
+				}
+				templates[name] = template = {
+					name: name,
+					header: headerWebview,
+					content: subWebview,
+				};
+			}
+			return template;
+		};
+		var initTemplates = function() {
+			getTemplate('default', 'examples/template.html');
+		};
+	</script>
+
+</html>

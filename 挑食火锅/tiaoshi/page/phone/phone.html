@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 更换手机号</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			.mui-input-group {
+				background: none;
+				display: table;
+			}
+			.mui-input-group:before,
+			.mui-input-group:after {
+				height: 0;
+			}
+			.mui-input-group .mui-input-row {
+				display: table-cell;
+				width: 100%;
+				vertical-align: middle;
+				background-color: #fff;
+			}
+			.mui-input-group .mui-input-row:after {
+				height: 0;
+			}
+			.mui-input-group .mui-input-row input[type=number] {
+				margin-bottom: 0;
+			}
+			.mui-input-group .mui-button-row {
+				padding: 0;
+				display: table-cell;
+				width: 1%;
+				white-space: nowrap;
+				vertical-align: middle;
+			}
+			.mui-input-group .mui-button-row button {
+				padding: 9px 12px;
+				margin-left: 5px;
+			}
+			.mui-btn-block {
+				padding: 5px 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 id="ts_title" class="mui-title"></h1>
+		</header>
+		<div class="mui-content mui-fullscreen">
+			<h5 class="mui-content-padded">请输入新的手机号码</h5>
+			<div class="mui-content-padded">
+				<div class="mui-input-group">
+					<div class="mui-input-row">
+						<input id="phone" type="number" placeholder="输入手机号">
+					</div>
+					<div class="mui-button-row">
+						<button id="get_sms" type="button" class="mui-btn mui-btn-primary">获取验证码</button>
+					</div>
+				</div>
+			</div>
+			<h5 class="mui-content-padded">请输入验证码</h5>
+			<div class="mui-content-padded">
+				<div class="mui-input-row">
+					<input id="sms" type="number" placeholder='点击"获取验证码"按钮获取验证码'>
+				</div>
+			</div>
+			<div class="mui-content-padded">
+				<button id="confirm" type="button" class="mui-btn mui-btn-block mui-btn-primary">提交</button>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/phone/phone.min.js"></script>
+		<script>
+			new TS.Init('Phone');
+		</script>
+	</body>
+
+</html>

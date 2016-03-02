@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-content {
+				padding-top: 60px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">支付</h1>
+		</header>
+		<div class="mui-content">
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">mui.init({swipeBack:true,beforeback:function(){console.log("退出支付页面");var b=plus.webview.getWebviewById("cart.html");mui.fire(b,"payed");return true}});mui.plusReady(function(){var c=plus.webview.currentWebview();console.log("pay_online："+(c.pay_online||""));if(c.pay_online){if(c.pay_online.substr(0,7).toLowerCase()=="http://"){var d=mui.openWindow({id:"pay.html",url:c.pay_online,waiting:{autoShow:true},styles:{top:"45px"}})}else{document.querySelector("div.mui-content").innerHTML=c.pay_online}}});</script>
+	</body>
+
+</html>

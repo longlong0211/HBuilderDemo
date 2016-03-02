@@ -1,0 +1,215 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐资讯</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<style type="text/css">
+		.mui-loader {
+				position:absolute;
+				top: 55px;
+				width: 100%; 
+				height: 60%;
+				color: #888;
+				font-size: 14px;
+				text-align: center;
+			}
+			
+			.mui-fullscreen{
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+	  
+		 
+		 #containermap{ height: 100%; clear: both; margin-top:50px; } 
+		 
+		 .mui-loader {
+			position:absolute;
+			top: 105px;
+			width: 100%; 
+			height: 60%;
+			color: #888;
+			font-size: 14px;
+			text-align: center;
+		}
+		</style> 
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style=" display:block;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">钓点地图</h1>
+	 </header>
+		<div class="mui-loader"><span class="mui-spinner" title="加载中..."></span></div>
+		 
+		<div id="containermap" class="mui-content"></div>
+		
+	 	
+	</body>
+	
+	<script src="js/jquery.js"></script>	
+	<script src="js/mui.min.js"></script>
+ 	<script src="js/common.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+ 	
+ 	<script src="js/fish_cache.js"></script>
+ 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+	<script type="text/javascript" src="js/fish_interface.js"></script> 
+	 
+	<script>
+	
+		mui.init({
+				swipeBack: false
+		});
+		
+		//创建和初始化地图函数：
+		mui.plusReady(function() {
+	   		
+	   		getposition();
+	   		
+	   		getpondlist();
+	   		
+	   		refreshindex(); 
+		});
+		
+       function refreshindex(){
+			pagenum = 0;
+	
+			var url=apiurl+"IPondsListSide.ashx?perpage=100&pagenum=0&longt="+position_longt+"&lat="+position_lat+"&length="+pondlist_length;
+			url += "&type="+encodeURIComponent(pondlist_type)+"&money="+pondlist_money+"&sort="+pondlist_sort;
+			
+			sendtointerface(position_longt,position_lat,url,function(responseText,status){
+				
+				jQuery(".mui-loader").hide();
+				
+				//保存钓点，方便发布渔乐信息的时候用
+				plus.storage.setItem("pointlist",responseText);
+				
+				var data=eval("("+ responseText+")");
+		                 
+            	 
+            	inittopMap(position_longt,position_lat,data);
+            	
+            	 
+			});
+			 
+			
+		}
+       
+	   function inittopMap(slongt,slat,data)
+	   {
+	   	 
+	   	 pontcount = data.pondslist.length;
+	   	 if(pontcount>0)
+	   	 {
+	       var map = new BMap.Map("containermap");//在百度地图容器中创建一个地图
+	       var point = new BMap.Point(slongt,slat);//定义一个中心点坐标
+	       
+	       var arealevel =8; 
+	       if(pontcount<5){
+	       		arealevel = 8;
+	       }
+	       else if(pontcount<10){
+	       		arealevel = 9;
+	       }
+	       else if(pontcount<20){
+	       		arealevel = 10;
+	       }
+	       else if(pontcount<30){
+	       		arealevel = 11;
+	       }
+	       else if(pontcount<40){
+	       		arealevel = 12;
+	       }
+	       else if(pontcount<100){
+	       		arealevel = 13;
+	       }
+	       else{
+	       		arealevel = 14;
+	       }
+	       map.centerAndZoom(point,arealevel);//设定地图的中心点和坐标并将地图显示在地图容器中
+	         
+	     
+	        //向地图中添加缩放控件  
+	        var ctrlNav = new window.BMap.NavigationControl({  
+	            anchor: BMAP_ANCHOR_TOP_LEFT,  
+	            type: BMAP_NAVIGATION_CONTROL_LARGE  
+	        });   
+	        map.addControl(ctrlNav);  
+	  
+	        //向地图中添加比例尺控件  
+	        var ctrlSca = new window.BMap.ScaleControl({  
+	            anchor: BMAP_ANCHOR_BOTTOM_LEFT  
+	        });  
+	        map.addControl(ctrlSca);  
+	  
+	        var point = new Array(); //存放标注点经纬信息的数组  
+	        var marker = new Array(); //存放标注点对象的数组  
+	        var info = new Array(); //存放提示信息窗口对象的数组  
+	        for (var i = 0; i < pontcount; i++) {  
+	            var p0 = encodeURIComponent(data.pondslist[i].longt); //  
+	            var p1 = encodeURIComponent(data.pondslist[i].lat); //按照原数组的point格式将地图点坐标的经纬度分别提出来  
+	            
+		       var marker = addMarker(new window.BMap.Point(p0, p1), i); 
+			   addInfoWindow(marker, data.pondslist[i], i);  
+	        }
+	        
+         	// 添加标注  
+            function addMarker(point, index) {  
+                var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png",  
+                        new BMap.Size(23, 25), {  
+                            offset: new BMap.Size(10, 25),  
+                            imageOffset: new BMap.Size(0, 0 - index * 25)  
+                        });  
+                    var marker = new BMap.Marker(point, { icon: myIcon });  
+                    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+                    map.addOverlay(marker);
+                    return marker;  
+                }  
+  
+            // 添加信息窗口  
+            function addInfoWindow(marker, poi) {  
+                //pop弹窗标题  
+                var title = '<div style="font-weight:bold;color:#CE5521;font-size:14px">' + poi.name + '</div>';  
+                //pop弹窗信息  
+                var html = [];  
+                html.push('<table cellspacing="0" style="table-layout:fixed;width:100%;font:12px arial,simsun,sans-serif"><tbody>');  
+                html.push('<tr>');  
+                html.push('<td style="vertical-align:top;line-height:16px;width:38px;white-space:nowrap;word-break:keep-all">地址:</td>');  
+                html.push('<td style="vertical-align:top;line-height:16px">' + poi.address + ' </td>');
+                html.push('</tr>');  
+                 html.push('<tr>');  
+                html.push('<td style="vertical-align:top;line-height:16px;width:38px;white-space:nowrap;word-break:keep-all">鱼类:</td>');  
+                html.push('<td style="vertical-align:top;line-height:16px">' + poi.fishes + ' </td>');
+                html.push('</tr>');  
+                //html.push('<tr>');  
+                //html.push('<td colspan="2" style="vertical-align:top;line-height:30px; font-size:16px;"><a clss="button" href="fishpoint_detai.html?id=' + poi.id + '" open-type="common" >查看详细</a> </td>');
+                //html.push('</tr>');  
+                 
+                html.push('</tbody></table>');  
+                var infoWindow = new BMap.InfoWindow(html.join(""), { title: title, width: 200 });  
+  
+                    var openInfoWinFun = function () {  
+                        marker.openInfoWindow(infoWindow);  
+                    };  
+                    marker.addEventListener("click", openInfoWinFun);  
+                return openInfoWinFun;  
+            }  
+          
+        
+        
+	        
+	        
+		         
+		   }     
+	   	}	
+		
+	</script>
+</html>

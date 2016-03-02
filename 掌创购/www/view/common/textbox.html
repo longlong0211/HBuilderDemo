@@ -1,0 +1,67 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title></title>
+
+    <link href="../../css/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
+</head>
+
+<body>
+    <div id="header" style="position: absolute;">
+        <span class=" tab_mune tab_a t-c" id="back">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2">填写</h2>
+        </span>
+        <span class="tab_mune tab_a t-c">
+
+        </span>
+    </div>
+
+    <div id="content" class="bg-f2" style="top: 50px ; height: 70%;">
+        <div class="item-01-wrap mt10 bottom-line" style="height:40%;position: relative;">
+            <textarea id="textvalue" style="height:100%;width:100%;border:none"></textarea>
+        </div>
+        <div class="dlkuang" id="btnback">
+            <p class="dlan"><a>返回</a></p>
+        </div>
+    </div>
+
+    <script>
+
+        var _txtId;
+        function plusReady() {
+        	var currentview = plus.webview.currentWebview();
+            _txtId = currentview.textboxid;
+            $("#textvalue").val(currentview.textboxvalue);
+            // 返回
+            $("#back").on("click", function () {
+                plus.webview.currentWebview().opener().evalJS("getMessage('" + _txtId + "','" + $("#textvalue").val() + "')");
+                plus.webview.currentWebview().close();
+            });
+
+            $("#btnback").on("click", function () {
+                plus.webview.currentWebview().opener().evalJS('getMessage("' + _txtId + '","' + $("#textvalue").val() + '")');
+                plus.webview.currentWebview().close();
+            });
+        }
+
+        if (window.plus) {
+            plusReady();
+        } else {
+            document.addEventListener('plusready', plusReady, false);
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-content > .mui-table-view:first-child {
+				margin-top: 0px;
+			}
+			
+			p.info {
+				padding: 0 0 0 5px;
+				margin: auto;
+				color: #a4a4a4;
+			}
+			
+			p.info span {
+				padding: 0px 3px 0px 1px;
+				font-size: 13px;
+			}
+			
+			#acontent img {
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="atitle"></h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<p class="info">
+						<span id="author"></span>
+						<span id="add_time"></span>
+					</p>
+				</li>
+				<li class="mui-table-view-cell">
+					<p id="acontent"></p>
+				</li>
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script>mui.init({swipeBack:true});mui.plusReady(function(){updateCachedUser()});document.addEventListener("pagebeforeshow",function(c){var d=plus.webview.currentWebview();if(!d.eid){mui.toast("获取文章信息失败");mui.back();return}getDetailData(d.eid)});function getDetailData(b){mui.sendRequest(mui.constMap.ROOT_PATH+"/article",{article_id:b},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);mui.back();return}fillDetail(a.data)})}function fillDetail(c){mui.html("atitle",c.title);mui.html("author",c.author);mui.html("add_time",c.add_time);mui.html("acontent",c.content);var d=document.getElementById("acontent");buildUrl(d,"img");buildUrl(d,"video")}function buildUrl(b,a){var c=b.querySelectorAll(a);mui.each(c,function(e,g){var f=g.getAttribute("src"),d=f.substr(0,7).toLowerCase();if(d!="http://"&&d!="https:/"){g.setAttribute("src",mui.constMap.SERVER_HOST+f)}})};</script>
+	</body>
+
+</html>

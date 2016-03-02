@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 购物车</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			html,
+			body {
+				font-size: 13px;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			.mui-checkbox.mui-left input[type=checkbox] {
+				left: 10px;
+				top: 15px;
+			}
+			.mui-table-view-cell.mui-checkbox.mui-left {
+				padding-left: 35px;
+			}
+			.mui-table-view-cell.mui-checkbox.mui-left a {
+				margin: -11px 15px;
+				padding: 11px 0;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active {
+				background-color: #fff;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active .mui-table-view {
+				border-top: 1px solid #c8c7cc;
+			}
+			.mui-table-view-cell .mui-table-view-cell {
+				height: 40px;
+			}
+			.ts-cart-material-name,
+			.ts-cart-material-price {
+				display: inline-block;
+			}
+			.ts-cart-material-price {
+				left: 50%;
+				position: absolute;
+			}
+			.ts-numbox {
+				top: 8px;
+			}
+			#cart p {
+				color: #ff5d3a;
+			}
+			.mui-bar-tab .ts-bar-checkbox {
+				width: 40%;
+			}
+			.mui-bar-tab .ts-bar-desc {
+				width: 30%;
+				color: #000;
+			}
+			i {
+				font-style: normal;
+			}
+			.mui-bar-tab .ts-bar-btn {
+				width: 30%;
+				background-color: #ff5d3a;
+				color: #fff!important;
+			}
+			.mui-tab-item .mui-checkbox.mui-left label {
+				padding-left: 38px;
+				text-align: left;
+			}
+			.mui-tab-item .mui-checkbox.mui-left input[type=checkbox] {
+				top: 2px;
+			}
+			#cart .mui-icon-trash {
+				position: absolute;
+				right: 0;
+				top: 10px;
+			}
+			.mui-table-view .mui-media-object {
+				width: 42px;
+			}
+		</style>
+	</head>
+
+	<body class="ts-statusbaroffset">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 id="ts_title" class="mui-title">购物车</h1>
+		</header>
+		<nav id="nav" class="mui-bar mui-bar-tab">
+			<div class="mui-tab-item ts-bar-checkbox">
+				<div id="checkall" class="mui-input-row mui-checkbox mui-left">
+					<label>全选</label>
+					<input type="checkbox">
+				</div>
+			</div>
+			<span class="mui-tab-item ts-bar-desc ts-primary">总额：<i id="price">0</i>元</span>
+			<a id="confirm" class="mui-tab-item ts-bar-btn">结算</a>
+		</nav>
+		<div id="scroll" class="mui-content mui-scroll-wrapper" style="-webkit-overflow-scrolling:auto">
+			<div id="cart">
+
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/cart/cart.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/cart/cart.min.js"></script>
+		<script>
+			new TS.Init('Cart');
+		</script>
+	</body>
+
+</html>

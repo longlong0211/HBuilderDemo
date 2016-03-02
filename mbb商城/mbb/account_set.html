@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">个人资料</h1>
+			<button type="button" class="mui-btn mui-pull-right">
+				保存
+			</button>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<input type="text" id="account_set_input">
+					</div>
+					<div class="mui-input-row mui-hidden">
+						<input type="password" id="oldpass" placeholder="请输入原密码">
+					</div>
+					<div class="mui-input-row mui-hiden">
+						<input type="password" id="newpass" placeholder="请输入新密码">
+					</div>
+					<div class="mui-input-row mui-hiden">
+						<input type="password" id="repeatpass" placeholder="请再次输入新密码">
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">var user=null;mui.init({swipeBack:true});mui.plusReady(function(){user=getCachedUser(true);if(!user){var b=plus.webview.getLaunchWebview();mui.fire(b,"login");mui.back();return}init()});document.querySelector("button").addEventListener("tap",accountSave);function init(){var g=plus.webview.currentWebview();var j=document.querySelector("h1"),i=document.getElementById("account_set_input"),f=document.getElementById("newpass"),h=f.parentNode;j.innerHTML=g.input_title;i.setAttribute("name",g.input_name);i.setAttribute("value",g.input_value);i.setAttribute("placeholder","请输入"+g.input_title+"...");if(g.input_name=="name"){i.disabled=true;showPassword(true)}else{i.disabled=false;showPassword(false)}}function accountSave(j){var o=document.getElementById("account_set_input"),s=o.getAttribute("name"),n=document.getElementById("oldpass"),t=document.getElementById("newpass"),i=document.getElementById("repeatpass");var p={session:user.session,name:s,value:o.value};if(s=="name"){var e=[n,t,i];for(var q=0,r=e.length;q<r;q++){if(e[q].value.trim()==""){mui.alert(e[q].placeholder.replace(/(\.*$)/g,""),"温馨提示","确定",function(a){e[q].focus()});return}p[["oldpass","newpass","repeatpass"][q]]=e[q].value.trim()}if(p.newpass!=p.repeatpass){mui.alert("两次密码输入不一致");return}}if(o.value.trim()==""){mui.alert(o.placeholder.replace(/(\.*$)/g,""),"温馨提示","确定",function(a){o.focus()});return}mui.sendRequest(mui.constMap.ROOT_PATH+"/user/update",p,function(c){if(!c.status.succeed){mui.toast(c.status.error_desc);return}if(typeof user.user[s]!="undefined"){user.user[s]=o.value}if(s=="name"){window.localStorage.removeItem("user");window.localStorage.removeItem("login");var a=plus.webview.getWebviewById("cart.html"),b=plus.webview.getWebviewById("home.html");mui.fire(a,"refresh",{action:"logout"});mui.fire(b,"refresh",{action:"logout"})}else{user.expire=mui.now();user.expire+=15*60*1000;window.localStorage.setItem("user",JSON.stringify(user))}mui.toast("保存成功");var d=plus.webview.currentWebview().opener();mui.fire(d,"refresh");mui.back()})}function showPassword(b){if(b){document.getElementById("oldpass").parentNode.classList.remove("mui-hidden");document.getElementById("newpass").parentNode.classList.remove("mui-hidden");document.getElementById("repeatpass").parentNode.classList.remove("mui-hidden")}else{document.getElementById("oldpass").parentNode.classList.add("mui-hidden");document.getElementById("newpass").parentNode.classList.add("mui-hidden");document.getElementById("repeatpass").parentNode.classList.add("mui-hidden")}};</script>
+	</body>
+
+</html>

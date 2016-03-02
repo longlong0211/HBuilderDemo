@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>雷达加朋友</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+			
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			body{ background: #fff;}
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
+				font-size: 15px;
+				margin-top:0px;
+				color: #333;
+			}
+			
+			.mui-content{background-color: #fff;}
+			
+			.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 70px;
+			}
+			 
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				padding-right: 20px;
+			}
+			.oa-contact-name, .oa-contact-position {
+				float: left;
+			}
+			.friend_head_sculpture{
+				 width:60px; height:60px;  float:left;border-radius: 10%;
+			}
+			.friendcenter{ background-color:#fff ; z-index:100 ;}
+			#pullrefresh{ top: 10px; min-height:300px; }
+		      
+		</style>
+		 
+	</head>
+	<body>
+		
+	<header class="mui-bar mui-bar-nav">
+	    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+			   <span class="mui-icon mui-icon-left-nav"></span>
+			        返回
+		</button>
+	    <h1 class="mui-center mui-title">雷达加朋友</h1>
+	</header>
+	 
+	<div id="pullrefresh"  class="mui-content  mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="friendcenter">
+			<form name="formsearch"  method="get" action="friend_add_telphonebook.html?type=search">
+				<div class="mui-input-row mui-search mui-content-padded">
+					<input id="search" type="search" name="keyword" class="mui-input-speech mui-input-clear" placeholder="带语音输入的搜索框">
+				</div>
+			</form>
+			 <ul id="userslist" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+			 </ul> 
+			</div>
+		 </div>
+	</div>
+	 
+	
+	<script id="list-template" type="text/x-handlebars-template">
+ 	{{#each list}}
+	<li class="mui-table-view-cell">  
+		<a href="friend_detail.html?type=telphone&id={{uid}}" open-type="common" class="mui-navigate-right">
+			<div class="mui-slider-cell">
+				<div class="oa-contact-cell mui-table">
+					<div class="oa-contact-avatar mui-table-cell">
+						<img class="friend_head_sculpture" src="{{pic}}" />
+					</div>
+					<div class="oa-contact-content mui-table-cell">
+						<div class="mui-clearfix">
+							<h4 class="oa-contact-name">{{nickname}}</h4>
+							<span class="oa-contact-position mui-h6">{{timespan}}，离你{{distance}}米</span>
+						</div>
+						<p class="oa-contact-email mui-h6">
+							{{msg}}
+						</p>
+					</div>
+				</div>
+			</div>
+		</a>
+	</li>
+	{{/each}}
+</script>
+
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+	<script src="js/app.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+ 	<script type="text/javascript" src="js/fish_interface.js"></script>
+ 	<script type="text/javascript" src="js/fish_cache.js"></script>
+	
+	<script>
+	(function($, doc) {
+		 
+		 
+		
+		//上拉下拉
+		mui.init({
+			swipeBack: false,
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					//contentrefresh: '正在加载...',
+					callback: pulldownRefresh
+				}
+				,
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			}
+		});
+		
+		// 通过百度定位模块获取位置信息
+	    function getPosBaidu(){
+			plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+				outSet( "获取定位位置信息失败："+e.message );
+			},{provider:'baidu'});
+		}
+		 
+		var wt = null; 
+		
+		function geoInf( position ) {  
+			 
+			wt=plus.nativeUI.showWaiting(); 
+			 
+			var codns = position.coords;//获取地理坐标信息；
+			var longt = codns.longitude;//获取到当前位置的经度
+			var lat = codns.latitude;//获取到当前位置的纬度；
+			
+			//发起
+			var url_index=apiurl+"IMyFriendSideList.ashx?uid="+uid;
+			url_index += "&longt="+longt;
+			url_index += "&lat="+lat;
+			url_index += "&length=10";
+			  
+			sendtointerface(uid,longt,url_index,function(responseText,status){
+				var data=eval("("+responseText+")");	
+            	if(data.list.length>0)
+            	{
+                	var pondsSource = document.getElementById("list-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#userslist").html(myTemplate(data));
+            	
+            	 }else{
+            	 	alert("没有找到相关渔友，请重试！");
+            	 } 
+            	 
+            	 wt.close();
+			});
+			 
+		}	
+		 
+		function initindex(){
+			
+			getlogin();
+			 
+			
+			if(uid>0)
+			{ 
+				getPosBaidu();
+	 
+			}else
+			{
+				mui.toast("请先登陆");
+			}
+		}
+		
+		 
+		 
+		mui.plusReady(function() {
+			 initindex();
+		});
+		
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				refreshdata("down");
+			}, 1000);
+		}
+		 
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			 
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+				 
+				//refreshdata("up");
+			}, 1000);
+			 
+		}
+		
+		function refreshdata(upordown)
+		{
+			initindex();
+		}
+		
+	}(mui, document));			
+	</script>	
+	
+	 
+		
+	</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐圈子</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body,.mui-content {
+				background-color: #FFF;
+				
+			}
+			.title{
+				margin: 0px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+		 
+			
+			.oa-contact-cell {
+				clear: both;
+			}
+	
+			.oa-contact-avatar img{
+				width: 50px;
+				height: 50px;
+				border-radius: 10%;    
+				float:left;
+			}
+			.oa-contact-avatar .oa-contact-name{
+				float:left;
+				padding-left: 10px;;
+			}
+			.oa-contact-name h5{ color:#000000; font-size: 16px; position: relative ;}
+			.oa-contact-name small{ font-size:11px; color: #6C6C6C;}
+			.oa-contact-content , .oa-contact-image,.oa-contact-gooduser, .oa-contact-say,.oa-contact-reply{ 
+				clear: both; margin-top:10px;   font-weight: normal;font-size: 14px;  line-height: 18px;
+			
+			}
+			.oa-contact-image img{ width: 98%;}
+			.oa-contact-image .mui-col-xs-3{ float: left;}
+			
+			 
+			
+			.oa-contact-button { position:relative; right:10px; top:0px;}
+			.oa-contact-fish{ clear: both; padding-left: 20px ; padding-top:10px; padding-bottom: 10px; background: url(images/ico_point.png) no-repeat left; }
+			.oa-contact-fish a{font-size: 14px; color:#000000;     }
+			
+			.oa-contact-gooduser{font-size: 13px;  padding-left: 20px ; background: url(images/ico_good.png) no-repeat left; border: 0px;}
+			
+			.ico_good{padding-left: 12px; padding-right: 12px; width:12px; background: url(images/ico_good.png) no-repeat center; height: 18px; }
+			.ico_chat{padding-left: 12px ;padding-right: 12px; width:12px;background: url(images/ico_chat.png) no-repeat center; height: 18px;}
+			 
+			         
+			#groupcontrol li{ text-align: center;}
+			 
+			.addgroup .mui-table-view-cell img{ width:40px; height:40px;  float:left;border-radius: 10%;}
+			.addgroup .mui-table-view-cell span{ line-height:40px; height:40px;  float:left; padding-left: 10px; }
+			  
+			.title-sub{ position:absolute ; top: 0px;  right: 0px; background-color: red; color: white;}  
+		
+			.oa-contact-reply , .oa-contact-content , .oa-contact-gooduser { 
+			   color:#222;
+			   
+			}
+			.oa-contact-content{ padding-top: 10px; padding-bottom: 10px;}
+			.oa-contact-reply h6{ color:#222; font-size: 13px; line-height: 16px; padding:0px; margin: 0px ;} 
+		    
+		    h6{ font-size: 13px;}
+		    
+		    .mui-table-view-divider{ padding-top: 20px; padding-bottom: 20px;}
+		
+			#pullrefresh{ top: 96px; min-height:300px;}
+		</style>  
+		<link href="css/mui.imageviewer.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="title " > 
+			<ul class="mui-table-view mui-grid-view" id="groupcontrol">
+				<li class="mui-table-view-cell  mui-col-xs-3">
+				 <a href="tab-webview-subpage-group.html"  >
+				 	 
+					 <img src="images/ico_group.png" alt="朋友圈">
+					 <h5 style="color:#000;">朋友圈<span class="mui-badge title-sub" id="num_sub_group" style="display: none;" ></span></h5>
+				 </a>	 
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3">
+					<a href="tab-webview-subpage-friends.html" >
+					 <img src="images/ico_friend.png" alt="通讯录">
+					 <h5>通讯录<span class="mui-badge title-sub" id="num_sub_friend" style="display: none;" ></span></h5>
+					</a>  
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3">
+					<a href="tab-webview-subpage-messages.html" >
+					 <img src="images/ico_message.png" alt="微信息">
+					 <h5>微信息<span class="mui-badge title-sub" id="num_sub_message" style="display: none;" ></span></h5> 
+					</a>
+				</li>  
+				<li class="mui-table-view-cell  mui-col-xs-3">
+					<a href="tab-webview-subpage-groupmsgs.html" >
+					 <img src="images/ico_groupmsg.png" alt="我的群">
+					 <h5>我的群<span class="mui-badge title-sub" id="num_sub_groupmsg" style="display: none;" ></span></h5> 
+					</a>
+				</li>  
+			</ul>
+		</div>	
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="addgroup">
+				<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+					<li class="mui-table-view-cell">
+						<a href="group_publish.html" title="发点渔乐新鲜事" open-type="common"  class="mui-navigate-right">
+						<img src="images/ico_publish.png" /><span>发点渔乐新鲜事</span>
+						</a>
+					</li>
+				</ul>	
+				</div>
+				<ul id="postlist" class="mui-table-view mui-table-view-striped mui-table-view-condensed"></ul>
+			</div>
+		</div>
+	</body>
+	
+	<script id="postlist-template" type="text/x-handlebars-template">
+ 	{{#each postlist}}
+ 	
+	<li class=" mui-table-view-divider  " data-id="{{pid}}">
+		<div class="mui-slider-cell " >
+			<div class="oa-contact-cell mui-table">
+				<div class="oa-contact-avatar ">
+					 <img src="{{avater}}" />
+					
+					<div class=" oa-contact-name ">
+						<h5>{{fromusername}}
+						
+						</h5>
+						<small>{{time}}</small>
+					</div>
+				</div>
+				
+				<div class="oa-contact-button mui-pull-right">
+				 	<h6 class="mui-badge" data-type="good"  data-id="{{pid}}" ><span class="mui-icon ico_good"></span></h6>
+				 	<h6 class="mui-badge" data-type="comment" data-id="{{pid}}" ><span class="mui-icon ico_chat"></span></h6>
+				 </div>
+				
+				<div class="oa-contact-content ">
+					 {{content}}
+				</div>
+				<div class="oa-contact-image ">
+					 {{#with pictures}}
+		               {{#each this}}
+		                  
+		                 <div class="mui-col-xs-3">
+							<img src="{{this}}" class="mui-action-preview">
+						</div> 
+		               {{/each}}
+		            {{/with}}
+					 
+				</div>
+				 
+				{{#if pond_name}}
+				 <div class="mui-pull-left mui-text-left oa-contact-fish"  >
+				 	<a href="fishpoint_detai.html?id={{pond_id}}" open-type="common" title="{{pond_name}}">{{pond_name}}</a>
+				 </div>
+				 {{/if}}
+					 
+				 
+				<div id="div_good_{{pid}}" class="oa-contact-gooduser  mui-text-left "  >
+				{{#with goods}}
+		            {{#each this}}
+		                  {{nickname}}、
+		               {{/each}}
+				{{/with}}					
+				 等<span class="goodusernum">{{goodusernum}}</span>人觉得很赞
+				</div>
+				 
+				 <div  id="div_reply_{{pid}}" class="mui-text-left"  >
+				 	{{#with replys}}
+		            {{#each this}}
+					<div class="oa-contact-reply mui-text-left">
+						<h6 data-type="reply" data-id="{{r_fromid}}" nickname="{{r_fromusername}}" userid="{{r_fromuid}}" >{{r_fromusername}}  {{#if r_reply_nick_name}}回复 {{r_reply_nick_name}}{{/if}}：{{r_content}}</h6>
+					</div>
+					
+					  {{/each}}
+					{{/with}}
+				 </div>
+				
+			</div>
+		</div>
+	</li>
+	<li class=" mui-content-padded  "  ></li>
+	{{/each}}
+	</script>
+	
+	
+	<script src="js/jquery.js"></script>	 
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+ 	<script src="js/app.js"></script>
+ 	<script src="js/group.js"></script>
+ 	<script type="text/javascript" src="js/common.js"></script>
+ 	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+ 	
+ 	<script src="js/mui.imageViewer.js"></script>
+ 	<script type="text/javascript" src="js/fish_noback.js"></script> 
+ 	<script type="text/javascript" src="js/fish_interface.js"></script> 
+ 	<script type="text/javascript" src="js/fish_cache.js"></script> 
+ 	<script>
+ 	 
+ 	(function($, doc) {
+ 	
+ 		 
+		var type = 272;
+		var shouldfishinit = true;
+		
+		//上拉下拉
+		mui.init({
+			swipeBack: false,
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					//contentrefresh: '正在加载...',
+					callback: pulldownRefresh
+				},
+				up: {
+					//contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			}
+		});
+		
+		document.addEventListener('fishinit', function() {
+			 
+			if(shouldfishinit){
+				initindex();
+				
+			}
+			else if(jQuery("#postlist").html()=="")
+			{
+				initindex();
+				 
+			}
+			else if( plus.storage.getItem("MessageNum_userpostnum")!= null && plus.storage.getItem("MessageNum_userpostnum") !="0" )
+			{
+				//下拉加载
+				pulldownRefresh();
+				plus.storage.setItem("MessageNum_userpostnum","0");
+
+			}
+			
+			initnum();
+			
+		});
+		
+		function initimages(){
+			
+			 
+ 			var imageViewer = new mui.ImageViewer('.mui-action-preview', {
+				dbl: false 
+			}); 
+			
+			imageViewer.findAllImage();  
+		} 
+	 
+ 	  
+		
+		mui.plusReady(function() {
+			 
+			 /*
+			 initindex();
+			 
+			 initnum();*/
+			
+		});
+
+		function initnum(){
+			
+			if(plus.storage.getItem("MessageNum_usergourpmsgnum")!=null && plus.storage.getItem("MessageNum_usergourpmsgnum")!="0")
+            {
+				
+				jQuery("#num_sub_groupmsg").html(plus.storage.getItem("MessageNum_usergourpmsgnum"));
+				jQuery("#num_sub_groupmsg").css("display","block");
+			}else{
+				
+				jQuery("#num_sub_groupmsg").html("");
+				jQuery("#num_sub_groupmsg").css("display","none");
+			}
+            
+            if(plus.storage.getItem("MessageNum_usermsgnum")!=null && plus.storage.getItem("MessageNum_usermsgnum")!="0")
+            {
+				
+				jQuery("#num_sub_message").html(plus.storage.getItem("MessageNum_usermsgnum"));
+				jQuery("#num_sub_message").css("display","block");
+			} 
+			else{
+				
+				jQuery("#num_sub_message").html("");
+				jQuery("#num_sub_message").css("display","none");
+			}
+			
+			if(plus.storage.getItem("MessageNum_userpostnum")!=null && plus.storage.getItem("MessageNum_userpostnum")!="0")
+            {
+				
+				jQuery("#num_sub_group").html(plus.storage.getItem("MessageNum_userpostnum"));
+				jQuery("#num_sub_group").css("display","block");
+			}else{
+				
+				jQuery("#num_sub_group").html("");
+				jQuery("#num_sub_group").css("display","none");
+			}
+		}
+		
+		
+		function initindex(){
+			getlogin();
+			
+			if(uid>0)
+			{
+				shouldfishinit = false;
+			   var wt=plus.nativeUI.showWaiting();
+				//发起
+				var url_index=apiurl+"IMyPostsList.ashx?pagenum=0&perpage=10&uid="+uid.toString();
+				
+				
+				sendtointerface(uid,"",url_index,function(responseText,status){
+					var data=eval("("+ responseText+")");
+	 	 
+                	var pondsSource = document.getElementById("postlist-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#postlist").append(myTemplate(data));
+                	
+                	initimages();  
+                	
+                	plus.nativeUI.closeWaiting(); 
+                	 
+				},function(){ wt.close();});
+				 
+				
+				
+			}else{
+				mui.toast("请先登陆");
+				shouldfishinit = true;
+			}
+		}
+		
+		
+		mui('.mui-content').on('tap', 'h6', function(e){
+			
+			 
+			
+			if(uid>0)
+			{
+			
+				var dataid = this.getAttribute("data-id");
+				var datatype = this.getAttribute("data-type");
+			    var replaynickname = this.getAttribute('nickname');
+				var replayuserid = this.getAttribute("userid");
+				 
+			    if(datatype=="comment")
+			    {
+			     	e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+					var btnArray = ['确定', '取消'];
+					mui.prompt('发表评论：', '写点什么吧', "", btnArray, function(e) {
+						if (e.index == 0) {
+							
+							if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+							//发起
+							var url=apiurl+"IActionPost.ashx?type="+type+"&id="+dataid.toString()+"&uid="+uid.toString()+"&nickname="+nickname+"&msg="+e.value;
+							
+							
+							sendtointerface(uid,dataid,url,function(responseText,status){
+								var data=eval("("+responseText+")");
+			                	if(data.retisok==1)
+			                	{
+			                		 mui.toast( "评论成功！"+data.retmessage );
+			                		  
+			                		 //info.innerText = '谢谢你的评论：' + e.value;
+									 jQuery("#div_reply_"+dataid).prepend("<div class=\"oa-contact-reply  mui-text-left\"><h6>"+nickname+" : "+e.value+"</h6></div>");
+									 
+			                	}else{
+			                		
+			                		mui.toast( "不小心失败了，"+data.retmessage );
+			                	}
+							});
+							 
+							
+						} else {
+							//info.innerText = '你点了取消按钮';
+						}
+					})
+					
+				}
+			    else if(datatype == "reply")
+			    {
+			    	 
+				  
+	 
+				    if(replayuserid==uid){ 
+				    	mui.toast( "不能自己回复自己！" );
+				    	return;
+				    }
+				    
+				    e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+					var btnArray = ['确定', '取消'];
+					mui.prompt("回复 "+replaynickname, '写点什么吧', "", btnArray, function(e) {
+						if (e.index == 0) {
+							
+							if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+							//发起
+							 
+							var url=apiurl+"IActionPost.ashx?type="+type+"&id="+dataid.toString()+"&uid="+uid.toString()+"&nickname="+nickname+"&msg="+e.value+"&replyuserid="+replayuserid.toString()+"&replynickname="+replaynickname;
+							
+							sendtointerface(uid,dataid,url,function(responseText,status){
+								var data=eval("("+responseText+")");
+				                	if(data.retisok==1)
+				                	{
+				                		 mui.toast( "回复成功！"+data.retmessage );
+				                		  
+										 jQuery("#div_reply_"+dataid).prepend("<div class=\"oa-contact-reply  mui-text-left\"><h6>"+nickname+" 回复 "+replaynickname+" : "+e.value+"</h6></div>");
+				                	}else{
+				                		
+				                		mui.toast( "不小心失败了，"+data.retmessage );
+				                	}
+							});
+							 
+							
+						} else {
+							//info.innerText = '你点了取消按钮';
+						}
+					})
+			    }
+			    else
+				{
+					//点赞
+					var url=apiurl+"IActionGood.ashx?type="+type+"&id="+dataid.toString()+"&uid="+uid.toString()+"&nickname="+nickname;
+					
+					sendtointerface(uid,dataid,url,function(responseText,status){
+						var data=eval("("+responseText+")");
+	                	var oldnum = parseInt(jQuery("#div_good_"+dataid+" .goodusernum").html());
+	                	if(data.retisok==1)
+	                	{
+	                		jQuery("#div_good_"+dataid).prepend(nickname+",")
+	                		jQuery("#div_good_"+dataid+" .goodusernum").html(oldnum+1);
+	                	}else{
+	                		
+	                		mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+					});
+					
+					 
+					
+				}
+			}else{
+				
+				mui.toast("请先登陆");
+			}
+		}); 
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				refreshdata("down");
+			}, 1000);
+		}
+		 
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+				 
+				refreshdata("up");
+			}, 1000);
+		}
+		
+		function refreshdata(upordown)
+		{
+			
+			
+			if(uid<=0)
+			{
+				initindex();
+				return;
+			}
+			else{
+		 
+				var url_index=apiurl+"IMyPostsList.ashx?pagenum=0&perpage=10&uid="+uid.toString();
+				
+				if(upordown == "down"){
+					 
+					var maxid = jQuery("#postlist li:first").attr("data-id");
+					if(typeof(maxid) == "undefined"){maxid = 0;}
+					
+					url_index += "&condition="+encodeURIComponent(" id>"+maxid)+"&sort="+encodeURIComponent(" id asc");
+				}  
+				else{
+					
+					var minid =  jQuery("#postlist li:last").attr("data-id");
+					
+					if(typeof(minid) == "undefined"){minid = 0;}
+					 
+					url_index += "&condition="+encodeURIComponent(" id<"+minid)+"&sort="+encodeURIComponent(" id desc");
+				}
+				
+				sendtointerface(uid,upordown,url_index,function(responseText,status){
+					var data=eval("("+ responseText+")");
+		                	 
+                	var datacount =  data.postlist.length;
+                	 
+                	if(datacount>0)
+                	{
+                	 
+	                	var pondsSource = document.getElementById("postlist-template").innerText;
+	                	var myTemplate = Handlebars.compile(pondsSource);
+	                	
+	                	
+	                	if(upordown=="down")
+	                	{
+	                		//将data按id倒序
+	                		
+	                		var datanew = {"postlist":[]};
+	                		for(i=datacount-1;i>=0;i--)
+	                		{
+	                			datanew.postlist.push(data.postlist[i]); 
+	                		}  
+	                		
+	                		 
+	                		jQuery("#postlist").prepend(myTemplate(datanew));
+	                		
+	                	}else
+	                	{
+	                		jQuery("#postlist").append(myTemplate(data));
+	                	} 
+	                	
+	                 	initimages();
+                	
+                	}
+				});
+			  
+				 
+				
+			}	 
+		}
+		 
+ 	}(mui, document));	
+ 	</script>
+ 	 
+ 	
+ 	
+</html>

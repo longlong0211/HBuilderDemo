@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<div class="mui-content"></div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({gestureConfig:{doubletap:true},subpages:[{url:"orders_sub.html",id:"orders_sub.html",styles:{top:"45px",bottom:"0px",}}]});mui.plusReady(function(c){var a=plus.webview.currentWebview();var b=document.querySelector("h1");if(a.type=="all"){b.innerHTML="我的订单"}else{if(a.type=="await_pay"){b.innerHTML="我的订单-待付款"}else{if(a.type=="await_ship"){b.innerHTML="我的订单-待发货"}else{if(a.type=="shipped"){b.innerHTML="我的订单-待收货"}else{if(a.type=="finished"){b.innerHTML="我的订单-已完成"}}}}}});var contentWebview=null;document.querySelector("header").addEventListener("doubletap",function(){if(contentWebview==null){contentWebview=plus.webview.currentWebview().children()[0]}if(mui.os.ios){contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)")}else{contentWebview.evalJS("mui.scrollTo(0, 100)")}});
+	    </script>
+	</body>
+
+</html>

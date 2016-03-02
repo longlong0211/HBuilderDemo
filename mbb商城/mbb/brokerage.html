@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/iconfont.css" />
+		<link rel="stylesheet" href="css/brokerage.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的红包</h1>
+		</header>
+		<div class="mui-content">
+			<div class="bro-spare">
+				<p class="tip-txt"><span class="mui-icon iconfont icon-qiandai icon-money"></span>可提现红包余额</p>
+				<span class="number-big">￥0.00</span>
+			</div>
+			<ul class="maneylist">
+				<li class="maneylist-li">
+					<a class="a-personal">
+						<span class="mui-icon iconfont icon-meiyuan icon-money-circle"></span>
+						<span class="text">未付款订单红包</span>
+						<span class="money-number">￥0</span>
+					</a>
+				</li>
+				<li class="maneylist-li">
+					<a class="a-personal">
+						<span class="mui-icon iconfont icon-meiyuan icon-money-circle"></span>
+						<span class="text">已付款订单红包</span>
+						<span class="money-number">￥0</span>
+					</a>
+				</li>
+				<li class="maneylist-li">
+					<a class="a-personal">
+						<span class="mui-icon iconfont icon-meiyuan icon-money-circle"></span>
+						<span class="text">已收货订单红包</span>
+						<span class="money-number">￥0</span>
+					</a>
+				</li>
+			</ul>
+			<div class="bro-extract-btn">
+				<a data-extras='{"money":"0"}' class="button [radius round] red">申请提现</a>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">var user=null;var aniShow="pop-in";if(mui.os.android){if(parseFloat(mui.os.version)<4.4){aniShow="slide-in-right"}}var webview_style={popGesture:"close"};mui.init({swipeBack:true});mui.plusReady(function(){user=getCachedUser(true);if(!user){var a=plus.webview.getLaunchWebview();mui.fire(a,"login");mui.back();return}});document.addEventListener("pagebeforeshow",loadBrokerage);document.querySelector("a.button").addEventListener("tap",function(h){var f="extract.html";var g=f;var e=this.getAttribute("data-extras");e=typeof e=="undefined"?{}:JSON.parse(e);mui.openWindow({id:g,url:f,extras:e,styles:webview_style,show:{aniShow:aniShow},waiting:{autoShow:true}})});function loadBrokerage(){mui.sendRequest(mui.constMap.ROOT_PATH+"/user/brokerage/money",{session:user.session,config:{silence:true}},function(b){if(!b.status.succeed){mui.toast(b.status.error_desc);return}fillBrokerage(b.data)})}function fillBrokerage(f){var g=document.querySelector("span.number-big"),h=document.querySelectorAll("span.money-number"),a=document.querySelector("a.button");g.innerHTML="￥"+f.yue_money;h[0].innerHTML="￥"+f.pay_money;h[1].innerHTML="￥"+f.confirm;h[2].innerHTML="￥"+f.check;a.setAttribute("data-extras",JSON.stringify({money:f.yue_money}))};</script>
+	</body>
+
+</html>

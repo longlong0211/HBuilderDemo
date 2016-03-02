@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>渔乐百科列表</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	 
+     
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <style>
+			html,body {
+				background-color: #efeff4;
+			}
+	 
+			#pullrefresh{ top: 100px; min-height:300px;}
+			
+			.mui-control-content {
+				background-color: white;
+				 
+			}
+			 
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			 
+			.mui-media img{ width: 40px ; height: 40px;  background: url(images/imagebg.png) no-repeat left center ;}  
+
+			 .mui-bar~.mui-content .mui-fullscreen {
+				top: 44px; 
+				height: auto;
+			}
+			 
+			#searchdiv{ }
+			
+		    
+		    
+	</style>	   
+</head>
+<body>
+ <header class="mui-bar mui-bar-nav">
+	    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+			   <span class="mui-icon mui-icon-left-nav"></span>
+			        返回
+		</button>
+	    <h1 class="mui-center mui-title">钓鱼百科</h1>
+ </header>
+ 
+ <div class="mui-content " >
+ 	<form name="formsearch"  method="get" action="baike_list.html">
+		<div id="searchdiv" class="mui-input-row mui-search mui-content-padded">
+			<input id="search" type="search" name="keyword" class="mui-input-speech mui-input-clear" placeholder="" >
+		</div>
+	</form>
+	<div id="pullrefresh" class=" mui-scroll-wrapper"  >
+		<div class="mui-scroll"  >
+			<ul class="mui-table-view" id="articlelist" ></ul>
+		</div>
+ 	</div>
+</div>	
+
+
+<script id="list-template" type="text/x-handlebars-template">
+ 	{{#each list}}
+ 	<li class="mui-table-view-cell mui-media" data-id="{{id}}">
+		<a href="article_detail_pics.html?id={{id}}" open-type="common"  title="渔乐百科-{{catename}}">
+			{{#if pic}}
+			<img class="mui-media-object mui-pull-left " src="{{pic}}">
+			{{/if}}
+			<div class="mui-media-body">
+				{{title}} 
+				<p class='mui-ellipsis'>{{abstract}}{{time}}</p>
+			</div>
+		</a>
+	</li>  
+	{{/each}}
+</script>
+
+ 
+
+	<script src="js/jquery.js"></script>	  
+	<script src="js/mui.min.js"></script>
+	<script  src="js/common.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+ 	<script src="js/app.js"></script>
+ 	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+    <script src="js/fish_interface.js"></script>
+	<script>
+		var keyword = GetQueryString("keyword");
+		var cateid = GetQueryString("cateid");
+		var catename = decodeURIComponent(GetQueryString("catename"));
+		
+		if(!keyword || keyword==null){ keyword="";}
+		if(!catename || catename==null){ catename="";}
+		
+		
+		if(catename!="")
+		{ 
+			jQuery(".mui-title").html("钓鱼百科 - "+catename);
+		}
+		
+		if(keyword!="")
+		{ 
+			jQuery(".mui-title").html("钓鱼百科 - "+decodeURIComponent(keyword));
+		}
+
+		 
+		//上拉下拉
+		mui.init({
+			 
+			pullRefresh: {
+				container: '#pullrefresh',
+				/*down: {
+					//contentrefresh: '正在加载...',
+					callback: pulldownRefresh
+				}
+				,*/   
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				} 
+			}
+		});
+		
+		
+		function initindex(){
+			
+			
+			if(cateid!="" || keyword!="")
+			{
+				jQuery("#search").val(decodeURIComponent(keyword));
+			  
+				var url_index=apiurl+"IArticlesList.ashx?type=0&knowledgecateid="+cateid+"&keyword="+keyword+"&perpage=20&pagenum=0";
+				 
+				sendtointerface("","",url_index,function(responseText,status){
+					var data=eval("("+responseText+")");
+                	
+                	var pondsSource = document.getElementById("list-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#articlelist").html(myTemplate(data));
+				});
+				 
+				
+			 }else
+			 {
+			 	 
+			 }
+		}
+		
+		 
+		mui.plusReady(function() {
+			
+			
+			 initindex();
+	  
+		 
+		});
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				refreshdata("down");
+			}, 1000);
+		}
+		 
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			setTimeout(function() {
+				 
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+				 
+				refreshdata("up");
+			}, 1000);
+		}
+		
+		function refreshdata(upordown)
+		{
+			//发起
+ 			var url_index=apiurl+"IArticlesList.ashx?type=0&knowledgecateid="+cateid+"&keyword="+keyword+"&perpage=20&pagenum=0";
+				if(upordown == "down"){		 
+					var maxid = jQuery("#articlelist li:first").attr("data-id");
+					url_index += "&condition="+encodeURIComponent(" id>"+maxid)+"&sort="+encodeURIComponent(" id asc");
+				} 
+				else{
+					var minid =  jQuery("#articlelist li:last").attr("data-id");
+					url_index += "&condition="+encodeURIComponent(" id<"+minid)+"&sort="+encodeURIComponent(" id desc");
+				}
+				
+				 
+					
+				jQuery("#search").val(decodeURIComponent(keyword));
+				
+				sendtointerface("","",url_index,function(responseText,status){
+					var data=eval("("+responseText+")");
+		                	
+                	var pondsSource = document.getElementById("list-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	 
+                	if(upordown=="down")
+                	{
+                		//将data按id倒序
+                		var datanew = {"list":[]};
+                		for(i=datacount-1;i>=0;i--)
+                		{
+                			datanew.list.push(data.list[i]); 
+                		}   
+                		
+                		jQuery("#articlelist").prepend(myTemplate(datanew));
+                		
+                	}
+                	else
+                	{
+                		
+                		jQuery("#articlelist").append(myTemplate(data));
+                	}
+				});	
+		}
+		
+		/*
+		if (mui.os.plus) {
+			mui.plusReady(function() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				}, 1000);
+
+			});
+		} else {
+			mui.ready(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			}); 
+		} 
+		 */
+		
+ 
+		</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 订单跟踪</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			.ts-timeline {
+				margin: 15px 0 0 0;
+				padding: 0;
+				list-style: none;
+				position: relative;
+			}
+			/* The line */
+			
+			.ts-timeline:before {
+				content: '';
+				position: absolute;
+				top: 10px;
+				bottom: 0;
+				width: 4px;
+				background: #999;
+				left: 25px;
+				margin-left: -10px;
+			}
+			.ts-timeline > li {
+				position: relative;
+			}
+			.ts-timeline > li .ts-timeline-content {
+				margin: 0 15px 15px 40px;
+				background: #fff;
+				color: #999;
+				padding: 15px;
+				font-weight: 300;
+				position: relative;
+				border-radius: 5px;
+			}
+			.ts-timeline > li .ts-timeline-content h2 {
+				margin-top: 0px;
+				padding: 0 0 10px 0;
+				border-bottom: 1px solid #999;
+				font-size: 15px;
+			}
+			.ts-timeline > li .ts-timeline-content p {
+				margin-bottom: 0;
+			}
+			/* The triangle */
+			
+			.ts-timeline > li .ts-timeline-content:after {
+				right: 100%;
+				border: solid transparent;
+				content: " ";
+				height: 0;
+				width: 0;
+				position: absolute;
+				pointer-events: none;
+				border-right-color: #fff;
+				border-width: 10px;
+				top: 5px;
+			}
+			/* The icons */
+			
+			.ts-timeline > li:first-child .ts-timeline-icon {
+				background: #ff5d3a;
+				box-shadow: 0 0 2px 4px #ff5d3a;
+			}
+			.ts-timeline > li .ts-timeline-icon {
+				width: 10px;
+				height: 10px;
+				speak: none;
+				font-style: normal;
+				font-weight: normal;
+				font-variant: normal;
+				text-transform: none;
+				line-height: 10px;
+				-webkit-font-smoothing: antialiased;
+				position: absolute;
+				color: #fff;
+				background: #999;
+				border-radius: 50%;
+				box-shadow: 0 0 0 4px #999;
+				text-align: center;
+				left: 37px;
+				top: 10px;
+				margin: 0 0 0 -25px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 id="ts_title" class="mui-title">订单跟踪</h1>
+		</header>
+		<div id="scroll" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">订单号：<span id="order_code"></span>
+					</li>
+				</ul>
+				<ul id="ordertrack" class="ts-timeline">
+
+				</ul>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/ordertrack/ordertrack.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/ordertrack/ordertrack.min.js"></script>
+		<script>
+			new TS.Init('Ordertrack');
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../layer.m/need/layer.css" />
+		<style type="text/css">
+			.content-menu{display: block;position: relative;left: 0;top: 0;height: 300px;overflow: hidden;}
+			.blur {    
+			    -webkit-filter: blur(8px); /* Chrome, Opera */
+			       -moz-filter: blur(10px);
+			        -ms-filter: blur(10px);    
+			            filter: blur(10px); 
+			}
+			#scene{position: absolute;left: 0;top: 0;width: 100%;}
+			.blur2{width: 100%;height: 400px;}   
+			.blur2 img{width: 130%;height: 100%;margin-left: -60px;} 
+			.zhezhao{width: 100%;height: 300px;background:  rgba(000,000,000,0.3);position: absolute;left: 0;top: 0px;}
+			.menu{position: absolute;bottom: 0;box-sizing:border-box;width: 100%;overflow: hidden;}
+			.shopimg{width: 100%;height: 100px;position: absolute;text-align: center;top: 30px !important;}
+			.shopimg img{width: 100px;height: 100px;border-radius: 50%;border: 3px solid #fff;}
+			.title{display: block;font-size: 20px;color: #fff;margin-top: 20px;}
+			.phoneh{display: block;font-size: 25px;}
+			.phoneh a{color: #fff;}
+			
+			.mui-bar-nav{box-shadow:0px 0px 0px #000 !important;}
+			.menu ul{display: -webkit-box;margin-top: 8px;background: rgba(255,255,255,0.2);height: 80px;box-sizing: border-box;padding-top: 25px;margin-right: -1px;}
+			.menu ul h4{display: block;color: #fff;font-size: 16px;}
+			.menu ul li{-webkit-box-flex: 1;text-align: center;height: 45px;border-right: 1px solid #E8E5E0;}
+			.tounch{position: absolute;bottom: 0;left: 0;}
+			.menu ul li a{display: block;color: #EFF1F3;}
+ 			.bubblingG{position: absolute;z-index: 999999;}
+		</style>
+	</head> 
+ 
+	<body>
+			<div class="bubblingG">
+				<span id="bubblingG_1"></span>
+				<span id="bubblingG_2"></span>
+				<span id="bubblingG_3"></span>
+			</div>
+		<header class="mui-bar mui-bar-nav header-m">
+			<i class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></i>
+			<h1 class="mui-title title"></h1>
+			<a class="mui-icon mui-icon-search fr white"></a>
+		</header>
+			<!--<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">-->
+		<div class="mui-content">
+			<div class="content-menu">
+				<div id="scene">
+					<div class="blur2 blur layer" data-depth="0.70"> 
+						<img class="shopimges" src="../image/logo.png"/>
+					</div> 
+						  <div class="zhezhao"></div>
+							<div class="shopimg layer">
+								<img class="shopimges" src="../image/logo.png" />
+							<h3 class="title">&nbsp;</h3> 
+							<h3 class="phoneh">&nbsp;</h3> 
+							</div>
+				</div> 
+					<div class="menu">
+						<ul class="touch">
+							<li>
+								<h4>30分钟到达</h4>
+								<a>平均送达时间</a>
+							</li>
+							<li class="wifi">
+					
+								<div><a>送上楼</a><a>带东西</a>
+								</div>
+							</li>
+							<li>
+								<h4>8:00~22:00</h4>
+								<a>送餐时限</a>
+							</li>
+						</ul>
+					</div>
+				<div class="msg">
+
+				</div>
+			</div> 
+			<!--<div id="pullrefresh" class="mui-scroll-wrapper">
+				<div class="mui-scroll">-->
+					<ul class="mui-table-view">
+					</ul> 
+				<!--</div>-->
+			</div>
+		<!--</div>-->
+		<script src="../js/mui.min.js"></script>
+		<!--<script src="../js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="../js/zepto_1.1.6.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../layer.m/layer.m.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/menu.js" type="text/javascript" async="async" charset="utf-8"></script>
+		<script src="../js/parallax.js" type="text/javascript" charset="utf-8"></script>
+			<script type="text/javascript">
+				var scene = document.getElementById('scene');
+			var parallax = new Parallax(scene);
+		var oHimg = document.getElementById('head-img');
+		window.onload=function(){
+			var load = document.querySelector('.bubblingG')
+			load.className=''
+		}
+
+			</script>
+	</body>
+
+</html>

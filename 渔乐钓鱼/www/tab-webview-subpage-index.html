@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>渔乐</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no"/>
+     
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="css/fish.css"/>
+    <style> 
+			html,body {
+				background-color: #efeff4;
+			}
+	 
+			#sliderad .mui-slider-item a { height: 100px;  } 
+			#sliderad { height: 100px; } 
+			
+			#slider{ clear: both; top: 100px;}
+			
+			.mui-control-content {
+				background-color: white;
+				 
+			}
+			 
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			 
+			
+			 .mui-bar~.mui-content .mui-fullscreen {
+				top: 44px; 
+				height: auto;
+			}
+			.mui-pull-top-tips {
+				position: absolute;
+				top: 180px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+			}
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			.mui-pull-top-tips .mui-pull-loading {
+				margin: 0;
+			}
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			
+			.mui-pull-bottom-wrapper{ padding-bottom: 150px;}
+			
+			
+			
+			.syw-video img{ min-height:100px; background: url(images/imagebg.png) center no-repeat;}
+			.syw-video .mui-table-view-cell .mui-media-body{ 
+				font-size: 15px;
+				margin-top:8px;
+				color: #333;
+			}
+			
+			.mui-table-view .mui-media-large .mui-media-object
+			{
+			    line-height: 70px;
+			    max-width: 100px;
+			    height: 70px;
+			}
+						
+			.syw-news .mui-media-large img{ width: 100px ; height: 70px;}
+			.syw-news .mui-media-large img{ background: url(images/imagebg.png) no-repeat center center ; }  
+ 			
+			.mui-media-body .sywtitle{ font-size: 16px; padding-bottom: 6px; font-weight:normal; }
+			.mui-media-body .sywtime{ font-size: 10px; color: #6D6D72;} 
+			.mui-media-body .sywtime .mui-pull-left{ color:#CC5522;} 
+			.mui-media-body .sywdescribe{  font-size: 12px; color: #6D6D72; line-height: 14px; font-weight: 300; }
+	</style>		   
+</head>
+<body>
+ <div class="mui-content" >
+ 
+	<div id="sliderad" class="mui-slider"></div>
+	<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div class="mui-scroll">
+						 
+						<a class="mui-control-item mui-active" href="#item262mobile" data-cateid="262">
+							渔获
+						</a>
+						<a class="mui-control-item " href="#item245mobile" data-cateid="245">
+							资讯
+						</a>
+						<a class="mui-control-item " href="#item282mobile" data-cateid="282">
+							趣闻
+						</a>
+						<a class="mui-control-item " href="#item233mobile" data-cateid="233">
+							海钓
+						</a>
+						 <a class="mui-control-item " href="#item230mobile" data-cateid="230">
+							技巧
+						</a>
+						<a class="mui-control-item " href="#item244mobile" data-cateid="244">
+							渔具
+						</a>
+						<a class="mui-control-item " href="#itemvideomobile" data-cateid="video">
+							视频
+						</a>
+						
+						
+					</div>
+				</div>
+				
+				<div class="mui-slider-group">
+					
+					<div id="item262mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+								<ul class="syw-news mui-table-view" id="item262content" data-cateid="262"></ul>
+
+							</div>
+						</div>
+					</div>
+					<div id="item245mobile" class="mui-slider-item mui-control-content ">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="syw-news mui-table-view" id="item245content" data-cateid="245"></ul>
+							</div>
+						</div>
+					</div>
+					<div id="item282mobile" class="mui-slider-item mui-control-content ">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="syw-news mui-table-view" id="item282content" data-cateid="282">
+								 	
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+					<div id="item233mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="syw-news mui-table-view" id="item233content" data-cateid="233">
+								 	
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+					
+					<div id="item230mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="syw-news mui-table-view" id="item230content" data-cateid="230">
+								 	
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+					<div id="item244mobile" class="mui-slider-item mui-control-content ">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="syw-news mui-table-view" id="item244content" data-cateid="244">
+								 	
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+					<div id="itemvideomobile" class="mui-slider-item mui-control-content ">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="syw-video mui-table-view mui-grid-view" id="itemvideocontent" data-cateid="video"> 	
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+	</div>
+</div>	
+
+<script id="list-template" type="text/x-handlebars-template">
+ 	{{#each list}}
+ 	<li class="mui-table-view-cell mui-media-large" data-id="{{id}}">
+		<a href="article_detail_pics.html?id={{id}}" open-type="common"  title="渔乐资讯-{{catename}}">
+			{{#if pic}}
+			<img class="mui-media-object mui-pull-left " src="{{pic}}">
+			{{/if}} 
+			<div class="mui-media-body">
+				<div class="sywtitle mui-ellipsis" >{{title}}</div>
+				<p class='sywdescribe mui-ellipsis-2 f_song'>{{abstract}}</p>
+				<p class="sywtime mui-ellipsis"><span class="mui-pull-left mui-text-left">{{from}}</span><span class="mui-pull-right mui-text-right">{{time}}</span></p>
+			</div>  
+		</a>   
+	</li>   
+	{{/each}}
+</script>
+
+<script id="videolist-template" type="text/x-handlebars-template">
+ 	{{#each list}}
+ 	<li class="mui-table-view-cell mui-media mui-col-xs-6" data-id="{{id}}"  >
+        <a href="article_detail_pics.html?id={{id}}" open-type="common"  title="渔乐视频-{{catename}}">
+            <img class="mui-media-object" src="{{pic}}"  >
+            <div class="mui-media-body">{{title}} </div>
+        </a>
+ 	</li>
+	 
+	{{/each}}
+</script>
+
+
+<script id="listad-template" type="text/x-handlebars-template">
+	<div class="mui-slider-group mui-slider-loop"  >
+			 
+		<div class="mui-slider-item mui-slider-item-duplicate">
+			<a href="{{fisrturl}}" title="{{fisrttitle}}">
+				<img src="{{fisrtpic}}" alt="{{fisrttitle}}">
+			 
+			</a>
+		</div>
+	 	{{#each adlist}}
+	 	 
+			<div class="mui-slider-item">
+				<a href="{{url}}" title="{{title}}">
+					<img src="{{pic}}" alt="{{title}}">
+					 
+				</a>
+			</div> 
+		 
+		{{/each}}
+		<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+		<div class="mui-slider-item mui-slider-item-duplicate">
+			<a href="{{fisrturl}}" title="{{fisrttitle}}">
+				<img src="{{fisrtpic}}" alt="{{fisrttitle}}">
+				 
+			</a> 
+		</div>
+		 
+	</div>
+	
+	<div class="mui-slider-indicator mui-text-right">
+		{{#each adlist}}
+		<div class="mui-indicator  "></div>
+		{{/each}}
+	</div>
+</script>
+
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script> 
+ 	<script src="js/app.js"></script>
+ 	<script type="text/javascript" src="js/common.js"></script>
+ 	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+ 	<script src="js/mui.pullToRefresh.js"></script>
+	<script src="js/mui.pullToRefresh.material.js"></script>
+	<script type="text/javascript" src="js/fish_noback.js"></script> 
+	<script type="text/javascript" src="js/fish_interface.js"></script>
+	<script type="text/javascript" src="js/fish_cache.js"></script>
+	<script>
+	 
+	   var cateid = 262;
+	   
+	
+	   
+		mui.init(); 
+		
+		(function($) {
+			
+			
+			
+			//阻尼系数
+			var deceleration = mui.os.ios?0.003:0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration:deceleration
+			});
+			
+			$.ready(function() {
+				
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								setTimeout(function() {
+									var ul = self.element.querySelector('.mui-table-view');
+									cateid = ul.getAttribute('data-cateid');
+									refreshdata(cateid,"down");
+									self.endPullDownToRefresh();
+								}, 1000);
+							}
+						},
+						up: {
+							callback: function() {
+								var self = this;
+								setTimeout(function() {
+									var ul = self.element.querySelector('.mui-table-view');
+									cateid = ul.getAttribute('data-cateid');
+									refreshdata(cateid,"up");
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				 });
+				
+				 
+			});
+			
+			function refreshdata(cateid,upordown)
+			{
+				
+				if(jQuery("#item245content").html()=="")
+				{
+					getindexnews();
+					return ;
+				}
+				
+				var url=apiurl+"IArticlesList.ashx?type="+cateid+"&perpage=20&pagenum=0";
+				if(cateid == "video")
+				{
+					//视频id是275
+				   url=apiurl+"IArticlesList.ashx?type=-1&playtypeid=275&perpage=20&pagenum=0";
+				}
+				 
+				
+				if(upordown == "down"){
+					 
+					var maxid = jQuery("#item"+cateid+"content li:first").attr("data-id");
+					
+					url += "&condition="+encodeURIComponent(" id>"+maxid)+"&sort="+encodeURIComponent(" id asc");
+				} 
+				else{
+					
+					var minid =  jQuery("#item"+cateid+"content li:last").attr("data-id");
+					 
+					url += "&condition="+encodeURIComponent(" id<"+minid)+"&sort="+encodeURIComponent(" id desc");
+				}
+
+				sendtointerface(cateid,upordown,url,function(responseText,status){
+					
+					var data=eval("("+responseText+")");
+					
+					var datacount = data.list.length;  
+                    if(datacount>0)
+                    {
+                    	if(cateid == "video"){
+                    		var pondsSource = document.getElementById("videolist-template").innerText;
+		                	var myTemplate = Handlebars.compile(pondsSource);
+		                	if(upordown=="down")
+		                	{
+		                		//将data按id倒序
+		                		var datanew = {"list":[]};
+		                		for(i=datacount-1;i>=0;i--)
+		                		{
+		                			datanew.list.push(data.list[i]); 
+		                		}     
+		                		   
+		                		
+		                		jQuery("#item"+cateid+"content").prepend(myTemplate(datanew));
+		                		
+		                	}else
+		                	{
+		                		
+		                		jQuery("#item"+cateid+"content").append(myTemplate(data));
+		                	}
+                    	}else
+                    	{
+		                	var pondsSource = document.getElementById("list-template").innerText;
+		                	var myTemplate = Handlebars.compile(pondsSource);
+		                	if(upordown=="down")
+		                	{
+		                		//将data按id倒序
+		                	 
+		                		var datanew = {"list":[]};
+		                		for(i=datacount-1;i>=0;i--)
+		                		{
+		                			datanew.list.push(data.list[i]); 
+		                		}       
+		                		
+		                		jQuery("#item"+cateid+"content").prepend(myTemplate(datanew));
+		                		
+		                	}else
+		                	{
+		                		
+		                		jQuery("#item"+cateid+"content").append(myTemplate(data));
+		                	}
+		                }	
+	                }
+				});
+			 
+			}
+			 
+			//第一次加载数据
+			mui.plusReady(function() {
+				
+				
+				//分析缓存
+				var indexrefreshtime = plus.storage.getItem("indexrefreshtime");
+			    //每次都获取
+				if(indexrefreshtime == CurentDate()+"1") {  
+				 	 
+					var data=eval("("+plus.storage.getItem("indexnews")+")");
+					
+	                 
+	                initnews(data);
+	                
+	                var dataad=eval("("+plus.storage.getItem("indexads")+")");
+	                	 
+	                initads(dataad);  
+
+				 }else{
+				 	
+				 	plus.storage.setItem("indexrefreshtime",CurentDate())
+				 	
+				 	getindexnews();
+				 	
+				 	getindexads();
+				 }
+				 
+				
+				
+			});
+			
+			
+			
+			function getindexads(){
+				
+				//广告
+				var urlad=apiurl+"IAdList.ashx?navid=1&pos=index_top"; 
+				
+				sendtointerface("","",urlad,function(responseText,status){
+					 
+	                	
+                	var data=eval("("+responseText+")");
+                	plus.storage.setItem("indexads",responseText);
+                	initads(data); 
+					 
+				},function(){
+					
+					var dataad=eval("("+plus.storage.getItem("indexads")+")");
+	                	 
+	                initads(dataad);  
+					
+				});
+				 
+				
+			}
+			
+			function getindexnews()
+			{
+				var wt=plus.nativeUI.showWaiting();
+				//新闻全部
+				var url=apiurl+"IArticlesListIndex.ashx";
+				
+				sendtointerface("","",url,function(responseText,status){
+					if ( status == 200 ) {
+	                	
+	                	plus.storage.setItem("indexnews",responseText);
+	                	 
+	                	var data=eval("("+responseText+")");
+	                	 
+	                	initnews(data);
+	 					  
+	                } else { 
+	                	
+	                	var data=eval("("+plus.storage.getItem("indexnews")+")");
+	                	 
+	               		initnews(data);
+	                	
+	                	 
+	                }
+	                
+	                plus.nativeUI.closeWaiting(); 
+	                
+	                
+				},function(){ wt.close();});
+				 
+				
+			}
+			
+			
+			function initnews(data){
+				
+				var pondsSource = document.getElementById("list-template").innerText;
+            	var myTemplate = Handlebars.compile(pondsSource);
+            	 
+            	document.getElementById("item230content").innerHTML = myTemplate(data.list230);
+			    document.getElementById("item233content").innerHTML = myTemplate(data.list233);
+			    document.getElementById("item244content").innerHTML = myTemplate(data.list244);
+			    document.getElementById("item245content").innerHTML = myTemplate(data.list245);
+			    document.getElementById("item262content").innerHTML = myTemplate(data.list262);
+			    document.getElementById("item282content").innerHTML = myTemplate(data.list282);
+				
+				
+				var pondsSource_v = document.getElementById("videolist-template").innerText;
+            	var myTemplate_v = Handlebars.compile(pondsSource_v);
+            	document.getElementById("itemvideocontent").innerHTML = myTemplate_v(data.listvideo);
+				 
+				 
+			}
+			
+			function initads(data)
+			{
+				var pondsSource = document.getElementById("listad-template").innerText;
+	            var myTemplate = Handlebars.compile(pondsSource);
+ 
+				document.getElementById("sliderad").innerHTML = myTemplate(data);
+			    
+			    //轮播
+				var slider = $("#sliderad");
+				slider.slider({
+					interval: 2000
+				});   
+			}
+			
+			
+			
+		})(mui);
+ 
+		</script>
+</body>
+</html>

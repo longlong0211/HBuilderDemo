@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/iconfont.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/goods.css"/>
+    <style type="text/css">
+		nav {
+			text-align: center;
+		}
+		nav button{
+			width: 45%;
+		}
+		nav button:last-child{
+			margin-left: 5px;
+		}
+    </style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">商品详情</h1>
+	</header>
+	<div class="mui-content">
+		<div id="slider" class="mui-slider" >
+			<div class="mui-slider-group mui-slider-loop">
+			</div>
+			<div class="mui-slider-indicator">
+			</div>
+		</div>
+		<div class="buy_area">
+            <div class="fn_wrap">
+                <h1 class="fn" id="itemName"></h1>
+            </div>
+            <div class="price_wrap">
+                <span class="tit mui-pull-left" id="priceTitle">消耗积分：</span>
+      			<span class="price"></span>
+    			<del class="old_price"><em id="priceMarket" style=""></em></del>
+            </div>
+        </div>
+        <div class="mod_tab_wrap">
+            <div class="mod_tab" id="detailTab">
+                <span tag='intro' class="cur">商品介绍</span>
+                <span tag='param'>商品参数</span>
+            </div>
+        </div>
+        <section class="p-a-c-list">
+            <ul class="list-attribute mui-hidden" id="productproperty">
+            </ul>
+        </section>
+        <section class="s-buy mui-hidden" id="s_buy">
+        	<ul class="s-buy-ul">
+	            <li class="s-buy-pro">
+	            	<span class="pro-img">
+	                    <img>
+	            	</span>
+	            	<div class="pro-info">
+	                    <p class="name"></p>
+	                    <p class="pro-price" id="price"></p>
+	                </div>
+	                <i class="icon-close" id="icon_close"></i>
+	            </li>
+	      	</ul>
+		    <ul class="s-buy-ul specification" id="specification">
+            </ul>
+            <ul class="s-buy-ul">
+	            <li class="s-buy-btn">
+	                <a class="btn" id="submit_ok" tag="addCart">确定</a>
+	            </li>
+            </ul>
+        </section>
+        <div class="detail_info_wrap" id="p-detail">
+        </div>
+	</div>
+	<nav class="mui-bar mui-bar-tab">
+		<button class="mui-btn mui-btn-negative buybut">立即兑换</button>
+	</nav>
+	<script src="js/mui.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/mui.zoom.js"></script>
+	<script src="js/mui.previewimage.js"></script>
+	<script src="js/cart.js"></script>
+	<script>var goods_id=0,user=null;var mask=mui.createMask(closeDetail);mui.init({swipeBack:true});mui.plusReady(function(){var a=plus.webview.currentWebview();if(!a.eid){mui.toast("获取商品信息失败");mui.back();return}goods_id=a.eid;user=getCachedUser(true);Cart.init();getGoodsData(a.eid,user)});mui("nav").on("tap","button",buy);mui("#detailTab").on("tap","span",selectProperty);mui("#specification").on("tap",".select",selectSpec);document.getElementById("submit_ok").addEventListener("tap",buy);document.getElementById("icon_close").addEventListener("tap",function(a){closeDetail();mask.close()});function selectProperty(b){var c=document.getElementById("detailTab"),a=c.querySelectorAll("span");if(this.getAttribute("tag")=="intro"){a[1].classList.remove("cur");document.getElementById("productproperty").classList.add("mui-hidden");document.getElementById("p-detail").classList.remove("mui-hidden")}else{a[0].classList.remove("cur");document.getElementById("p-detail").classList.add("mui-hidden");document.getElementById("productproperty").classList.remove("mui-hidden")}this.classList.add("cur")}function getSpec(){var c=document.querySelectorAll(".s-buy-li");var a=[];for(var d=0,b=c.length;d<b;d++){var e=c[d].querySelector(".current");if(!e){return c[d].getAttribute("attr_name")}a.push(e.getAttribute("attr_id"))}return a}function buy(a){var b=this;if(!user.session){Cart.getSession(function(c){toBuy(b)})}else{toBuy(this)}}function toBuy(c){var b=getSpec();if(typeof b=="string"){if(c.id=="submit_ok"){mui.alert("请选择"+b)}else{showDetail()}return false}var a=plus.webview.currentWebview();Cart.addExchange(a.eid,b,function(f){if(c.id=="submit_ok"){mask.close()}var d=plus.webview.getLaunchWebview();mui.fire(d,"gotab",{page:"cart.html"});d.show()})}function getGoodsData(b,a){var c=a?a.session:{uid:"",sid:""};mui.sendRequest(mui.constMap.ROOT_PATH+"/exchange/view",{goods_id:b,session:c},function(d){if(!d.status.succeed){mui.toast(d.status.error_desc);return}if(d.data.pictures.length>0){notifiGalleryUL(d.data.pictures)}notifiGoodsInfo(d.data);fillProperties(d.data);fillSpecification(d.data)},"json")}function fillProperties(c){var a=document.getElementById("productproperty"),b=document.createDocumentFragment();mui.each(c.properties,function(d,e){b.appendChild(fillPropertiesLI(e))});a.appendChild(b)}function fillPropertiesLI(e){var d=document,a=d.createElement("li"),b=d.createElement("label"),c=d.createElement("span");b.innerHTML=e.name;c.innerHTML=e.value;a.appendChild(b);a.appendChild(c);return a}function fillSpecification(f){var d=document.getElementById("specification"),e=document.querySelector("li.s-buy-pro"),c=e.querySelector("img"),a=e.querySelector("p.name"),g=document.getElementById("price"),b=document.createDocumentFragment();c.src=f.img.thumb;a.innerHTML=f.goods_name;g.innerHTML="消耗积分："+f.exchange_integral;mui.each(f.specification,function(h,j){b.appendChild(fillSpecificationLI(j))});d.appendChild(b)}function fillSpecificationLI(e){var c=document,a=c.createElement("li"),b=c.createElement("div"),d=c.createElement("div");a.className="s-buy-li";a.setAttribute("attr_type",e.attr_type);a.setAttribute("attr_name",e.name);b.className="left";b.innerHTML=e.name;d.className="right";mui.each(e.value,function(f,g){d.appendChild(fillSpecificationSpan(g))});a.appendChild(b);a.appendChild(d);return a}function fillSpecificationSpan(b){var a=document.createElement("span");a.className="select";a.setAttribute("attr_peice",b.price);a.setAttribute("attr_id",b.id);a.innerHTML=b.label;return a}function selectSpec(b){var a=this.parentNode.querySelector(".current");if(a){a.classList.remove("current")}this.classList.add("current")}function showDetail(){mask.show();document.getElementById("s_buy").classList.remove("mui-hidden")}function closeDetail(){var a=document.querySelectorAll(".current");mui.each(a,function(b,c){c.classList.remove("current")});document.getElementById("s_buy").classList.add("mui-hidden")}function notifiGoodsInfo(f){var e=document,d=e.getElementById("itemName"),c=e.querySelector("span.price"),a=e.getElementById("priceMarket"),b=e.getElementById("p-detail");d.innerHTML=f.goods_name;c.innerHTML=f.exchange_integral;a.innerHTML=f.market_price;b.innerHTML=f.goods_desc;var g=b.querySelectorAll("img");mui.each(g,function(h,l){l.setAttribute("data-preview-src","");l.setAttribute("data-preview-group","1");var k=l.getAttribute("src"),j=k.substr(0,7).toLowerCase();if(j!="http://"&&j!="https:/"){l.setAttribute("src",mui.constMap.SERVER_HOST+k)}});mui.previewImage()}function notifiGalleryUL(c){var f=document,b=f.createDocumentFragment(),d=f.getElementById("slider"),e=d.querySelector(".mui-slider-group"),a=d.querySelector(".mui-slider-indicator");b.appendChild(makeSliderGroup(c[c.length-1],true));mui.each(c,function(g,h){b.appendChild(makeSliderGroup(h,false))});b.appendChild(makeSliderGroup(c[0],true));e.appendChild(b);b=f.createDocumentFragment();mui.each(c,function(g,h){b.appendChild(makeSliderIndicator(g==0))});a.appendChild(b);mui("#slider").slider({interval:3000})}function makeSliderGroup(e,d){var f=document,g=f.createElement("div"),b=f.createElement("a"),c=f.createElement("img");g.setAttribute("class",d?"mui-slider-item mui-slider-item-duplicate":"mui-slider-item");c.setAttribute("src",e.url);b.appendChild(c);g.appendChild(b);return g}function makeSliderIndicator(a){var b=document.createElement("div");b.setAttribute("class",a?"mui-indicator mui-active":"mui-indicator");return b};</script>
+</body>
+</html>

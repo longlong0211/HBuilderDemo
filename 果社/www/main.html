@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 110px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {
+				width: 100%;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
+			}
+			
+			.mui-btn-negative {
+				border: 1px solid #809a00;
+				background-color: #809a00;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--<nav class="mui-bar mui-bar-tab">
+			<button class="mui-btn mui-btn-negative" style="padding-left:30px;padding-right: 30px;margin-left: 20px;" id="logout">退出登录</button>
+			<button class="mui-btn mui-btn-negative" style="padding-left: 30px;padding-right: 30px;margin-right: 20px;float: right;" id="exit">关闭应用</button>
+		</nav>-->
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">个人中心</h1>
+		</header>
+		<div class="mui-content" style="padding-top: 32px;">
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+				<li class="mui-table-view-cell" style="padding:35px 10px 10px 20px;background-color:#809a00;">
+					<div class="mui-slider-cell">
+						<div class="oa-contact-cell mui-table">
+							<div class="oa-contact-avatar mui-table-cell">
+								<img src="images/user.png" width="90px" id="imghead" />
+							</div>
+							<div class="oa-contact-content mui-table-cell">
+								<div class="mui-clearfix">
+									<h4 class="oa-contact-name" style="color: #fff;" id="username"></h4>
+
+								</div>
+								<p class="oa-contact-email mui-h6" style="color: #fff;">
+									欢迎您的登录 ,我们将为你提供最优的产品和服务！
+								</p>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="usermsg.html">
+						用户信息
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="userorder.html">
+						我的订单
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="usercloseorder.html">
+						关闭的订单
+					</a>
+				</li>
+				<!--<li class="mui-table-view-cell">
+					<a id="about" class="mui-navigate-right">
+						账户余额
+					</a>
+				</li>-->
+				<li class="mui-table-view-cell">
+					<a id="uppwd" class="mui-navigate-right" href="userpwdupdate.html">
+						修改密码
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="logout" class="mui-navigate-right">
+						退出登录
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="exit" class="mui-navigate-right">
+						关闭应用
+					</a>
+				</li>
+			</ul>
+			<br />
+			<br />
+			<br />
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script>
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			}
+			(function($, doc) {
+				mui.init({
+					beforeback: function() {
+						var login = plus.webview.getWebviewById("login");
+						//console.log(goods_show);
+						if (login != null) {
+							plus.webview.close(login);
+							plus.webview.close(plus.webview.currentWebview());
+						} else {
+							plus.webview.close(plus.webview.currentWebview());
+						};
+					},
+					swipeBack: false //启用右滑关闭功能
+				});
+				$.plusReady(function() {
+					var settings = app.getSettings();
+					//退出应用
+					var exitButton = doc.querySelector('#exit');
+					exitButton.addEventListener('tap', function(event) {
+						if (!settings.autoLogin) {
+							app.setState({});
+						}
+						plus.nativeUI.confirm("确认关闭应用吗?", function(i) {
+							if (0 == i.index) {
+								plus.runtime.quit();
+							}
+						}, "果社", ["退　　出", "取　　消"]);
+					});
+					exitButton.style.display = mui.os.ios ? 'none' : 'block';
+					//注销
+					$.oldBack = mui.back;
+					var logoutButton = doc.querySelector('#logout');
+					logoutButton.addEventListener('tap', function(event) {
+						plus.nativeUI.confirm("确认退出登录吗?", function(i) {
+							if (0 == i.index) {
+								app.setState({});
+								localStorage.clear();
+								plus.webview.getWebviewById("main").close();
+							}
+						}, "果社", ["退　　出", "取　　消"]);
+					});
+				});
+				var username = doc.querySelector('#username');
+				var imghead = doc.querySelector('#imghead');
+				var users = JSON.parse(localStorage.getItem('$users') || '[]');
+				users.some(function(user) {
+					if(user.headimgurl){
+						imghead.src = user.headimgurl;
+					}
+					mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=user_centermsg&account=' + user.account, {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							username.innerText = data.nick_name;
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.log(errorThrown);
+						}
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

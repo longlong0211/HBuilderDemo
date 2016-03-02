@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/cart.css" rel="stylesheet" type="text/css" />
+		<link href="css/iconfont.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">购物车</h1>
+			<a class="mui-btn mui-btn-link mui-pull-right mui-hidden" id="btnNext">下一步</a>
+		</header>
+		<div class="mui-content">
+			<section class="cart-none" id="cart-none">
+				<i class="cart-big"></i>
+				<p class="text">您的购物车还没有商品！</p>
+				<a href="javascript: mui.back()" class="btn">去逛逛</a>
+			</section>
+			<section id="cart-list" class="cart-list mui-hidden">
+				<ul class="cart-list-ul">
+				</ul>
+			</section>
+			<section id='cart-info' class="cart-info mui-hidden">
+				<ul class="cart-info-ul">
+					<li class="cart-info-li cart-info-address">
+						<a class="address-a mui-hidden">
+							<input id="addressid" type="hidden" value="0">
+							<div class="address-info">
+							</div>
+						</a>
+						<div class="address-none" id="addaddress">
+							<a class="address-add">请添加收货地址</a>
+						</div>
+						<div class="address-arrow"><i class="address-arrow-i"></i></div>
+					</li>
+					<li class="cart-info-li line cart-info-payment">
+						<div class="label">
+							<label for="">支付方式</label>
+						</div>
+						<div class="value" id='payType'></div>
+					</li>
+					<li class="cart-info-li line cart-info-shipping">
+						<div class="label">
+							<label for="">配送方式</label>
+						</div>
+						<div class="value" id='shippingType'></div>
+					</li>
+					<li class="cart-info-li line cart-info-bonus mui-hidden">
+						<div class="active-minus">
+							<ul class="active-minus-ul">
+								<li class="active-minus-li">
+									<a id="CarVoucher" class="selectpay">
+										<span class="selectpay-text">优惠券</span>
+										<span class="active-minus-money" id="Voucher">全部<span class="mui-icon iconfont icon-youjiantou"></span></span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="cart-info-li line cart-info-total">
+						<span class="numb" id="count">共0件商品</span>
+						<span id="orderprice" style="float: right">商品总价:￥0</span>
+					</li>
+				</ul>
+			</section>
+			<section id="s-btn" class="s-btn mui-hidden">
+				<button class="settle-account settle-disable" disabled id="butSubmit">去结算</button>
+			</section>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/cart.js"></script>
+		<script src="js/login.js"></script>
+		<script src="js/payment.js"></script>
+		<script type="text/javascript">var user=null,order_amount=0;var pays={};mui.init({swipeBack:false});mui.back=function(){var a=plus.webview.getLaunchWebview();mui.fire(a,"gohome")};mui.plusReady(function(){initLoginAuth();user=getCachedUser(true);Cart.init();plus.payment.getChannels(function(b){for(var c in b){var a=b[c];pays[a.id]=a}},function(a){console.log("获取支付通道失败："+a.message)})});document.addEventListener("refresh",refresh,false);document.addEventListener("pagebeforeshow",refresh);document.addEventListener("address",loadAddress,false);document.addEventListener("payed",payed,false);document.getElementById("btnNext").addEventListener("tap",toFlow,false);document.getElementById("butSubmit").addEventListener("tap",Submit_Order,false);document.getElementById("addaddress").addEventListener("tap",function(a){if(!user.user){cartLogin();return}mui.openWindow({id:"address_edit.html",url:"address_edit.html",waiting:{autoShow:true},extras:{eid:"",backurl:"cart.html"}})},false);document.querySelector(".address-a").addEventListener("tap",function(a){mui.openWindow({id:"address.html",url:"address.html",waiting:{autoShow:true},extras:{backurl:"cart.html"}})},false);document.getElementById("CarVoucher").addEventListener("tap",function(a){mui.openWindow({id:"bonus.html",url:"bonus.html",waiting:{autoShow:true},extras:{backurl:"cart.html"}})});mui(".cart-list-ul").on("tap","a",viewGoods);mui(".cart-list-ul").on("tap",".decrease",function(a){Cart.changeBar("-",this.getAttribute("rec_id"),this,change,remove)});mui(".cart-list-ul").on("tap",".increase",function(a){Cart.changeBar("+",this.getAttribute("rec_id"),this,change,remove)});mui(".cart-info-payment").on("tap","label",select_payment);mui(".cart-info-shipping").on("tap","label",select_shipping);mui(".active-minus-ul").on("tap","a",changeBonus);function refresh(a){var b=typeof a.detail.action!="undefined"&&a.detail.action=="logout";var c=b?{session:null}:user;user=getCachedUser(true);if(!user){user=c}loadCart()}function showCart(){document.getElementById("cart-none").classList.add("mui-hidden");document.getElementById("cart-list").classList.remove("mui-hidden");document.getElementById("cart-info").classList.remove("mui-hidden");document.getElementById("s-btn").classList.remove("mui-hidden")}function hideCart(){document.getElementById("cart-list").classList.add("mui-hidden");document.getElementById("cart-info").classList.add("mui-hidden");document.getElementById("cart-none").classList.remove("mui-hidden");document.getElementById("butSubmit").disabled=true;document.getElementById("butSubmit").classList.add("settle-disable");document.getElementById("s-btn").classList.add("mui-hidden")}function loadCart(){if(!user.session){Cart.getSession(toLoadCart);return false}else{toLoadCart()}}function toLoadCart(){Cart.get(function(a){if(a.goods_list&&a.goods_list.length>0){fillUL(a.goods_list);updateTotal(a.total);loadAddress();showCart()}else{hideCart()}})}function loadAddress(){if(user.user){mui.sendRequest(mui.constMap.ROOT_PATH+"/address/list",{session:user.session,type:"one",config:{silence:true}},function(a){if(!a.status.succeed){document.getElementById("butSubmit").disabled=true;document.getElementById("butSubmit").classList.add("settle-disable");mui.toast(a.status.error_desc);mui.back();return}if(a.data.length>0){var b=document.getElementById("addressid");if(b.value!=a.data[0].id){fillAddress(a.data[0])}document.getElementById("addaddress").classList.add("mui-hidden");document.querySelector(".address-a").classList.remove("mui-hidden");toFlow()}else{document.querySelector(".address-a").classList.add("mui-hidden");document.getElementById("addaddress").classList.remove("mui-hidden");document.getElementById("butSubmit").disabled=true;document.getElementById("butSubmit").classList.add("settle-disable")}})}else{document.querySelector(".address-a").classList.add("mui-hidden");document.getElementById("addaddress").classList.remove("mui-hidden");document.getElementById("btnNext").classList.remove("mui-hidden");document.getElementById("butSubmit").disabled=true;document.getElementById("butSubmit").classList.add("settle-disable")}}function fillUL(a){var b=document,d=b.createDocumentFragment(),c=b.querySelector("ul.cart-list-ul");mui.each(a,function(e,f){fillLI(d,f)});c.innerHTML="";c.appendChild(d)}function fillLI(i,r){var u=document,m=u.createElement("li"),l=u.createElement("div"),j=u.createElement("div"),o=u.createElement("div"),h=u.createElement("p"),c=u.createElement("p"),s=u.createElement("a"),v=u.createElement("img"),d=u.createElement("div"),g=u.createElement("div"),t=u.createElement("button"),k=u.createElement("input"),e=u.createElement("button"),q=u.createElement("p");t.className="decrease";t.setAttribute("type","button");t.setAttribute("title","减");t.setAttribute("rec_id",r.rec_id);t.innerHTML="-";e.className="increase";e.setAttribute("type","button");e.setAttribute("title","加");e.setAttribute("rec_id",r.rec_id);e.innerHTML="+";k.className="num";k.setAttribute("type","text");k.setAttribute("name","quantity");k.setAttribute("autocomplete","off");k.setAttribute("cartid",r.rec_id);k.value=r.goods_number;k.setAttribute("min",1);k.setAttribute("max",r.goods_stock);k.addEventListener("blur",cartChange,false);g.className="number";d.className="opera";var b=r.goods_name;if(r.goods_attr&&r.goods_attr.length>0){b+="<";mui.each(r.goods_attr,function(a,f){b+="&nbsp;"+f.value});b+=">"}h.className="info-name";h.innerHTML=b;c.className="info-price";c.innerHTML=r.goods_price;o.className="info";v.setAttribute("alt",r.goods_name);v.setAttribute("src",r.img.thumb);s.setAttribute("goods_id",r.goods_id);j.className="pic";l.className="product";m.className="cart-list-li";g.appendChild(t);g.appendChild(k);g.appendChild(e);d.appendChild(g);o.appendChild(h);o.appendChild(c);j.appendChild(v);s.appendChild(j);s.appendChild(o);l.appendChild(s);m.appendChild(l);m.appendChild(d);i.appendChild(m)}function fillAddress(b){var d=document.getElementById("addressid");div=document.querySelector("div.address-info"),span=document.createElement("span"),br=document.createElement("br");var a=document.createTextNode("收件人："+b.consignee),c=document.createTextNode(b.address);d.value=b.id;div.innerHTML="";span.className="mobile";span.innerHTML=b.tel;div.appendChild(a);div.appendChild(span);div.appendChild(br);div.appendChild(c)}function toFlow(a){if(!user.user){cartLogin();return}Cart.checkOrder(function(c){order_amount=c.amount;var b=0;mui.each(c.goods_list,function(d,e){b+=parseInt(e.goods_number)});updateTotal({goods_number:b,goods_amount:c.amount,shipping_fee:c.shipping_fee});fillPayment(c.payment_list,c.pay_id);fillShipping(c.shipping_list,c.shipping_id);if(c.bonus&&c.bonus.length>0){fillBonus(c.bonus);document.querySelector(".cart-info-bonus").classList.remove("mui-hidden")}else{document.querySelector(".cart-info-bonus").classList.add("mui-hidden")}document.getElementById("btnNext").classList.add("mui-hidden");document.getElementById("butSubmit").disabled=false;document.getElementById("butSubmit").classList.remove("settle-disable")})}function fillPayment(b,a){var d=document.querySelector("li.cart-info-payment"),c=d.querySelector(".value"),e=document.createDocumentFragment();mui.each(b,function(f,g){if(g.pay_code!="wxpay"||pays[g.pay_code]){var h=document.createElement("label");h.setAttribute("class","value-pay");if(g.pay_id==a){h.classList.add("current")}h.setAttribute("data-id",g.pay_id);h.setAttribute("data-code",g.pay_code);h.innerHTML=g.pay_name;e.appendChild(h)}});c.innerHTML="";c.appendChild(e)}function fillShipping(a,b){var d=document.querySelector("li.cart-info-shipping"),c=d.querySelector(".value"),e=document.createDocumentFragment();mui.each(a,function(f,g){var h=document.createElement("label");h.setAttribute("class","value-shipping");if(g.shipping_id==b){h.classList.add("current")}h.setAttribute("data-id",g.shipping_id);h.innerHTML=g.shipping_name;e.appendChild(h)});c.innerHTML="";c.appendChild(e)}function fillBonus(d){var c=document.querySelector(".active-minus-ul"),a=document.createDocumentFragment();mui.each(d,function(m,l){var h=document,i=h.createElement("li"),j=h.createElement("a"),g=h.createElement("span"),m=h.createElement("i"),k=h.createElement("span");i.className="active-minus-li";j.className="selectpay";g.className="selectpay-text";g.innerHTML=l.type_name;m.className="icon-radius";k.className="mybalance";k.innerHTML=l.bonus_money_formated;j.appendChild(g);j.appendChild(m);j.appendChild(k);j.setAttribute("bonus_id",l.bonus_id);i.appendChild(j);a.appendChild(i)});var f=c.querySelectorAll("li");for(var b=1,e=f.length;b<e;b++){f[b].parentNode.removeChild(f[b])}c.appendChild(a)}function updateTotal(a){var c=document.getElementById("count"),b=document.getElementById("orderprice");if(a.goods_number){c.innerHTML="共"+a.goods_number+"件商品"}if(a.shipping_fee){b.innerHTML="商品总价:￥"+a.goods_amount+"(运费:￥"+a.shipping_fee+")"}else{b.innerHTML="商品总价:￥"+a.goods_amount}}function cartChange(c){var b=this;var a=b.value*1;var f=b.getAttribute("max")*1;var d=b.getAttribute("cartid");if(a>f){a=f;if(a<0){a=0}mui.alert("已达到最大库存")}if(isNaN(a)){a=1}if(a<0){a=1}if(a==0){Cart.removeProductOnShoppingCart(d,b,remove)}else{Cart.changeProductCount(d,a,b,change,remove)}}function Submit_Order(g){var f=document.getElementById("addressid");if(f.value>0){var b=0,c=0,k=0,t="alipay";var j=document.querySelector("#payType label.current");if(j){b=j.getAttribute("data-id");t=j.getAttribute("data-code")}j=document.querySelector("#shippingType label.current");if(j){c=j.getAttribute("data-id")}var h=document.querySelector(".active-minus-ul"),d=h.querySelector(".checked");if(d){k=d.parentNode.getAttribute("bonus_id")}if((b>0||order_amount==0)&&c>0){var a=document.getElementById("butSubmit");a.disabled=true;a.classList.add("settle-disable");Cart.toOrder(b,c,k,function(e){document.getElementById("butSubmit").disabled=false;document.getElementById("butSubmit").classList.remove("settle-disable");if(order_amount>0&&e.order_info.pay_online){pay_app(t=="wxpay"?"wxpay":"alipay",e.order_info.pay_online,function(i){mui.back()})}else{mui.toast("购买成功",function(i){mui.back()})}hideCart()})}else{if(c==0){mui.alert("请先选择配送方式")}else{mui.alert("请先选择支付方式")}}}else{mui.alert("请先选择收货地址")}}function viewGoods(b){var a=this.getAttribute("goods_id");mui.openWindow({id:"goods.html",url:"goods.html",waiting:{autoShow:true},extras:{eid:a}})}function pay(a){mui.openWindow({id:"pay_frame.html",url:"pay_frame.html",waiting:{autoShow:true},extras:{pay_online:a}})}function payed(){console.log("已从pay_frame返回到cart");mui.back()}function cartLogin(){mui.confirm("您还没有登陆，请先登陆","温馨提示",["确定","取消"],function(a){if(a.index==0){checkLogin()}})}function change(a){updateTotal(a);if(a.bonus_list&&a.bonus_list.length>0){fillBonus(a.bonus_list);document.querySelector(".cart-info-bonus").classList.remove("mui-hidden")}else{document.querySelector(".cart-info-bonus").classList.add("mui-hidden")}}function remove(c,a){if(c.goods_number>0){mui.html("count","共"+c.goods_number+"件商品");mui.html("orderprice","商品总价:￥"+c.goods_amount)}else{mui.html("count","共0件商品");mui.html("orderprice","商品总价:￥0.00");hideCart()}if(typeof a=="object"){var b=a;while(a.tagName!="UL"&&a.tagName!="SECTION"){b=a;a=a.parentNode}if(a.tagName=="UL"&&a.classList.contains("cart-list-ul")){a.removeChild(b)}}}function clear(a){mui.html("count","共0件商品");mui.html("orderprice","商品总价:￥0.00");hideCart()}function select_shipping(a){var b=this;mui.sendRequest(mui.constMap.ROOT_PATH+"/flow/select_shipping",{session:user.session,shipping:this.getAttribute("data-id"),config:{silence:true}},function(e){if(!e.status.succeed){mui.toast(e.status.error_desc);return}var d=document.getElementById("shippingType"),c=d.querySelector(".current");if(c){c.classList.remove("current")}b.classList.add("current");updateTotal({goods_amount:e.data.amount,shipping_fee:e.data.shipping_fee})})}function select_payment(a){var b=this;mui.sendRequest(mui.constMap.ROOT_PATH+"/flow/select_payment",{session:user.session,payment:this.getAttribute("data-id"),config:{silence:true}},function(e){if(!e.status.succeed){mui.toast(e.status.error_desc);return}var d=document.getElementById("payType"),c=d.querySelector(".current");if(c){c.classList.remove("current")}b.classList.add("current");updateTotal({goods_amount:e.data.amount,shipping_fee:e.data.shipping_fee})})}function changeBonus(c){var f=document.querySelector(".active-minus-ul");var b=f.querySelector(".checked");var a=this.querySelector(".icon-radius"),d=0;if(!b||this.getAttribute("bonus_id")!=b.parentNode.getAttribute("bonus_id")){d=this.getAttribute("bonus_id")}mui.sendRequest(mui.constMap.ROOT_PATH+"/flow/changeBonus",{session:user.session,bonus_id:d,config:{silence:true}},function(e){if(!e.status.succeed){mui.toast(e.status.error_desc);return}if(b){b.className="icon-radius"}if(d>0){a.className="icon-radius checked mui-icon mui-icon-checkmarkempty"}updateTotal({goods_amount:e.data.amount,shipping_fee:e.data.shipping_fee})})};</script>
+	</body>
+
+</html>

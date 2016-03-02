@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>果社</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/app.css" />
+		<style>
+			.mui-bar-tab .mui-tab-item.mui-active {
+				color: #809a00;
+			}
+			.mui-segmented-control .mui-control-item.mui-active {
+				background-color: #809a00;
+			}
+			.mui-segmented-control {
+				border: 1px solid #809a00;
+			}
+			.mui-segmented-control .mui-control-item {
+				color: #809a00;
+				border-color: #809a00;
+				border-left: 1px solid #809a00;
+				line-height: 28px;
+			}
+			.mui-table-view .mui-media-object{
+				width:70px;height:70px;max-width:70px;border-radius: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">水果社区</h1>
+
+		</header>
+		<!--<nav class="mui-bar mui-bar-tab" id="category">
+
+		</nav>-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view  mui-grid-view" id="category">
+        		</ul>
+				<ul class="mui-table-view" id="mui-table-view">
+					<li class='mui-table-view-cell mui-media mui-col-xs-12' style='text-align:center;'>
+						<!--<img src='images/dianji.jpg' width='300px' height="404px"></li>-->
+				</ul>
+				<div id="dianji" style="width:100%;text-align:center;padding: 15px 0;">
+					<h5>====点击加载更多信息====</h5>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		var hasMore = true;
+		var category = 0;
+		if (mui.os.android) {
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载...',
+						callback: loadMore
+					}
+				}
+			});
+		} else {
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+		}
+
+		function loadMore() {
+			if (hasMore) {
+				pullupRefresh();
+			}
+		}
+		mui.plusReady(function() {
+			if (!mui.os.android) {
+				$("#pullrefresh").removeClass().addClass("mui-content");
+				$(".mui-scroll").removeClass();
+			} else {
+				$('#dianji').hide();
+			}
+			var self = plus.webview.currentWebview();
+			readylist();
+			mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_news_category', {
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					var content = "";
+					if (data) {
+						$.each(data["TableInfo"], function(i, v) {
+//							content += '<a class="mui-tab-item" href="' + v.id + '">';
+//							content += '<span class="mui-icon"><img src="http://www.guoshe.cc' + v.img_url + '" width="30px"></span>';
+//							content += '<span class="mui-tab-label">' + v.title + '</span></a>';
+							content += '<li class="mui-table-view-cell mui-media mui-col-xs-4">';
+	                        content += '<a href="' + v.id + '" value="'+v.title+'">';
+	                         if (v.img_url != "") {
+	                            content += '<img class="mui-media-object" src="http://www.guoshe.cc' + v.img_url + '" style="width:50px;">';
+	                        }else {
+	                            content += '<img class="mui-media-object" src="images/jhs.png" style="width:50px;">';
+	                        }
+	                        content += '<div class="mui-media-body" style="text-align:center;margin-top:10px;">' + v.title + '</div><div style="width:100%;">';
+	                         content += '</li>';
+						});
+					}
+					$("#category").append(content);
+				},
+				error: function(xhr, type, errorThrown) {
+					console.log("error");
+				}
+			});
+			initTemplates(); //预加载所有模板	
+		});
+		mui('#category').on('tap', 'a', function(e) {
+			if (mui.os.android) {
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				hasMore = true;
+			}
+			category = this.getAttribute('href');
+			$(".mui-title").text(this.getAttribute('value'));
+			readylist();
+		});
+
+		function readylist() {
+			mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_newslist', {
+				data: {
+					"category_id": category,
+					"top": "12",
+					"strWhere": ""
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					$('#mui-table-view li').remove();
+					var content = "";
+					if (data) {
+						$.each(data["TableInfo"], function(i, v) {
+							content += '<li class="mui-table-view-cell mui-media" id="' + v.add_time + '">';
+							content += '<a id="' + v.id + '" href="news_show.html" title="' + v.title + '">';
+							if (v.img_url != "") {
+								content += '<img class="mui-media-object mui-pull-left" src="http://www.guoshe.cc/' + v.img_url + '">';
+							} else {
+								content += '<img class="mui-media-object mui-pull-left" src="images/jhs.png">';
+							}
+							content += '<div class="mui-media-body">' + v.title;
+							content += '<p class="mui-ellipsis">' + v.zhaiyao + '</p>';
+							content += '<p class="mui-ellipsis">' + v.add_time + '</p>';
+							content += '</div></a></li>';
+						});
+					} else {
+						$('#mui-table-view li').remove();
+						content = "<li class='mui-table-view-cell mui-media mui-col-xs-12' style='text-align:center;'><img src='images/jhs.png' width='50px'><br/>暂无内容</li>";
+					}
+					$("#mui-table-view").append(content);
+				},
+				error: function(xhr, type, errorThrown) {
+					console.log("error");
+				}
+			});
+		}
+
+		function pullupRefresh() {
+			setTimeout(function() {
+				var add_time = document.querySelector("#mui-table-view li:last-child").getAttribute("id");
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_newslist', {
+					data: {
+						"category_id": category,
+						"top": "12",
+						"strWhere": "and add_time<'" + add_time + "'"
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data) {
+							var table = document.body.querySelector('.mui-table-view');
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<li class="mui-table-view-cell mui-media" id="' + v.add_time + '">';
+								content += '<a id="' + v.id + '" href="news_show.html" title="' + v.title + '">';
+								if (v.img_url != "") {
+									content += '<img class="mui-media-object mui-pull-left" src="http://www.guoshe.cc/' + v.img_url + '">';
+								} else {
+									content += '<img class="mui-media-object mui-pull-left" src="images/jhs.png">';
+								}
+								content += '<div class="mui-media-body">' + v.title;
+								content += '<p class="mui-ellipsis">' + v.zhaiyao + '</p>';
+								content += '<p class="mui-ellipsis">' + v.add_time + '</p>';
+								content += '</div></a></li>';
+							});
+							$("#mui-table-view").append(content);
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+						} else {
+							hasMore = false;
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(category);
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					}
+				});
+			}, 1000);
+		}
+		document.querySelector('#dianji').addEventListener('tap', function(event) {
+			var add_time = document.querySelector("#mui-table-view li:last-child").getAttribute("id");
+			mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_newslist', {
+				data: {
+					"category_id": category,
+					"top": "12",
+					"strWhere": "and add_time<'" + add_time + "'"
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					var content = "";
+					if (data.TableInfo[0].id != "0") {
+						var table = document.body.querySelector('.mui-table-view');
+						$.each(data["TableInfo"], function(i, v) {
+							content += '<li class="mui-table-view-cell mui-media" id="' + v.add_time + '">';
+							content += '<a id="' + v.id + '" href="news_show.html" title="' + v.title + '">';
+							if (v.img_url != "") {
+								content += '<img class="mui-media-object mui-pull-left" src="http://www.guoshe.cc/' + v.img_url + '">';
+							} else {
+								content += '<img class="mui-media-object mui-pull-left" src="images/jhs.png">';
+							}
+							content += '<div class="mui-media-body">' + v.title;
+							content += '<p class="mui-ellipsis">' + v.zhaiyao + '</p>';
+							content += '<p class="mui-ellipsis">' + v.add_time + '</p>';
+							content += '</div></a></li>';
+						});
+						$("#mui-table-view").append(content);
+					} else {
+						mui.toast("无更多数据了");
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					console.log("dd");
+				}
+			});
+		});
+		mui('#mui-table-view').on('tap', 'a', function() {
+			//获得共用模板组
+			var template = getTemplate('default');
+			//判断是否显示右上角menu图标；
+			var showMenu = false;
+			//获得共用父模板
+			var headerWebview = template.header;
+			//获得共用子webview
+			var contentWebview = template.content;
+			var title = this.getAttribute('title');
+			//通知模板修改标题，并显示隐藏右上角图标；
+			mui.fire(headerWebview, 'updateHeader', {
+				title: title,
+				showMenu: showMenu
+			});
+			var reload = true;
+			if (!template.loaded) {
+				if (contentWebview.getURL() != this.href) {
+					contentWebview.loadURL("news_show.html?newsId=" + this.getAttribute('id'));
+				} else {
+					reload = false;
+				}
+			} else {
+				reload = false;
+			}
+			(!reload) && contentWebview.show();
+			headerWebview.show("pop-in", 150);
+		});
+		var templates = {};
+		var getTemplate = function(name, header, content) {
+			var template = templates[name];
+			if (!template) {
+				//预加载共用父模板；
+				var headerWebview = mui.preload({
+					url: header,
+					id: name + "-main",
+					styles: {
+						popGesture: "hide",
+					},
+					extras: {
+						mType: 'main'
+					}
+				});
+				//预加载共用子webview
+				var subWebview = mui.preload({
+					url: !content ? "" : content,
+					id: name + "-sub",
+					styles: {
+						top: '45px',
+						bottom: '0px',
+					},
+					extras: {
+						mType: 'sub'
+					}
+				});
+				subWebview.addEventListener('loaded', function() {
+					setTimeout(function() {
+						subWebview.show();
+					}, 50);
+				});
+				subWebview.hide();
+				headerWebview.append(subWebview);
+				//iOS平台支持侧滑关闭，父窗体侧滑隐藏后，同时需要隐藏子窗体；
+				if (mui.os.ios) { //5+父窗体隐藏，子窗体还可以看到？不符合逻辑吧？
+					headerWebview.addEventListener('hide', function() {
+						subWebview.hide("none");
+					});
+				}
+				templates[name] = template = {
+					name: name,
+					header: headerWebview,
+					content: subWebview,
+				};
+			}
+			return template;
+		};
+		var initTemplates = function() {
+			getTemplate('default', 'examples/template.html');
+		};
+	</script>
+
+</html>

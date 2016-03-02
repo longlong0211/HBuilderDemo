@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			 
+			.mui-scroll-wrapper{
+				margin: 60px 0px 10px 0px; 
+			 
+			}
+			
+			.title-sub{  background-color: red; color: white;}
+			
+			.update{font-style: normal;color: #999999;margin-right: 25px;font-size: 15px}
+			#num_sub_version{  text-align: left; float: left; left:100px; width:35px;}
+		</style>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+				   <span class="mui-icon mui-icon-left-nav"></span>
+				        设置
+			</button>
+		    <h1 class="mui-center mui-title">关于渔乐</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a id="about" href="about.html" open-type="common" class="mui-navigate-right">关于我们</a>
+						</li> 
+						<li class="mui-table-view-cell">
+							<a id="welcome"    href="guide.html" open-type="common" class="mui-navigate-right">欢迎页</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a id="quest"  href="question.html" open-type="common" class="mui-navigate-right">意见反馈</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a id="tel"  href="#" class="mui-navigate-right">客服电话</a>
+						</li>
+					</ul>
+					<br />
+					<ul class="mui-table-view">
+ 
+						<li class="mui-table-view-cell">
+							<a id="rate"  href="#" class="mui-navigate-right">评分鼓励</a>
+						</li>
+						 
+						<li id="shareli" class="mui-table-view-cell" style="display: none;">
+							<a id="share"  href="#" class="mui-navigate-right" >分享推荐</a>
+						</li>
+						
+						<li class="mui-table-view-cell android-only" >
+							<a id="update"  href="#" class="mui-navigate-right">检查更新
+								<span class="mui-badge title-sub" id="num_sub_version" style="display: none;" ></span>
+								<i class="mui-pull-right update" id="version"></i></a>
+						</li>
+						
+						 
+					</ul>
+				</div>
+			</div>		 
+		</div>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+	<script src="js/fish_share.js"></script>	
+	<script type="text/javascript" src="js/common.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/update.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+ 
+		//初始化单页的区域滚动
+		mui('.mui-scroll-wrapper').scroll();
+		 //分享操作
+		var shares = {}; 
+		mui.plusReady(function() {
+			
+			if(getisshowshare())
+			{
+				jQuery("#shareli").show();
+			}
+			
+			plus.share.getServices(function(s) {
+				if (s && s.length > 0) {
+					for (var i = 0; i < s.length; i++) {
+						var t = s[i];
+						shares[t.id] = t;
+					}
+				}
+			}, function() {
+				console.log("获取分享服务列表失败");
+			});
+			 
+			jQuery("#version").html(GetVersion(GetSystem())); 
+			
+			var temp =plus.storage.getItem("update");
+			if(temp!= null && temp !="" )
+			{
+				jQuery("#num_sub_version").html("New");
+				jQuery("#num_sub_version").show();
+				 
+			}
+		});
+		//分享链接点击事件
+		document.getElementById("share").addEventListener('tap', function() {
+			var ids = [{
+					id: "weixin",
+					ex: "WXSceneSession"
+				}, {
+					id: "weixin",
+					ex: "WXSceneTimeline"
+				},{
+					id:"qq"
+				}],
+				bts = [{
+					title: "发送给微信好友"
+				}, {
+					title: "分享到微信朋友圈"
+				},{
+					title: "分享到QQ"
+				}];
+			plus.nativeUI.actionSheet({
+				cancel: "取消",
+				buttons: bts
+			}, function(e) {
+				var i = e.index;
+				if (i > 0) {
+					var s_id = ids[i - 1].id;
+					var share = shares[s_id];
+					if(share){
+						if (share.authenticated) {
+							shareMessage(share, ids[i - 1].ex);
+						} else {
+							share.authorize(function() {
+								shareMessage(share, ids[i - 1].ex);
+							}, function(e) {
+								console.log("认证授权失败：" + e.code + " - " + e.message);
+							});
+						}
+					}else{
+						mui.toast("无法获取分享服务!")
+					}
+				}
+			});
+		});
+
+		function shareMessage(share, ex) {
+				var msg = {
+					extra: {
+						scene: ex
+					}
+				};
+				msg.href = mainurl;
+				msg.title = "畅享自然，渔乐无穷，钓鱼人必备APP。";
+				msg.content = "我发现一款非常棒的钓鱼APP，走起！";
+				if (~share.id.indexOf('weibo')) {
+					msg.content += "；APP地址："+mainurl+"download.html";
+				}
+				msg.thumbs = ["_www/images/logo.png"];
+				share.send(msg, function() {
+					console.log("分享到\"" + share.description + "\"成功！ ");
+				}, function(e) {
+					console.log("分享到\"" + share.description + "\"失败: " + e.code + " - " + e.message);
+				});
+			}
+			//去评分
+		document.getElementById("rate").addEventListener('tap', function() {
+			if (mui.os.ios) {
+				location.href = 'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1039865768&pageNumber=0&sortOrdering=2&type=&mt=8';
+			} else if (mui.os.android) { 
+				plus.runtime.openURL("market://details?id="+apppackage, function(e) {
+					plus.runtime.openURL("market://details?id="+apppackage, function(e) {
+						mui.alert("360手机助手和应用宝，你一个都没装，暂时无法评分，感谢支持");
+					}, "com.qihoo.appstore");
+				}, "com.tencent.android.qqdownloader");
+			}
+		});
+		 //客服电话
+		document.getElementById("tel").addEventListener('tap', function() {
+			plus.device.dial("057188764978");  
+		});
+		 
+		 //检查更新
+		document.getElementById("update").addEventListener('tap', function() {
+			
+			update("update");
+
+		});
+	</script>
+</html>

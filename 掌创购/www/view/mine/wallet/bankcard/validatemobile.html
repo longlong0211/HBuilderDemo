@@ -1,0 +1,107 @@
+<!--
+	作者：344805262@qq.com
+	时间：2015-06-13
+	描述：我的/我的钱包/我的银行卡/添加银行卡-成功不一致.html -> validatemobile.html 如果添加成功也在此页面提示
+-->
+
+
+
+
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="format-detection" content="telephone=yes"/>
+<meta name="msapplication-tap-highlight" content="no" />
+<meta charset="utf-8">
+<title>添加银行卡</title>
+
+<link href="../../../../css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="../../../../js/common.js"></script>
+<script type="text/javascript" src="../../../../js/jquery-2.1.4.min.js" ></script>
+<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".pop-exit").click(function(){
+			$(this).parent().hide();
+		});
+	});
+</script>
+</head>
+
+<body>
+<div id="header"> 
+<span class=" tab_mune tab_a t-c">
+
+ <a href="../../订单管理/首页.html"  class="arrow-left"> <img src="../../../../images/arrow-left.png" height="25"/></a>
+ 
+ </span> 
+
+<span class=" tab_mune tab_b">
+  
+   <h1 class="hd-tit">添加银行卡</h1>		
+
+</span>
+		
+<span class=" tab_mune tab_a t-c"> 
+
+
+		
+</span> 
+</div>
+
+
+<div id="content" class="bg-f2"> 
+
+		
+		<!-----------------------列表-------------------------------->
+		
+		<div class="item-01-wrap ">
+				<div class="data-input-block"> <label>卡类型:</label> <span> 信用卡</span></div>
+		</div>
+		
+		<div class="item-01-wrap mt10">
+				<div class="data-input-block"> <label>姓&nbsp;&nbsp;&nbsp;名:</label> <span> 张亚</span></div>
+		</div>
+		
+		<div class="item-01-wrap ">
+				<div class="data-input-block"> <label>证件号:</label> <span> 3*****************8</span></div>
+		</div>
+		
+		<div class="item-01-wrap ">
+				<div class="data-input-block"> <label>手机号:</label> <span> 185****8647</span></div>
+		</div>
+		
+		
+        <div class="tips-text-block">
+		
+		    <input type="checkbox"/>同意<a class=" fc-org">《支付协议》</a>
+		</div>
+	    <!---------------------------按钮---------------------------->
+		<div class="item-02-wrap">
+		       <input type="button" onclick="clicked('../wallet.html')" class="base-btn-inp t-c" value="添加"/>
+		</div>
+		
+		<!---------------------------按钮---------------------------->
+
+</div>
+
+<!------------------------------------------------------------------>
+
+<div class="s-pop-wrap">
+ <div class=" s-pop-block">
+ 
+   <p>手机号码与银行预留号码不一致，请重新填写信息</p>
+   <a class="pop-exit"></a>
+ </div>
+
+
+
+</div>
+
+<!------------------------------------------------------------------>
+
+</body>
+</html>

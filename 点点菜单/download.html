@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="http://7xijkh.com1.z0.glb.clouddn.com/style.css"/>
+		<link rel="stylesheet" type="text/css" href="http://7xijkh.com1.z0.glb.clouddn.com/animate.css"/>
+		<style type="text/css">
+			body{background: #99312e;box-sizing: border-box;overflow: hidden;}
+			.header{width: 200px;margin: 0 auto;position: relative;transition: all 2s ease-in-out 0s;}
+			.header .img1{width: 200px;height: 400px;z-index: 999;position: absolute;}
+			.header .img2{width: 629px;height: 520px;position: absolute;z-index: 997;left: -200px;}
+			@keyframes zhuan{
+				from{transform: rotate(0deg);}
+				to{transform: rotate(359deg);}
+			}
+			@-webkit-keyframes zhuan{
+				from{-webkit-transform: rotate(0deg);}
+				to{-webkit-transform: rotate(359deg);}
+			}
+			@-ms-keyframes zhuan{
+				from{transform: rotate(0deg);}
+				to{transform: rotate(359deg);}
+			}
+			@-moz-keyframes zhuan{
+				from{transform: rotate(0deg);}
+				to{transform: rotate(359deg);}
+			}
+			.header .active{
+			animation-name: zhuan;
+			animation-duration: 20s;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+			animation-play-state: running;
+			/* Firefox: */
+			-moz-animation-name: zhuan;
+			-moz-animation-duration: 20s;
+			-moz-animation-timing-function: linear;
+			-moz-animation-iteration-count: infinite;
+			-moz-animation-play-state: running;
+			/* Safari 和 Chrome: */
+			-webkit-animation-name: zhuan;
+			-webkit-animation-duration: 20s;
+			-webkit-animation-timing-function: linear;
+			-webkit-animation-iteration-count: infinite;
+			-webkit-animation-play-state: running;
+/*			}*/
+			}
+			.header .img3{width: 350px;position: absolute;left: -72px;top: 30px;z-index: 996;}
+			.down{position: absolute;top: 420px;z-index: 9999;text-align: right;text-decoration: none;}
+			 .down i{color: #fff;font-size: 12px;}
+			 .down{display: none;}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<div class="header">
+				<img class="img1 animated fadeInDownBig" src="http://7xijkh.com1.z0.glb.clouddn.com/banner01_logo.png" class=""/>
+				<img class="img2" src="http://7xijkh.com1.z0.glb.clouddn.com/banner01_back.png"/>
+				<img class="img3 animated rollIn" src="http://7xijkh.com1.z0.glb.clouddn.com/banner01_icon.png"/>
+			<a href="http://7xijkh.com1.z0.glb.clouddn.com/点点菜单.apk" class="down">
+				<img src="http://7xijkh.com1.z0.glb.clouddn.com/banner01_btn.png" class="do animated "/>
+				<i>*点点菜单目前仅支持安卓用户</i>
+			</a>
+			</div> 
+		</div>
+		<script src="http://7xijkh.com1.z0.glb.clouddn.com/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			setTimeout(function(){
+				$('.img3').addClass('active');
+				$('.down').fadeIn(1000)
+			},1000)
+				setInterval(function(){
+					$('.do').toggleClass('tada');
+				},2000)
+			
+		</script>
+		
+		  <!--<script type="text/javascript">
+        var Sys = {};
+        var ua = navigator.userAgent.toLowerCase();
+        var s;
+        (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+        (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+        (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+        (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+        (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+
+        //以下进行测试
+        if (Sys.ie) document.write('IE: ' + Sys.ie);
+        if (Sys.firefox) document.write('Firefox: ' + Sys.firefox);
+        if (Sys.chrome) document.write('Chrome: ' + Sys.chrome);
+        if (Sys.opera) document.write('Opera: ' + Sys.opera);
+        if (Sys.safari) document.write('Safari: ' + Sys.safari);
+    </script>-->
+	</body>
+</html>

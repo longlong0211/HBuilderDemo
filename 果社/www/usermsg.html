@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/app.css" />
+		<link rel="stylesheet" href="css/mui.picker.min.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.ui-login-form {
+				border: solid 1px #ddd;
+				border-radius: 5px;
+				margin: 10px;
+				overflow: hidden;
+				background-color: #ddd;
+			}
+			.ui-login-form input,
+			select {
+				width: 72%;
+				border-bottom: none;
+				border-right: none;
+				border-top: none;
+				margin: 0px;
+				font-size: 15px;
+				border-radius: 0px;
+				height: auto;
+			}
+			option {
+				width: 72%;
+				border-bottom: none;
+				border-right: none;
+				border-top: none;
+			}
+			.ui-login-form input,
+			select {
+				margin-bottom: 1px;
+			}
+			.ui-login-form label {
+				padding: 10px 5px;
+				line-height: 21px;
+				width: 28%;
+				float: left;
+				background: #fff;
+				text-align: right;
+			}
+			.sex-panel {} .mui-picker-panel {
+				position: fixed;
+				left: 0px;
+				width: 100%;
+				z-index: 999999;
+				background-color: #eee;
+				border-top: solid 1px #ccc;
+				box-shadow: 0px -5px 7px 0px rgba(0, 0, 0, 0.1);
+				-webkit-transition: .3s;
+				bottom: 0px;
+				-webkit-transform: translateY(280px);
+			}
+			.mui-picker-panel .mui-panel-header {
+				padding: 6px;
+				font-size: 14px;
+				color: #888;
+			}
+			.mui-picker-panel .mui-panel-body {
+				position: relative;
+				width: 100%;
+				height: 200px;
+				border-top: solid 1px #ddd;
+			}
+			.sex-panel .mui-listpicker {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				border: none;
+			}
+			.mui-panel-header button {
+				font-size: 12px;
+				padding: 5px 10px;
+			}
+			.mui-panel-header button:last-child {
+				float: right;
+			}
+			.mui-pciker-list li{
+				font-size:0.7pc;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">用户信息</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab" style="text-align:center;">
+
+			<button class="mui-btn mui-btn-negative" type="button" id="btnsure" style="padding-left: 40px;padding-right: 40px;margin-right: 20px;float: right;">确认修改</button>
+		</nav>
+		<div class="mui-content">
+			<div class="ui-login-form">
+				<label>会员等级:</label>
+				<input type="text" id="txtgroup" class="mui-input" readonly="true" disabled="true">
+				<label>用户积分:</label>
+				<input type="text" id="txtpoint" class="mui-input"  readonly="true" disabled="true">
+				<label>邮箱:</label>
+				<input type="text" id="txtEmail" class="mui-input-clear" placeholder="邮箱">
+				<label>昵称:</label>
+				<input type="text" id="txtNickName" class="mui-input-clear" placeholder="昵称">
+				<label>性别:</label>
+				<input id='rblSex' type="text" class="mui-input-clear mui-input" placeholder="性别">
+
+				<label>生日:</label>
+				<input type="text" id="txtBirthday" class="mui-input-clear" placeholder="生日">
+				<label>联系电话:</label>
+				<input type="tel" id="txtTelphone" class="mui-input-clear" placeholder="联系电话">
+				<label>手机:</label>
+				<input type="tel" id="txtMobile" name="txtMobile" class="mui-input-clear" placeholder="手机">
+				<label>QQ:</label>
+				<input type="tel" id="txtQQ" class="mui-input-clear" placeholder="QQ">
+				<label>配送地址:</label>
+				<input id='showCityPicker' type="text" class="mui-input-clear" placeholder="配送地址" style="font-size:14px;margin-bottom:0px;">
+
+				
+				<input type="hidden" id="daolua" value="" />
+				<input type="hidden" id="xiaoqua" value="" />
+				<input type="hidden" id="xiaoquid" value="" />
+			</div>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/mui.picker.min.js"></script>
+		<script>
+			mui.init();
+			 // 获取个人信息中的地址信息 和其他用户信息 
+			var txtEmail = document.querySelector('#txtEmail');
+			var txtNickName = document.querySelector('#txtNickName');
+			var rblSex = document.getElementById("rblSex");
+			var txtBirthday = document.querySelector('#txtBirthday');
+			var txtTelphone = document.querySelector('#txtTelphone');
+			var txtMobile = document.querySelector('#txtMobile');
+			var txtQQ = document.querySelector('#txtQQ');
+			
+			var btnsure = document.getElementById("btnsure");
+			mui.ready(function() {
+				//性别
+				var sexPicker = new mui.PopPicker();
+				sexPicker.setData([{
+					value: '男',
+					text: '男'
+				}, {
+					value: '女',
+					text: '女'
+				}, {
+					value: '保密',
+					text: '保密'
+				}]);
+				document.getElementById('rblSex').addEventListener('tap', function(event) {
+					sexPicker.show(function(items) {
+						document.getElementById('rblSex').value = items[0].text;
+						//返回 false 可以阻止选择框的关闭
+						//return false;
+					});
+				}, false);
+				//城市列表数据
+				var provinces = null;
+				var cityPicker = new mui.PopPicker({
+					layer: 2
+				});
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_peisongdizhi&catalogid=69', {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						provinces = data;
+						cityPicker.setData(provinces);
+						//绑定
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type+errorThrown);
+					}
+				});
+				
+				document.getElementById('showCityPicker').addEventListener('tap', function(event) {
+					cityPicker.show(function(items) {
+						var a=items[0].text +  items[1].text;
+						if(a.indexOf("undefined")>0){
+							a=a.replace("undefined","");
+							document.getElementById('daolua').value = "";
+							
+						}else{
+							document.getElementById('daolua').value = items[1].text;
+						}
+						document.getElementById('xiaoqua').value = items[0].text;
+						document.getElementById('showCityPicker').value = a;
+						//返回 false 可以阻止选择框的关闭
+						//return false;
+					});
+				}, false);
+			});
+			 // 日期控件
+			txtBirthday.addEventListener('tap', function() {
+				var dDate = new Date();
+				dDate.setFullYear(2014, 7, 16);
+				var minDate = new Date();
+				minDate.setFullYear(1950, 0, 1);
+				var maxDate = new Date();
+				maxDate.setFullYear(2016, 11, 31);
+				plus.nativeUI.pickDate(function(e) {
+					var d = e.date;
+					txtBirthday.value = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+				}, function(e) {
+					txtBirthday.value = "您没有选择日期";
+				}, {
+					title: "请选择日期",
+					date: dDate,
+					minDate: minDate,
+					maxDate: maxDate
+				});
+			});
+			var users = JSON.parse(localStorage.getItem('$users') || '[]');
+			users.some(function(user) {
+				mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=user_centermsg&account=' + user.account, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						txtEmail.value = data.email;
+						txtNickName.value = data.nick_name;
+						txtBirthday.value = data.birthday.substring(0, data.birthday.length - 7);
+						if(data.telphone=="undefined")
+						{
+							txtTelphone.value ="";
+						}
+						else{
+							txtTelphone.value = data.telphone;
+						}
+						if(data.mobile=="undefined")
+						{
+							txtMobile.value ="";
+						}
+						else{
+							txtMobile.value = data.mobile;
+						} 
+						txtQQ.value = data.qq;
+						rblSex.value = data.sex;
+						//document.getElementById('showCityPicker').value = data.quji + data.daoluji;
+						document.getElementById('showCityPicker').value = data.xiaoquji+data.daoluji;
+						
+						document.getElementById("daolua").value = data.daoluji;
+						document.getElementById("xiaoqua").value = data.xiaoquji;
+						document.getElementById("xiaoquid").value = data.xiaoquid;
+						document.getElementById("txtgroup").value = data.group;
+						document.getElementById("txtpoint").value = data.point;
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(errorThrown);
+					}
+				});
+				// 修改个人信息
+				btnsure.addEventListener('tap', function(event) {
+					mui.ajax('http://www.guoshe.cc/tools/usermsg.ashx?action=user_centermsgupdate&account=' + user.account, {
+						data: {
+							"txtEmail": txtEmail.value,
+							"txtNickName": txtNickName.value,
+							"rblSex": document.getElementById("rblSex").value,
+							"txtBirthday": txtBirthday.value,
+							"txtTelphone": txtTelphone.value,
+							"txtMobile": txtMobile.value,
+							"txtQQ": txtQQ.value,
+							"Text1": "",
+							"Text2": "",
+							"Text3": "",
+							"Text4": document.getElementById("xiaoqua").value,
+							"Text5": document.getElementById("daolua").value,
+							"xiaoquid": document.getElementById("xiaoquid").value
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							if (data.status == 1) {
+								plus.nativeUI.toast(data.msg);
+								mui.back();
+								//plus.webview.currentWebview().close();
+							} else {
+								plus.nativeUI.toast(data.msg);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理； 
+							console.log(type);
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,99 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title>生成订单</title>
+    <link href="../../../css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../../../js/common.js"></script>
+    <script type="text/javascript" src="../../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../../js/config.js"></script>
+    <script type="text/javascript" src="../../../js/common/validate.js"></script>
+    <script type="text/javascript" src="../../../js/order/commit.js"></script>
+    <script type="text/javascript" src="../../../js/userinfo.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2">生成订单</h2>
+        </span>
+        <span class=" tab_mune tab_a t-c">
+        </span>
+    </div>
+
+
+    <div class="content">
+        <!------------------------------------------------------->
+        <div id="afterorder" class="item-01-wrap  mt20">
+            <div class="float-info-block">
+                <label>抵金币:</label><span>减<em id="discount"></em>元&nbsp;&nbsp;&nbsp;&nbsp;<input id="coin" type="tel" class="base-text2-inp" placeholder="0" style="width:7em; height:2em;  margin: 0px; border:1px solid #ddd; text-align: center; border-radius: 0.2em;"></span>
+            </div>
+        </div>
+        <div class="item-01-wrap  mt20">
+            <div class="float-info-block">
+                <label>可用金币:</label><span id="validcoin">0</span>
+            </div>
+        </div>
+        <div class="item-01-wrap">
+            <div class="float-info-block"><label>总价:</label><span><em id="totalprice">0</em>元</span></div>
+        </div>
+        <div class="item-01-wrap">
+            <div class="float-info-block">
+                <label>支付方式:</label>
+                <span style="font-size:1em;">
+                    <a id="apayonline" href="javascript:void(0);"><input id="payonline" type="radio" name="payment" value="1" style="width:0.8em;"/>线上支付</a>
+                    <a id="apayoffline" href="javascript:void(0);"><input id="payoffline" type="radio" name="payment" value="0" checked="checked" style="width:0.8em;"/>到店刷卡</a>
+<!--                    <p style="color:#777;">线上支付暂未开启，敬请期待</p>-->
+                </span>
+            </div>
+        </div>
+        <!------------------------------------------------------->
+        <div class="tips-text-block">
+            您绑定的手机号码
+        </div>
+        <!------------------------------------------------------->
+        <div class="item-01-wrap">
+            <div class="float-info-block"><label id="user_mobile"></label> <span> <!--<a>绑定新手机></a>--> &nbsp;</span></div>
+        </div>
+
+        <!----------------------是否到店，外卖支持---------------------->
+        <div class="locationdiv item-01-wrap">
+            <input id="hid_is_takeaway" type="hidden" value="">
+            <div class="float-info-block">
+                <label>到店消费</label><span style="font-size:1em;">
+                    <input name='is_instore' type='radio' value="1" />是&nbsp;&nbsp;
+                    <input name='is_instore' type='radio' value="0" checked="checked" />否
+                </span>
+            </div>
+
+        </div>
+        <div class="item-01-wrap">
+            <div id="addressdiv" style="display: none;" class="float-info-block">
+                <label style="line-height: 2em;">外卖地址</label>
+                <input type="hidden" id="address" />
+                <span><input id="addressinput" style="width:90%;height:2em; margin: 0px; border:1px solid #ddd;border-radius: 0.2em;" readonly="true" placeholder="请填写外卖地址" class="bzwby" /></span>
+            </div>
+            <div id="desktopdiv" style="display: none;" class="float-info-block">
+                <label style="line-height: 2em;">桌号</label>
+                <span><input id="desktop" type="number" style="width: 90%;height:2em;  margin: 0px; border:1px solid #ddd;  border-radius: 0.2em;" placeholder="请填当前桌号" class="bzwby" /></span>
+            </div>
+        </div>
+
+        <!---------------------------按钮---------------------------->
+        <div class="item-02-wrap">
+            <input type="button" class="base-btn-inp t-c" id="commitorder" value="提交订单" />
+        </div>
+
+        <!---------------------------按钮---------------------------->
+    </div>
+
+</body>
+</html>

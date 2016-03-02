@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>渔乐</title>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
+		
+		 
+		<style type="text/css">
+li {
+	padding: 2em;
+	border-bottom: 1px solid #eaeaea;
+	background: #fafafa;
+	font-size: 12px;
+}
+li:active {
+	background: #f4f4f4;
+}
+footer {
+	width: 100%;
+	text-align: center;
+	color: #c6c6c6;
+	font-size: 12px;
+}
+		</style>
+	</head>
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+				   <span class="mui-icon mui-icon-left-nav"></span>
+				        设置
+			</button>
+		    <h1 class="mui-center mui-title">关于我们</h1>
+		</header>
+		<div id="content" class="content">
+		<div class="logo">
+			<br/>
+			<img style="width:72px;height:72px;" src="images/logo.png"/>
+			<br/>
+			<span style="font-size: 20px;">渔乐</span><br/>
+			(v<span id="version"></span>)<br/><br/>
+		</div>
+		<p class="des" style="font-size:16px;line-height:30px;margin: 0px .5em;">
+			渔乐致力于打造国内最大的、最全面的、最专业的、服务于钓鱼人的手机应用软件（APP）平台。<br/>
+　　 			你可以用它来查看各种钓鱼资讯、视频， 找到附近钓点，随时随地分享身边的新鲜事儿，与好友互动交流，分享渔乐趣事，购买品牌渔具。
+		</p>
+		<br/>
+		<ul style="list-style:none;margin:0;padding:0;text-align:left;">
+			<li onclick="plus.runtime.openURL('http://weibo.com/u/5684156343');">
+				<img style="width:40px;height:40px;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMy8xMySCRBYAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAC/UlEQVRYhe2Y23HaQBSGP2fyDh1YqcDMnAKMK4g6iFwBpIKQCkIqMK4gdGBRwBmLDkQFgQqchz0aVmJXF5zBfvA/wxjt9dPZs/8uvnp5eeE969NbA3TpA/C1+gB8rT5fYhJVTYACGFnRFsiBpYiUbX0vFcExRziAG2AGFKq6aOt4dSkfVNUMSIAJMKUOvAFSEdk3+10MsClVnQMLvGUXkUmz3aUjCLCuIqWqE2CFW3KAnyKy+C+AqjoGUtxyJbhNEEx6A3n2in6LyNyryzlG8os/xlmbxBK7BB6Ab8AtLunzSJc9cPCeZ6paAIhIgVvqSpnfcRCgqk5UtQR+UE/yStcWkZosIgnw3QO9UdWl1S+98vQsQMuhZ+C6o+k4VCgiewOZejAz80iAdQXu9+tl1Pamsz5tcd6WcMzPCrgEFiJS2A5+sPIUWFr9iToBB8KBy8ObQPktkBr82qD8NAkCti6xLesQOCJwlUbAxGwmxeXkCkBEVsA9cOd3iNqMqk6Bp4FwfXQnInnfxkFA87iC7g2xsb85bpdWn1i/g4gEN1FMsRyct0zyiDsN1pH66vYyx3naqFG3wBn6ybkb0kkELXp/A203QNZ1PQqMtQK+NqoOwNzybjDgHPjVaPcoIlkAYAqUXdCqug5AAtx3QYYAC+o7sQZnUVnijrhKO1x08wjgGGcjzdPnACRtyx2yGR9uh8slf6K8AQcuX5+8U6EmAwjl7Ah3P4yq66hbN94uo93nspa6smOuoLoAm6EfZBENJZHysq1TCPAQKKvUZQ15qNC7Oza1PedH08r7ngXqtpGxHltOiOa5W2kRJTPFfLD0Bgzt4gXH5N7jjDcIp6orTjfVybi9AW3QFPjjD4Yz1l7ub2MkuIjfBqo3IjLtM07bZSGjvjQ7e161gdrLpYSjBj0j1wlok00MqhmFLW5pc3tO7BOKVqUdbhWiZ/hgQA90aqBtHtgG1hn5mAb97Gxc5SeEbzwH3FUtxxl9MRTqbMC30Lv/99sH4Gv17gH/ARiRUOpAHVd0AAAAAElFTkSuQmCC"/>
+				渔乐微博
+			</li>
+			<li onclick="plus.runtime.openURL('http://www.fishyl.com');">
+				<img style="width:40px;height:40px;vertical-align:middle;" src="images/contactlogo.png"/>
+				渔乐官方主页
+			</li>
+			<li style="border-bottom:0px;" onclick="window.open('mailto:tg@fishyl.com');">
+				<img style="width:40px;height:40px;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMy8xMySCRBYAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABv0lEQVRYhe3X3XGCQBSG4ddM7k0HsQOdOQWEdGAHagWRDpIOYgViB3YgFnBmtIPYgVZgLhYCKK4sixMu+G4c2WV5Ztk/eufzmTbn6b8B99IBfdMBfdMBfdN64LOtUFUHQAAMHmjYAbGIHMsKe7d2ElUdAxHQfxgtywEIROTnssD2ij/JcKfmTYV2X4F5WQUbcJj8fmFe86ExlskeM3S2yf9RWaUqk2QOvCQN7JuQASsRGQFj4M1WsQqwD2ySxgL8kSsRmapqBCzvVbbO4oukjQVATDYEXJLHTarc4LoOLoFx8npWjveGrjiot1AvVTUSkSnVkTMgUtWdCw7q7yQTB+QMWFNzWPhsdXlkWFJ+At59cOA2ScoyUdURZuIcySbSKbkGZit7rfsA38PCFtMzMaanZhRxMQbnOqH+4gMMMQs45JAikl6LKe7jszoPqQsMgSnFcTUEvlU14PqQMcH0qjOyDrAMl4dsLGUBjkhXoA1XJc5IF6AvLo0TsiqwKVyaykgbMD1MLmgWlyZFWpcg20K9Thr5aM50lfy+HJVVsPXgnOy0++gsRCQqK7j50dSWtP67uAP6pgP6pgP6pvXAX+59ddMVCTyHAAAAAElFTkSuQmCC"/>
+				发邮件给我们
+			</li>   
+		</ul>
+		<br/>
+		<footer>
+			<span>Powered By 渔乐</span>
+			<br/>
+			<span>杭州广策易信通科技有限公司</span>
+			<br/>
+			<br/>
+		</footer>
+		</div>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+	<script src="js/app.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		mui.plusReady(function() {
+		 
+			 
+			jQuery("#version").html(GetVersion(GetSystem())); 
+		});
+	</script>	
+</html>

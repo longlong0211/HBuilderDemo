@@ -1,0 +1,165 @@
+﻿<!--
+    作者：344805262@qq.com
+    时间：2015-06-13
+    描述：我的/我的订单/选择支付方式.html -> paytype.html
+-->
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title>支付订单</title>
+    <link href="../../../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="../../../css/font-awesome-ie7.css" rel="stylesheet" type="text/css">
+    <link href="../../../css/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../../../js/common.js"></script>
+    <script type="text/javascript" src="../../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../../js/config.js"></script>
+    <script type="text/javascript" src="../../../js/userinfo.js"></script>
+    <script type="text/javascript" src="../../../js/order/paytype.js"></script>
+    <style>
+            #paypopfocus:focus {
+            outline: none;
+            border: #fff 1px solid;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2"> 确认支付</h2>
+        </span>
+        <span class=" tab_mune tab_a t-c">
+        </span>
+    </div>
+    <div class="content">
+        <!-----------------------列表-------------------------------->
+        <div class="item-01-wrap ">
+            <div class="float-info-block"> <label>总消费金额:</label><span><em id="amount">0</em>元</span></div>
+        </div>
+        <div class="item-01-wrap">
+            <div class="float-info-block"><label>使用金币抵现:</label> <span><em id="discount">0</em>元</span></div>
+        </div>
+        <div class="item-01-wrap">
+            <div class="float-info-block"><label>确认消费后获得金币:</label> <span><em id="availablecoin">0</em>个</span></div>
+        </div>
+        <!------------------------------------------------------->
+        <div class="item-01-wrap  mt20">
+            <div class="float-info-block"> <label>实际需要支付金额:</label><span><i id="total">0</i>元</span></div>
+        </div>
+
+        <div class="tips-text-block">
+            <h2>选择支付方式</h2>
+        </div>
+        <!------------------------------------------------------->
+        <div class="item-01-wrap  mt20">
+            <ul class="select-pay-block">
+                <!--<li class=" bottom-line">
+                    <a id="alipay" title="3" class="check-a"></a>
+                    <div class="pay-item">
+                        <label><img src="../../../images/11.png" width="77" height="40" /></label>
+                        <span>
+                            <h2>支付宝支付</h2>
+                            <p>推荐支付宝用户使用</p>
+                        </span>
+                    </div>
+                </li>-->
+                <li class=" bottom-line">
+                    <a title="5" class="check-a" href="javascript:void(0);"></a>
+                    <div class="pay-item">
+                        <label><img src="../../../images/12.png" width="77" height="40" /></label>
+                        <span>
+                            <h2>微信支付</h2>
+                            <p>推荐微信用户使用</p>
+                        </span>
+                    </div>
+                </li>
+                <!--<li class=" bottom-line">
+                    <a title="2" class="check-a" href="javascript:void(0);"></a>
+                    <div class="pay-item">
+                        <label><img src="../../../images/13.png" width="77" height="40" /></label>
+                        <span>
+                            <h2>借记卡</h2>
+                            <p></p>
+                        </span>
+                    </div>
+                </li>
+                <li class=" bottom-line">
+                    <a title="3" class="check-a" href="javascript:void(0);"></a>
+                    <div class="pay-item">
+                        <label><img src="../../../images/icon-29.png" width="77" height="40" /></label>
+                        <span>
+                            <h2>信用卡</h2>
+                            <p></p>
+                        </span>
+                    </div>
+                </li>
+                <li class=" bottom-line">
+                    <a id="offonlin" title="0" class="check-a"></a>
+                    <div class="pay-item">
+                        <label><img src="../../../images/14.png" width="77" height="40" /></label>
+                        <span>
+                            <h2>到店刷卡支付</h2>
+                            <p>支持信用卡</p>
+                        </span>
+                    </div>
+                </li>
+                <li class=" bottom-line">
+                    <a class="check-a current"></a>
+                    <div class="pay-item">
+                       <label><img src="../../../images/15.png"  width="77" height="40"/></label>
+                      <span>
+                        <h2>余额支付</h2>
+                      </span>
+                   </div>
+                </li>-->
+                <li class=" bottom-line">
+                    <a id="offline" title="1" class="check-a current" href="javascript:void(0);"></a>
+                    <!--<input type="radio" title="1" id="offline" class="check-a current"/>-->
+                    <div class="pay-item">
+                        <label><img src="../../../images/16.png" width="77" height="40" /></label>
+                        <span>
+                            <!--<h2>掌创购会员支付(含余额支付)</h2>-->
+                            <h2>余额支付</h2>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!---------------------------按钮---------------------------->
+        <div class="item-02-wrap">
+            <input type="button" id="confirmpay" class="base-btn-inp t-c" value="确认支付" />
+        </div>
+        <!---------------------------按钮---------------------------->
+    </div>
+
+    <div class="pop-wrap" id="paypop" style="display:none">
+        <div class="passwrod-bank-inp">
+            <h2>请输入支付密码</h2>
+            <div><input type="tel" id="paypopfocus"  style="border: none;width: 1px;height:1px;color:#fff;line-height:1px;font-size:0.1px;" /></div>
+
+            <div class="inner-blokc" id="pwdinputboard">
+                <span>  <i name="pwdchar"></i></span>
+                <span>  <i name="pwdchar"></i> </span>
+                <span>  <i name="pwdchar"></i></span>
+                <span>  <i name="pwdchar"></i></span>
+                <span>  <i name="pwdchar"></i></span>
+                <span>  <i name="pwdchar"></i></span>
+            </div>
+            <div class="pass-btn-block">
+                <input type="button" id="btncancle" class="base-btn-inp gray-bg f-l" value="取消" />
+                <input type="button" id="btnconfirm" class="base-btn-inp f-r" value="确认" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

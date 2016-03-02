@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/iconfont.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.title {
+				padding: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+				background-color: #fff;
+			}
+			.mui-table-view img {
+				border-radius: 4%;
+			}
+			.mui-btn-negative {
+				border: 1px solid red;
+				background-color: red;
+			}
+			.layermmain{
+				margin-top:7px;
+			}
+			.shouqing {
+				position: absolute;
+				bottom: 70px;
+				right: 4px;
+				background-color: #809a00;
+				border-radius: 20px;
+				width: 140px;
+				height: 50px;
+				line-height: 50px;
+				opacity: .5;
+				color: white;
+				font-weight: 900;
+			}
+			.mui-table-view:after {
+				position: fixed;
+			}
+			.jiahao {
+				width: 24px;
+				height: 24px;
+				display: inline-block;
+				text-align: center;
+				border: 1px solid #ddd;
+				border-radius: 50%;
+				background-clip: padding-box;
+				position: absolute;
+				bottom: 14px;
+				right: 4px;
+				background-color: Green;
+			}
+			.mui-checkbox input[type=checkbox]:checked:before,
+			.mui-radio input[type=radio]:checked:before {
+				color: green;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="pullrefresh" class="mui-scroll-wrapper mui-content">
+			<div class="mui-scroll">
+				<ul class="mui-table-view  mui-grid-view" id="mui-table-view">
+
+				</ul>
+				<div id="dianji" style="width:100%;text-align:center;padding: 15px 0;">
+					<h5>====点击加载更多商品信息====</h5>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/layer/layer.m.js"></script>
+		<script type="text/javascript" src="js/layergouwuche.js" ></script>
+		<script>
+			var types = "";
+			var catalogid = 0;
+			var hasMore = true;
+			if (mui.os.android) {
+				mui.init({
+					swipeBack: false,
+					pullRefresh: {
+						container: '#pullrefresh',
+						up: {
+							contentrefresh: '正在加载...',
+							callback: loadMore
+						}
+					}
+				});
+			} else {
+				mui.init({
+					swipeBack: false //启用右滑关闭功能
+				});
+			}
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function loadMore() {
+				if (hasMore) {
+					pullupRefresh();
+				}
+			}
+			mui.plusReady(function() {
+				if (!mui.os.android) {
+					$("#pullrefresh").removeClass().addClass("mui-content");
+					$(".mui-scroll").removeClass();
+				} else {
+					$('#dianji').hide();
+				}
+			});
+
+			function pullupRefresh() {
+					setTimeout(function() {
+						var add_time = document.querySelector("#mui-table-view li:last-child").getAttribute("id");
+						var url = "";
+						if (types == "" || types == null) {
+							url = "http://www.guoshe.cc/tools/submit_ajax.ashx?action=getgoodsinfo&add_time=" + add_time + "&category_id=0&strwhere=and charindex('," + catalogid + ",',categorys)>0";
+						} else {
+							url = 'http://www.guoshe.cc/tools/submit_ajax.ashx?action=getgoodsinfo&add_time=' + add_time + '&category_id=' + catalogid + '&strwhere=' + types;
+						}
+						mui.ajax(url, {
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							success: function(data) {
+								var content = "";
+								if (data.TableInfo[0].id != "0") {
+									var table = document.body.querySelector('.mui-table-view');
+									$.each(data["TableInfo"], function(i, v) {
+										content += '<li class="mui-table-view-cell mui-media mui-col-xs-6" id="' + v.sort_id + '">';
+								content += '<a id="' + v.id + '" href="goods_show.html">';
+								content += '<img class="mui-media-object" src="http://www.guoshe.cc/' + v.img_url + '">';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;height: 22px;">&nbsp;&nbsp;' + v.title + '</div><div style="float:left;padding-right:10px;">';
+								content += '<span style="color:red;font-size:18px;float:left;font-weight:900;">￥' + v.sell_price + '</span>&nbsp;<del style="color:black;text-decoration:line-through;font-size:12px;float:right;">' +
+									v.market_price + '</del></div>';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;font-size:12px;">' + v.goods_no + '</div>';
+								if (v.stock_quantity == "0") {
+									if (v.weishouwan == "1") {
+										content += '<div class="shouqing">2日未售完,转运</div>';
+									} else {
+										content += '<div class="shouqing">已售罄</div>';
+									}
+								}
+								content += '</a><div class="jiahao">';
+								content += '<span class="mui-icon mui-icon-plusempty" style="font-size:18px;color:#ffffff;font-weight:900;" onclick="demo(' + v.id + ',\'' + v.img_url + '\',\'' + v.title + '\');"></span></div></li>';
+									});
+									$("#mui-table-view").append(content);
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+								} else {
+									hasMore = false;
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								console.log(errorThrown);
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							}
+						});
+					}, 1000);
+				}
+				//添加列表项的点击事件
+			mui('#mui-table-view').on('tap', 'a', function() {
+				var id = this.getAttribute('href');
+				mui.openWindow({
+					id: id,
+					url: this.href,
+					waiting: {
+						autoShow: true,
+						title: "正在加载,请稍等"
+					},
+					extras: {
+						goodsId: this.getAttribute('id')
+					}
+				});
+			});
+			window.addEventListener('goods_list_catalog', function(event) {
+				if (mui.os.android) {
+					mui('#pullrefresh').pullRefresh().refresh(true);
+					hasMore = true;
+				}
+				types = '';
+				catalogid = event.detail.id;
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_goodslist_categorys', {
+					data: {
+						top: '8',
+						category_id: "catalogid",
+						strwhere: "charindex('," + catalogid + ",',categorys)>0"
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data) {
+							var table = document.body.querySelector('.mui-table-view');
+							$('.mui-table-view').empty();
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<li class="mui-table-view-cell mui-media mui-col-xs-6" id="' + v.sort_id + '">';
+								content += '<a id="' + v.id + '" href="goods_show.html">';
+								content += '<img class="mui-media-object" src="http://www.guoshe.cc/' + v.img_url + '">';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;height: 22px;">&nbsp;&nbsp;' + v.title + '</div><div style="float:left;padding-right:10px;">';
+								content += '<span style="color:red;font-size:18px;float:left;font-weight:900;">￥' + v.sell_price + '</span>&nbsp;<del style="color:black;text-decoration:line-through;font-size:12px;float:right;">' +
+									v.market_price + '</del></div>';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;font-size:12px;">' + v.goods_no + '</div>';
+								if (v.stock_quantity == "0") {
+									if (v.weishouwan == "1") {
+										content += '<div class="shouqing">2日未售完,转运</div>';
+									} else {
+										content += '<div class="shouqing">已售罄</div>';
+									}
+								}
+								content += '</a><div class="jiahao">';
+								content += '<span class="mui-icon mui-icon-plusempty" style="font-size:18px;color:#ffffff;font-weight:900;" onclick="demo(' + v.id + ',\'' + v.img_url + '\',\'' + v.title + '\');"></span></div></li>';
+							});
+						} else {
+							$('#mui-table-view li').remove();
+							content = "<li class='mui-table-view-cell mui-media mui-col-xs-12' ><img src='images/jhs.png' width='50px'><br/>暂无内容</li>";
+						}
+						$("#mui-table-view").append(content);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+					}
+				});
+			});
+			window.addEventListener('goods_list_activitiess', function(event) {
+				if (mui.os.android) {
+					mui('#pullrefresh').pullRefresh().refresh(true);
+					hasMore = true;
+				}
+				var strwhere = event.detail.strwhere;
+				types='and activitiess like \'%,' + strwhere+',%\'';
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_goodslist', {
+					data: {
+						"top": '8',
+						"category_id": '0',
+						"strwhere": "and activitiess like '%," + strwhere +",%'"
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data) {
+							var table = document.body.querySelector('.mui-table-view');
+							$('.mui-table-view').empty();
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<li class="mui-table-view-cell mui-media mui-col-xs-6" id="' + v.sort_id + '">';
+								content += '<a id="' + v.id + '" href="goods_show.html">';
+								content += '<img class="mui-media-object" src="http://www.guoshe.cc/' + v.img_url + '">';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;height: 22px;">&nbsp;&nbsp;' + v.title + '</div><div style="float:left;padding-right:10px;">';
+								content += '<span style="color:red;font-size:18px;float:left;font-weight:900;">￥' + v.sell_price + '</span>&nbsp;<del style="color:black;text-decoration:line-through;font-size:12px;float:right;">' +
+									v.market_price + '</del></div>';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;font-size:12px;">' + v.goods_no + '</div>';
+								if (v.stock_quantity == "0") {
+									if (v.weishouwan == "1") {
+										content += '<div class="shouqing">2日未售完,转运</div>';
+									} else {
+										content += '<div class="shouqing">已售罄</div>';
+									}
+								}
+								content += '</a><div class="jiahao">';
+								content += '<span class="mui-icon mui-icon-plusempty" style="font-size:18px;color:#ffffff;font-weight:900;" onclick="demo(' + v.id + ',\'' + v.img_url + '\',\'' + v.title + '\');"></span></div></li>';
+							});
+						} else {
+							$('#mui-table-view li').remove();
+							content = "<li class='mui-table-view-cell mui-media mui-col-xs-12' ><img src='images/jhs.png' width='50px'><br/>暂无内容</li>";
+						}
+						$("#mui-table-view").append(content);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+					}
+				});
+			});
+			window.addEventListener('sousuo', function(event) {
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_search', {
+					data: {
+						"keyword": event.detail.sousuo
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data) {
+							var table = document.body.querySelector('.mui-table-view');
+							$('.mui-table-view').empty();
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<li class="mui-table-view-cell mui-media mui-col-xs-6" id="' + v.sort_id + '">';
+								content += '<a id="' + v.id + '" href="goods_show.html">';
+								content += '<img class="mui-media-object" src="http://www.guoshe.cc/' + v.img_url + '">';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;height: 22px;">&nbsp;&nbsp;' + v.title + '</div><div style="float:left;padding-right:10px;">';
+								content += '<span style="color:red;font-size:18px;float:left;font-weight:900;">￥' + v.sell_price + '</span>&nbsp;<del style="color:black;text-decoration:line-through;font-size:12px;float:right;">' +
+									v.market_price + '</del></div>';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;font-size:12px;">' + v.goods_no + '</div>';
+								if (v.stock_quantity == "0") {
+									if (v.weishouwan == "1") {
+										content += '<div class="shouqing">2日未售完,转运</div>';
+									} else {
+										content += '<div class="shouqing">已售罄</div>';
+									}
+								}
+								content += '</a><div class="jiahao">';
+								content += '<span class="mui-icon mui-icon-plusempty" style="font-size:18px;color:#ffffff;font-weight:900;" onclick="demo(' + v.id + ',\'' + v.img_url + '\',\'' + v.title + '\');"></span></div></li>';
+							});
+						} else {
+							$('#mui-table-view li').remove();
+							content = "<li class='mui-table-view-cell mui-media mui-col-xs-12' ><img src='images/jhs.png' width='50px'><br/>暂无内容</li>";
+						}
+						$("#mui-table-view").append(content);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+					}
+				});
+			});
+			 //点击夹在更多
+			document.querySelector('#dianji').addEventListener('tap', function(event) {
+				var add_time = document.querySelector("#mui-table-view li:last-child").getAttribute("id");
+				var url = "";
+				if (types == "" || types == null) {
+					url = "http://www.guoshe.cc/tools/submit_ajax.ashx?action=getgoodsinfo&add_time=" + add_time + "&category_id=0&strwhere=and charindex('," + catalogid + ",',categorys)>0";//查询分类商品
+				} else {
+					url = 'http://www.guoshe.cc/tools/submit_ajax.ashx?action=getgoodsinfo&add_time=' + add_time + '&category_id=' + catalogid + '&strwhere=' + types;//查询活动商品
+				}
+				mui.ajax(url, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data.TableInfo[0].id != "0") {
+							var table = document.body.querySelector('.mui-table-view');
+							$.each(data["TableInfo"], function(i, v) {
+								content += '<li class="mui-table-view-cell mui-media mui-col-xs-6" id="' + v.sort_id + '">';
+								content += '<a id="' + v.id + '" href="goods_show.html">';
+								content += '<img class="mui-media-object" src="http://www.guoshe.cc/' + v.img_url + '">';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;height: 22px;">&nbsp;&nbsp;' + v.title + '</div><div style="float:left;padding-right:10px;">';
+								content += '<span style="color:red;font-size:18px;float:left;font-weight:900;">￥' + v.sell_price + '</span>&nbsp;<del style="color:black;text-decoration:line-through;font-size:12px;float:right;">' +
+									v.market_price + '</del></div>';
+								content += '<div class="mui-media-body" style="text-align:left;margin-top:5px;font-size:12px;">' + v.goods_no + '</div>';
+								if (v.stock_quantity == "0") {
+									if (v.weishouwan == "1") {
+										content += '<div class="shouqing">2日未售完,转运</div>';
+									} else {
+										content += '<div class="shouqing">已售罄</div>';
+									}
+								}
+								content += '</a><div class="jiahao">';
+								content += '<span class="mui-icon mui-icon-plusempty" style="font-size:18px;color:#ffffff;font-weight:900;" onclick="demo(' + v.id + ',\'' + v.img_url + '\',\'' + v.title + '\');"></span></div></li>';
+							});
+							$("#mui-table-view").append(content);
+						} else {
+							mui.toast("无更多数据了");
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log("dd");
+					}
+				});
+			});
+			var templates = {};
+			var getTemplate = function(name, header, content) {
+				var template = templates[name];
+				if (!template) {
+					//预加载共用父模板；
+					var headerWebview = mui.preload({
+						url: header,
+						id: name + "-main",
+						styles: {
+							popGesture: "hide",
+						},
+						extras: {
+							mType: 'main'
+						}
+					});
+					//预加载共用子webview
+					var subWebview = mui.preload({
+						url: !content ? "" : content,
+						id: name + "-sub",
+						styles: {
+							top: '45px',
+							bottom: '0px',
+						},
+						extras: {
+							mType: 'sub'
+						}
+					});
+					subWebview.addEventListener('loaded', function() {
+						setTimeout(function() {
+							subWebview.show();
+						}, 50);
+					});
+					subWebview.hide();
+					headerWebview.append(subWebview);
+					//iOS平台支持侧滑关闭，父窗体侧滑隐藏后，同时需要隐藏子窗体；
+					if (mui.os.ios) { //5+父窗体隐藏，子窗体还可以看到？不符合逻辑吧？
+						headerWebview.addEventListener('hide', function() {
+							subWebview.hide("none");
+						});
+					}
+					templates[name] = template = {
+						name: name,
+						header: headerWebview,
+						content: subWebview,
+					};
+				}
+				return template;
+			};
+			var initTemplates = function() {
+				getTemplate('default', 'examples/template.html');
+			};
+		</script>
+	</body>
+
+</html>

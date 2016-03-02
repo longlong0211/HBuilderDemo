@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../css/fontstyles.css">
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../js/sea.js"></script>
+		<script type="text/javascript" src="../js/json2.js"></script>
+		<script>
+			seajs.config({
+				base: "../js/modules/"
+			});
+			seajs.use('view/logout');
+		</script>
+	</head>
+
+	<body>
+		<div class="view">
+			<header class="header clearfix">
+				<span class="floatleft" id="backAction"><i class="icon-iback font22"></i></span>
+				<span class="mid_name font14 aligncenter">个人中心</span>
+			</header>
+			<!--列表begin-->
+			<section class="main" style="top:50px;">
+				<header class="header header_large clearfix nobgimg">
+					<span class="userimg img-50 floatleft"><img  src="" id="userImg"></span>
+					<p class="p-top15 font14" id="userName"></p>
+					<p class="color-6" id="companyName"></p>
+				</header>
+				<span class="block out" id="changeAction" style="display: none;">切换网络</span>
+				<span class="block out" id="synContactAction" style="display: none;">同步通讯录</span>
+				<span class="block out t_veto" id="logoutAction">安全登出</span>
+			</section>
+
+			<div class="mask" style="display: none;"></div>
+			<!--选择网络弹出begin-->
+			<div class="choosenet" style="display:none;" id="companyList">
+				<div class="choosenet_out">
+					<div class="choosenetin">
+						<ul>
+
+						</ul>
+					</div>
+				</div>
+				<span class="quitBtn aligncenter">取消</span>
+			</div>
+			<!--选择网络弹出over-->
+		</div>
+	</body>
+
+</html>

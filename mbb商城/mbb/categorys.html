@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 100%;
+			}
+			
+			.mui-col-xs-3,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 100%;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				background-color: #fff;
+			}
+			/*.mui-control-content ul{
+				background-color: #efeff4;
+			}*/
+			
+			.mui-table-view.mui-grid-view {
+				padding: 0;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				padding: 10px 5px;
+				margin: 0;
+			}
+			
+			.mui-control-content ul li a {
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">所有分类</h1>
+			<a id="button1" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">搜索</a>
+		</header>
+		<div class="mui-content mui-row mui-fullscreen">
+			<div class="mui-col-xs-3">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+				</div>
+			</div>
+			<div id="segmentedControlContents" class="mui-col-xs-9" style="border-left: 1px solid #c8c7cc;">
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/delayimg.min.js"></script>
+		<script src="js/common.js"></script>
+		<script>var aniShow="pop-in";if(mui.os.android){if(parseFloat(mui.os.version)<4.4){aniShow="slide-in-right"}}var webview_style={popGesture:"close"};mui.init({swipeBack:true});mui.plusReady(function(a){loadCategory()});delayimg.init({throttle:300});mui("#segmentedControls").on("tap","a",delayimg.render);mui("#segmentedControlContents").on("tap","a",showDetail);document.getElementById("button1").addEventListener("tap",function(a){mui.openWindow({id:"search.html",url:"search.html",styles:webview_style,show:{aniShow:aniShow},waiting:{autoShow:true}})});function loadCategory(){mui.sendRequest(mui.constMap.ROOT_PATH+"/category",{},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);mui.back();return}fillCategory(a.data)})}function fillCategory(g){var c=document.getElementById("segmentedControls"),f=document.getElementById("segmentedControlContents");var b=document.createDocumentFragment(),a=document.createDocumentFragment();for(var e=0,d=g.length;e<d;e++){b.appendChild(fillCategoryA(g[e]));a.appendChild(fillChildren(g[e].id,g[e].children))}c.innerHTML="";c.appendChild(b);f.innerHTML="";f.appendChild(a);c.querySelector(".mui-control-item").classList.add("mui-active");f.querySelector(".mui-control-content").classList.add("mui-active");delayimg.render()}function fillCategoryA(c){var b=document.createElement("a");b.className="mui-control-item";b.innerHTML=c.name;b.setAttribute("href","#content"+c.id);return b}function fillChildren(e,d){var a=document.createElement("div"),c=document.createElement("ul"),b=document.createDocumentFragment();a.setAttribute("id","content"+e);a.setAttribute("class","mui-control-content");c.setAttribute("class","mui-table-view mui-grid-view");mui.each(d,function(f,g){b.appendChild(fillChilrenLI(g))});c.appendChild(b);a.appendChild(c);a.addEventListener("scroll",delayimg.render);return a}function fillChilrenLI(f){var b=document.createElement("li"),c=document.createElement("a"),d=document.createElement("img"),e=document.createElement("div");b.className="mui-table-view-cell mui-media mui-col-xs-4";c.setAttribute("eid",f.id);c.setAttribute("etitle",f.name);d.className="mui-media-object";d.src="images/loading.gif";d.setAttribute("data-delay",f.ico);e.className="mui-media-body";e.innerHTML=f.name;c.appendChild(d);c.appendChild(e);b.appendChild(c);return b}function showDetail(a){mui.openWindow({id:"category.html",url:"category.html",waiting:{autoShow:true},extras:{eid:this.getAttribute("eid"),etitle:this.getAttribute("etitle")}})};</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			 
+			.mui-content{
+				margin: 10px 0px 0px 0px; 
+		 
+			}
+			
+			.head,#head label {
+				height: 40px;
+				line-height: 40px;
+			}
+			#head {
+				line-height: 60px;height: 60px;
+			}
+		 
+			
+			.mui-input-group input{ text-align: right;}
+			
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			#head-img1{
+				position: absolute;
+				bottom: 10px;right: 40px;
+				width: 40px;height: 40px;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <button  class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+				   <span class="mui-icon mui-icon-left-nav"></span>
+				        设置
+			</button>
+		    <h1 class="mui-center mui-title">账号与安全</h1>
+		     <button id="save"  class="mui-btn mui-btn-link mui-btn-nav mui-pull-right">
+			  	保存
+			 </button>
+		</header>
+		<div class="mui-content">
+			 
+					
+					<form class="mui-input-group ">
+						<div class="mui-table-view-divider">修改信息</div>
+						<div class="mui-input-row " id="head" >
+							 <label>头像</label>
+							 <span class="mui-pull-right head mui-icon mui-icon-forward" >
+									<img class="head-img mui-action-preview" id="head-img1" src=""/>
+							 </span>
+							 
+						</div>	
+						<div class="mui-input-row">
+							<label>姓名</label>
+							<input id="realname" type="text" placeholder="姓名" value="">
+						</div>
+						<div class="mui-input-row">
+							<label id="labelsex">性别</label>
+							<input type="hidden" name="sex" id="sex" value="0" />
+							<div  class="mui-switch mui-switch-mini ">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</div>
+						<div class="mui-input-row">
+							<label>昵称</label>
+							<input id="nickname" type="text" placeholder="昵称" value="">
+						</div>
+						
+						<div class="mui-input-row">
+							<label>QQ号</label>
+							<input id="qq" type="text" placeholder="QQ号" value="">
+						</div>
+						
+						<div class="mui-input-row">
+							<label>手机号</label>
+							<input id="telphone" type="text" placeholder="手机号" value="">
+						</div>
+						
+						<div class="mui-input-row">
+							<label>邮箱地址</label>
+							<input id="email" type="text" placeholder="邮箱地址" value="">
+						</div>
+						<div class="mui-input-row" style="margin: 10px 5px;">
+							<label>签名</label>
+							<input id="msg" type="text" placeholder="签名" value="">
+						</div>
+					</form>	
+				     
+					<form class="mui-input-group ">
+						<div class="mui-table-view-divider">修改密码</div>
+						<div class="mui-input-row">
+							<label>现在密码</label>
+							<input id="password_old" type="password" placeholder="现在密码" value="">
+						</div>
+						
+						<div class="mui-input-row">
+							<label>新密码</label>
+							<input id="password_new" type="password" placeholder="新密码" value="">
+						</div>
+						
+						<div class="mui-input-row">
+							<label>重复输入</label>
+							<input id="password_new2" type="password" placeholder="重复输入" value="">
+						</div>
+					</form>	
+				 
+			</div>
+	</body>
+	<script src="js/jquery.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/global.js"></script>
+	<script src="js/md5.js"></script>	
+	<script src="js/fish_cache.js"></script>
+	<script src="js/fish_interface.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		
+		 
+		
+		mui.plusReady(function() {
+			
+			getlogin();
+			
+			//设置信息
+			jQuery("#realname").val(realname);
+			jQuery("#nickname").val(nickname);
+			jQuery("#qq").val(qq);
+			jQuery("#email").val(email);
+			jQuery("#telphone").val(telphone);
+			jQuery("#msg").val(msg);
+			
+			jQuery("#sex").val(sex);
+			if(sex==1)
+			{
+				jQuery(".mui-switch").addClass("mui-active");
+				jQuery("#labelsex").html("性别：男");
+			} else{
+				
+				jQuery("#labelsex").html("性别：女");
+			}
+			
+			 
+			 
+			defaultImg();
+			 
+		});
+		
+		
+		mui('.mui-content .mui-switch').each(function() { //循环所有toggle
+			//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+			this.parentNode.querySelector('label').innerText = '性别：' + (this.classList.contains('mui-active') ? '男' : '女');
+			/**
+			 * toggle 事件监听
+			 */
+			this.addEventListener('toggle', function(event) {
+				//event.detail.isActive 可直接获取当前状态
+				this.parentNode.querySelector('label').innerText = '性别：' + (event.detail.isActive ? '男' : '女');
+				jQuery("#sex").val((event.detail.isActive ? '1' : '0'));
+				 
+			});
+		});
+		
+		 
+
+		function defaultImg() {
+			/*
+			plus.io.resolveLocalFileSystemURL("_doc/head.jpg", function(entry) {
+				var s = entry.fullPath+ "?version=" + new Date().getTime();;
+				 
+				document.getElementById("head-img1").src = s;
+			}, function(e) {
+				 
+				document.getElementById("head-img1").src = 'images/logo.png';
+			})*/
+			
+			if(avatarsmall != "")
+			{
+				document.getElementById("head-img1").src = avatarsmall;
+				
+			}else{
+				document.getElementById("head-img1").src = 'images/logo.png';
+			}
+		}
+		
+		//更换头像
+		document.querySelector('#head').addEventListener('tap', function(e) {
+			var a = [{
+				title: "拍照"
+			}, {
+				title: "从手机相册选择"
+			}];
+			plus.nativeUI.actionSheet({
+				title: "修改头像",
+				cancel: "取消",
+				buttons: a 
+			}, function(b) {
+				switch (b.index) {
+					case 0:
+						break;
+					case 1:
+						getImage();
+						break;
+					case 2:
+						galleryImg();
+						break;
+					default:
+						break
+				}
+			})	 
+		});
+	 
+		
+		 
+		function getImage() {
+			var c = plus.camera.getCamera();
+			c.captureImage(function(e) {
+				plus.io.resolveLocalFileSystemURL(e, function(entry) {
+					var s = entry.toLocalURL() + "?version=" + new Date().getTime();
+					console.log(s);
+					//document.getElementById("head-img").src = s;
+					document.getElementById("head-img1").src = s;
+					
+					postupload(entry.toLocalURL());
+					
+					//变更大图预览的src
+					//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+					//document.querySelector("#__mui-imageview__group .mui-slider-item img").src = s + "?version=" + new Date().getTime();
+				}, function(e) {
+					console.log("读取拍照文件错误：" + e.message);
+				});
+			}, function(s) {
+				console.log("error" + s);
+			}, {
+				filename: "_doc/head.jpg"
+			})
+		}
+
+		function galleryImg() {
+			plus.gallery.pick(function(a) {
+				plus.io.resolveLocalFileSystemURL(a, function(entry) {
+					plus.io.resolveLocalFileSystemURL("_doc/", function (root) {
+						root.getFile("head.jpg",{},function (file) {
+							//文件已存在
+							file.remove(function () {
+								console.log("file remove success");
+								entry.copyTo(root, 'head.jpg', function(e) {
+									var path = e.fullPath + "?version=" + new Date().getTime();
+									//document.getElementById("head-img").src = e;
+									document.getElementById("head-img1").src = path;
+									
+									 
+									postupload(e.fullPath);
+									//变更大图预览的src
+									//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+									//document.querySelector("#__mui-imageview__group .mui-slider-item img").src = e + "?version=" + new Date().getTime();;
+								},
+								function(e) {
+									console.log('copy image fail:'+e.message);
+								});
+							},function () {
+								console.log("delete image fail:"+e.message);
+							});
+						},function () {
+							//文件不存在
+							entry.copyTo(root, 'head.jpg', function(e) {
+								var path = e.fullPath + "?version=" + new Date().getTime();
+								//document.getElementById("head-img").src = path;
+								document.getElementById("head-img1").src = path;
+								
+								
+							 
+								 
+								postupload(e.fullPath);
+								
+								
+								//变更大图预览的src
+								//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+								//document.querySelector("#__mui-imageview__group .mui-slider-item img").src = path;
+							},
+							function(e) {
+								console.log('copy image fail:'+e.message);
+							});
+						});
+					},function (e) {
+						console.log("get _www folder fail");
+					})
+				}, function(e) {
+					console.log("读取拍照文件错误：" + e.message);
+				});
+			}, function(a) {}, {
+				filter: "image"
+			})
+		};
+		
+		//发送照片
+		function postupload(filepath)
+		{
+			 
+			 
+			if(uid<=0)
+			{
+				getlogin(); 
+			}
+			
+			if(uid<=0){
+				mui.toast("请先登陆！");
+				return;
+			}
+			
+			// 兼容以“file:”开头的情况
+			if(0!=filepath.indexOf("file://")){
+				filepath="file://"+filepath;
+			}
+			
+			
+			
+			
+	       var server = apiurl+"IActionUserAvaterUpload.ashx";
+			 
+			
+			console.log("开始上传：")
+			var wt=plus.nativeUI.showWaiting();
+			var task=plus.uploader.createUpload(server,
+				{method:"POST"},
+				function(t,status){ //上传完成
+					if(status==200){
+						
+						//alert(t.responseText);
+						var data=eval("("+t.responseText+")");
+	                	 
+	                	if(data.retisok==1)
+	                	{
+	                		setlogin({"avatarsmall":filepath});
+	                		
+	                		mui.toast("上传成功！");
+							plus.uploader.clear();
+	                	}else{
+	                		
+	                		alert( "不小心失败了，"+data.retmessage );
+	                	}
+	                	plus.nativeUI.closeWaiting(); 
+	                	
+	                	  
+						
+					}else{
+						console.log("上传失败："+status);
+						
+						mui.toast("上传失败："+status);
+						
+						wt.close();
+					}
+				}
+			);
+			
+			task.addData("id","0");  
+			task.addData("client","渔乐上传");
+			task.addData("uid",uid.toString());
+			task.addData("nickname",nickname);
+			task.addFile(filepath,{key:"file1"});
+			
+			//加入加密的
+			var md5uid = uid.toString();
+			var md5id= "0";
+			var addtime = CurentDate();
+			var md5 = hex_md5(md5uid+md5id+addtime+apikey);
+			
+			task.addData("md5uid",md5uid);
+			task.addData("md5id",md5id);
+			task.addData("datetime",addtime);
+			task.addData("md5",md5);
+			
+			task.start();
+		}
+		 
+		//保存信息或修改密码
+		document.getElementById('save').addEventListener('tap', function() {
+									
+			if(uid<=0)
+			{
+				getlogin(); 
+			}
+			
+			
+			if(uid>0)
+			{
+			
+				var url=apiurl+"IActionUserModify.ashx?uid="+uid.toString();
+				
+				url += "&nickname="+encodeURIComponent(jQuery("#nickname").val());
+				url += "&realname="+encodeURIComponent(jQuery("#realname").val());
+				url += "&qq="+encodeURIComponent(jQuery("#qq").val());
+				url += "&email="+encodeURIComponent(jQuery("#email").val());
+				url += "&telphone="+encodeURIComponent(jQuery("#telphone").val());
+				url += "&password_old="+encodeURIComponent(jQuery("#password_old").val());
+				url += "&password_new="+encodeURIComponent(jQuery("#password_new").val());
+				url += "&password_new2="+encodeURIComponent(jQuery("#password_new2").val());
+				url += "&msg="+encodeURIComponent(jQuery("#msg").val());
+				url += "&sex="+encodeURIComponent(jQuery("#sex").val());
+			 
+			    sendtointerface(uid,"",url,function(responseText,status){
+			    	var data=eval("("+responseText+")");
+                	if(data.retisok==1 )
+                	{
+                	   mui.toast("修改成功！");
+                	   setlogin({"sex":jQuery("#sex").val(),"nickname":jQuery("#nickname").val(),"realname":jQuery("#realname").val(),"qq":jQuery("#qq").val(),"email":jQuery("#email").val(),"telphone":jQuery("#telphone").val(),"msg":jQuery("#msg").val()});
+                	 	
+                	}else{
+                		mui.toast( "修改失败，请重试，"+data.retmessage );
+                	}
+			    });
+			    
+				 
+				
+			}else{
+				
+				mui.toast("请先登陆！");
+			}
+ 
+		});  
+	  
+	</script>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<style type="text/css">
+			.mui-media-body{color:#666}
+			.coll{margin-bottom: 10px;border-bottom: 1px solid #ccc;padding-bottom: 10px;}
+			.coll img{border-radius: 4px;}
+			.coll:last-child{border: none;margin-bottom: 0;}
+			.more{width: 100%;height: 20px;box-sizing: border-box;display: block;color: #666;}
+		</style>
+	</head>
+
+	<body class="body-ccc">
+		<header class="mui-bar mui-bar-nav header-s">
+			<div>
+				<a class="mui-action-back mui-icon mui-icon-back"></a>
+			</div>
+			<div class="mui-input-row">
+				<span class="mui-icon mui-icon-search"></span>
+				<input type="text" name="txt" class="mui-input-clear" id="txt" value="" placeholder="请输入菜名" />
+			</div>
+			<div>
+				<button class="mui-btn mui-btn-red search">搜索</button>
+			</div>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<!--<script src="../js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="../js/zepto_1.1.6.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			var name2 = null;
+			function swit(name){
+				var gaifan  ='';
+				var chaofan =''; 
+				var chaocai =''; 
+				var mian    ='';
+				var malatang='';
+				var guoqiaomixian='';
+				var malaxiangguo ='';
+				switch (name){
+					case '盖饭':name2 = ["老于小馆,laoyuxiaoguan","川渝美食,chuanyumeishi","好实惠东北菜,haoshihuidongbeicai","东北诚信快餐店,dongbeichengxinkuaicandian","成都美食,chengdumeishi","东北人鱼泡饼,dongbeirenyupaobing","东北小吃,dongbeixiaochi","好再来小吃,haozailaixiaochi","阿牛面馆,aniumianguan","山西饺子馆,shanxijiaoziguan","华北特色小吃,huabeitesexiaochi","成都美食,chengdumeishi"];
+						break;
+					case '炒菜':name2 = ["老于小馆,laoyuxiaoguan","川渝美食,chuanyumeishi","好实惠东北菜,haoshihuidongbeicai","东北诚信快餐店,dongbeichengxinkuaicandian","成都美食,chengdumeishi","东北人鱼泡饼,dongbeirenyupaobing","东北小吃,dongbeixiaochi","好再来小吃,haozailaixiaochi","阿牛面馆,aniumianguan","山西饺子馆,shanxijiaoziguan","华北特色小吃,huabeitesexiaochi","成都美食,chengdumeishi"];
+						break;
+					case '炒饭':name2 = ['成都小吃,chengduxiaochi','川渝美食,chuanyumeishi','东北人鱼泡饼,dongbeirenyupaobing','东北小吃,dongbeixiaochi','好实惠东北菜,haoshihuidongbeicai','阿牛面馆,aniumianguan','成都美食,chengdumeishi'];
+						break;
+					case '面':  name2 = ['成都小吃,chengduxiaochi','川渝美食,chuanyumeishi','东北诚信快餐,dongbeichengxinkuaican','东北人鱼头泡饼,dongbeirenyupaobing','东北小吃,dongbeixiaochi','好实惠东北菜,haoshihuidongbeicai','华北特色小吃,huabeitesexiaochi','阿牛面馆,aniumianguan','老于小馆,laoyuxiaoguan','山西饺子馆,shanxijiaoziguan','成都美食,chengdumeishi'];
+						break;
+					case '麻辣烫': name2 =['川都麻辣烫,chuandumalatang'];
+						break;
+					case '过桥米线': name2 = ['云南过桥米线,yunnanguoqiaomixian'];
+						break;
+					case '麻辣香锅': name2 = ['麻辣香锅,malaxiangguo'];
+					break;
+					case '凉菜': name2 = ['老于小馆,laoyuxiaoguan','成都美食,chengdumeishi','山西饺子馆,shanxijiaoziguan'];
+					break;
+				} 
+				for (var i = 0; i < name2.length; i++) {
+					$('.mui-table-view').append('<li class="mui-table-view-cell mui-collapse" name="'+name2[i].substr(name2[i].indexOf(',')+1)+'"><a class="mui-navigate-right">'+name2[i].substr(0,name2[i].indexOf(','))+'</a><div class="mui-collapse-content"></div></li>')
+				}
+			}
+//			<div class="coll"><b class="mui-text-center more" name="'+name2[i].substr(name2[i].indexOf(','))+'">点击加载更多。。。。</b>	</div>
+			mui.plusReady(function() {	
+			var web = plus.webview.currentWebview();
+			   var name = web['name'];
+			$('.mui-input-clear').val(name)
+//			alert(name)
+		mui('.mui-table-view').on('tap','li',function(){
+			search(this.getAttribute('name'),name)
+		})
+			swit(name)
+							mui('.mui-collapse-content').on('tap','.coll',function(){
+					var getName    = this.getAttribute('name');
+					var getMenu    = this.getAttribute('id');
+				//		alert(getName)
+				//		alert(getName)//位于JSON中第几个菜
+				//				alert(info)//餐馆名
+								if(getName)
+							{
+							var webview = mui.openWindow({
+							url:'food2.html',
+							extras:{
+							name: getName,
+							menu: getMenu
+							}	
+						});
+						}
+				})
+			
+			
+			})
+	
+		function search(){
+				//盖饭炒菜
+			var menu = arguments[0];
+			var name = arguments[1];
+
+			$.getJSON('../js/json/'+menu+'.json?t=' + new Date().getTime(), function(data) {
+				$('.mui-collapse-content').html('');
+//				alert(name)
+				for (var i = 0; i < data.length; i++) {
+					if(data[i].classN.indexOf(name) != -1){	
+							var gaifan = null;
+							if(data[i].classN == "盖饭")
+							{
+								gaifan = data[i].menu_name+"盖饭"
+							}else{
+								gaifan = data[i].menu_name;
+							} 
+						$('.mui-collapse-content').append('<div class="coll" id="'+data[i].title+'" name="'+menu.substr(menu.indexOf(",")+1)+'"><img class="mui-media-object mui-pull-left"  src="'+data[i].food_img+'"/><div class="mui-media-body"><p class="menu_name">'+gaifan+'</p><p class="mui-ellipsis">已售'+Math.floor(Math.random()*50+0)+'份</p></div></div>')
+					
+	//				$('.mui-collapse-content').append(name+"-----"+data[i].classN)
+					}
+				}
+			})//getJSON
+	
+	}//search
+	
+	//	mui('.mui-collapse-content').on('tap','b',function(){
+	//		alert(2)
+	//	})
+	
+//		mui('.mui-collapse-content').on('tap','b',function(){
+//			alert('刷新成功')
+//				var name3 = $(this).attr('name');
+//			$.getJSON('../js/json/'+name3+'.json?t='+new Date().getTime(),function(data){
+//					alert(data[6].name)
+//			}) 
+//	
+//	//		searchadd()
+//		})
+//			 
+//)
+//})
+		
+	//mui.plusReady(function() {	
+	//		var web = plus.webview.currentWebview();
+	//		var storageName  = web['storageName2'];
+	//		var storageName2 = plus.storage.getItem(storageName)
+	////		alert(storageName2)
+	//				//获取当前webview
+	////				alert(web['name'])
+	//		$('.mui-input-clear').val(web['name']);
+	//				//获取父级webview传过来的值
+	//	$.getJSON('../js/menu.json?t=' + new Date().getTime(), function(data) {
+	////		alert(data['huabeitesexiaochi'][0]['name'])
+	//		//在json中获取数据
+	////			alert(data)
+	//	if(web['name'])
+	//	{
+	//		search(data,web['name'])
+	//		//当加载 searchc.html 页面时调用查询和创建
+	//	}
+	//	
+	//	$('.mui-input-clear').keyup(function(){
+	//		search(data,web['name'])
+	//	})
+	//	
+	//	mui('.mui-table-view').on('tap','li',function(){
+	//		var getName2 = this.getAttribute('title');
+	//		var info = this.getAttribute('name');
+	////				alert(getName2)//位于JSON中第几个菜
+	////				alert(info)//餐馆名
+	//		var webview = mui.openWindow({
+	//							url:'food.html',
+	//							extras:{
+	//							name: getName2,
+	//							info2: info
+	//									}	
+	//							});
+	//		})
+	//	})//getjson
+	//})//plusready
+	////alert()
+	//$('.mui-input-clear').click(function(){
+	//		//点击 clear 按钮清除 所有 .mui-table-view 数据
+	//		if($('.mui-input-clear').val() == '')
+	//		{
+	//			$('.mui-table-view').html('')
+	//		}
+	//	})
+	//  
+	//function search(){
+	////	alert(arguments[0])
+	//	var datas = arguments[0]
+	//	var webn = arguments[1]
+	//	var arr = [];
+	////	alert(datas)
+	//
+	//				$('.mui-table-view').html('')
+	//		for(var j=0; j<menu.length; j++)
+	//		{
+	//		//	var mj = menu[j];
+	//		//	alert(mj)
+	//		//	alert(data[menu[j]])
+	//				for (var i=0; i<datas[menu[j]].length;i++) {
+	////					alert(data[menu[j]][i]['title'])
+	//					arr[i]=datas[menu[j]][i]['menu_name']+"("+datas[menu[j]][i]['name']+")";
+	//					
+	//						if(arr[i].indexOf($('.mui-input-clear').val()) != -1)
+	//							{					
+	//								$('.mui-table-view').append('<li class="mui-table-view-cell" name="'+menu[j]+'" title="'+i+'"><a class="mui-navigate-right"><img class="mui-media-object mui-pull-left bdr" src="'+datas[menu[j]][i]["food_img"]+'"><div class="mui-media-body">'+arr[i]+'<p class="mui-ellipsis"><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i><i class="mui-icon iconfont icon-star"></i></p></div></a></li>')
+	//								//创建详细菜
+	////								Storage()
+	//						
+	//						}else{
+	//						}
+	//						
+	//				}
+	//		}
+	//}
+	//
+	////$.cookie('username','ss',{expires:7,path:"/"})
+	////addEventListener(type: EventString, listener: EventListener, useCapture: Boolean): void
+	//
+	////function Storage(){
+	////	//1.判断查询是否成功.
+	////	//2.当菜创建成功后 调用 Storage() 函数
+	////	//3.判断 Storage 中是否已经有当前查询值
+	////	//4.new Date().getTime() 解决 storage 命名问题
+	////	//5.创建 Storage 
+	////		var lenIt = plus.storage.getLength()//获取storage中保存的键值对的数量
+	//////		var setIt = plus.storage.setItem('menu_name','鱼')//存储key-value
+	//////		plus.storage.setItem('menu_name2','鱼2')//存储key-value
+	////		var keyIt = [];//plus.storage.key()//获取键值对中指定索引值的key值
+	////		var getIt = [];//plus.storage.getItem()//通过key值检索键值
+	//////		var rmIt  = plus.storage.removeItem('a')//通过key值删除键值对
+	////		var rand  = new Date().getTime();  
+	//////		plus.storage.clear()
+	//////		alert(getIt[0])
+	////	//3.判断 Storage 中是否已经有当前查询值
+	////		for (var i = 0; i < lenIt; i++) {
+	////			keyIt[i] = plus.storage.key(i);
+	////			getIt[i] = plus.storage.getItem(keyIt[i]) 
+	////		}
+	//////		alert(getIt)
+	////		for (var i = 0; i < lenIt; i++) {
+	////			if(getIt[i].indexOf($('.mui-input-clear').val()) == -1)
+	////			{
+	////			var setIt = plus.storage.setItem('menu_name'+rand,$('.mui-input-clear').val())//存储key-value
+	////				console.log(getIt[i])
+	////			}else{
+	//////				alert('no')
+	////			}
+	//////alert(getIt[0].indexOf($('.mui-input-clear').val()))
+	////		}
+	////	//END! 3.判断 Storage 中是否已经有当前查询值
+	//////	return ;
+	////}
+	////Storage()
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fontstyles.css">
+		<script type="text/javascript" src="../../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../../js/sea.js"></script>
+		<script type="text/javascript" src="../../js/json2.js"></script>
+		<script type="text/javascript" src="../../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../../js/modules/"
+			});
+			seajs.use('view/search/head');
+		</script>
+	</head>
+
+	<body>
+		<header class="header search_header">
+			<section class="search_out nobg">
+				<div class="search current" id="user_ser"><!--当点击search的时候加current并且input获取焦点,当输入完城且输入框为空时再去掉current-->
+					<i class="icon-iser font14"></i>
+					<input type="text" class="" placeholder="搜索" id="keyword" name="keyword">
+				</div>
+			</section>
+		</header>
+	</body>
+</html>

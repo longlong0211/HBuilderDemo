@@ -1,0 +1,760 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>渔乐资讯</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" href="css/comment.css">
+    <style>
+		html,body {
+			background-color: #efeff4;
+			line-height: 30px; 
+			font-weight:300; 
+			font-size: 14px;
+			color:#222222;
+		}
+		
+		
+		.mui-loader {
+			position:absolute;
+			top: 105px;
+			width: 100%; 
+			height: 60%;
+			color: #888;
+			font-size: 14px;
+			text-align: center;
+		}
+	 
+		.mui-bar-nav~.mui-content{
+			padding: 0;
+		}
+		
+		#mui-content{ margin-top: 48px; margin-bottom: 70px; }
+		
+		
+		
+		.mui-content h4,.mui-content h5, .mui-content h5 a,.mui-content h6{ clear: both;  padding: 5px 10px; color: #000000; text-align: left;}
+		 
+		#pname,h3{ text-align: center; padding: 10px; color:#000000; clear: both;  }
+	 
+	    #content{
+			padding: 10px 15px 10px; 
+		 
+		}
+  
+		.content p{ text-indent: 25px; margin-top: 20px;}
+		.content *{  font-size: 16px;color:#222222;font-weight:300; line-height: 30px; }
+		
+		.content img{
+			max-width: 100%;
+			height: auto;
+		}
+		
+		.content p img{
+			margin-left: -25px;
+		}
+		
+		.content table{ border-top:1px #D8D8D8  solid ;border-left:1px #D8D8D8  solid ;}
+		.content th,.content td{ border-bottom:1px #D8D8D8  solid ;border-right:1px #D8D8D8  solid ;}
+		
+		
+		#picslider .mui-slider-item a { height: 200px;  } 
+		#picslider { height: 200px;} 
+		
+		#container{ height: 200px;} 
+			
+	 
+		
+		 .oa-contact-gooduser, .oa-contact-reply,.oa-contact-friend{ 
+			clear: both;   font-weight: normal;font-size: 13px;  line-height: 20px;
+			margin: 5px 10px 5px 10PX; 
+				color:#222222;
+		 }
+			
+		 
+		.oa-contact-gooduser{ padding-left: 20px ; background: url("images/ico_good.png") no-repeat left;}
+		 
+		.mui-ellipsis{ font-size: 13px;}
+		
+		.iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+   		.iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+	
+    	 .oa-contact-reply h6{ color:#222; font-size: 13px; line-height: 16px; padding:0px; margin: 0px ;} 
+		    
+		  h6{ font-size: 13px;}
+		  
+		  #controldiv{ height: 40px;  } 
+    </style> 
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    
+	    <button style="display: none;" id="articlereply" class="mui-btn mui-btn-link mui-btn-nav mui-pull-right">
+		  	我要纠错
+		  	<span class="mui-icon  mui-icon-compose"></span> 
+		 </button>
+	    <h4 class="mui-title">钓点详细</h4>
+	</header>  
+ 
+	<nav class="mui-bar mui-bar-tab">
+	  	<a id="btn_prompt" class="mui-tab-item mui-active" href="#tabbar" style=" width:25%">
+	  		<span class="mui-icon mui-icon-chatboxes"></span>
+			<span class="mui-tab-label">评论</span>
+		</a>
+		<a id="btn_good" class="mui-tab-item" href="#tabbar-with-chat" style=" width:25%">
+			<span class="mui-icon  mui-icon-flag"></span>
+			<span class="mui-tab-label">点赞</span> 
+		</a>
+		<a  id="btn_collect" class="mui-tab-item" href="#tabbar-with-sms" style=" width:25%">
+			<span class="mui-icon mui-icon-star"></span>
+			<span class="mui-tab-label">收藏</span>
+		</a>
+		<a id="btn_share" class="mui-tab-item" href="#tabbar-with-map" style=" width:25%; display: none;">
+			<span class="mui-icon mui-icon-redo"></span>
+			<span class="mui-tab-label">分享</span> 
+		</a>	
+	</nav>  
+	<div class="mui-loader"><span class="mui-spinner" title="加载中..."></span></div>
+	<div class="mui-content  " id="mui-content">
+		
+		<div id="picslider" class="mui-slider"></div>
+		 
+		<h3 id="pname"></h3>
+		<h5><a id="pmoney"></a>&nbsp;&nbsp;<a id="ptime"></a>&nbsp;&nbsp;<a id="ptype" ></a></h5>
+		<h5 id="ptelphone"></h5>
+		<h5 id="address"></h5>
+		<h5 id="fishes"></h5>
+		<div class="mui-clearfix"></div>
+		<div class="content mui-content-padded" id="content"></div>
+		<div class="mui-clearfix"></div>
+			<div id="controldiv" class=" mui-content-padded  ">
+			 <button style="float:left; display: none;"  id="do_tel"    class="mui-btn  mui-btn-primary    mui-icon mui-icon-phone">
+			            拨打电话
+			  </button>
+			   <button style="float: right; display: none;"     id="do_map"  class="mui-btn mui-btn-primary  mui-icon mui-icon-map">
+			    	打开导航
+			   </button>   
+		</div>
+		<div id="container" class="mui-content-padded "></div> 
+		
+		<div id="div_good" class="oa-contact-gooduser  mui-text-left mui-table-view-cell" style=" display: none;">
+				
+		</div>
+		<div id="div_friend" class=" oa-contact-friend" style="display: none;" >
+			
+		</div>
+		<div id="div_replycommand" style="display: none;" >
+		 	<div class="no-action comment-share-container">
+				<div class="collect_comment">
+					<div class="article_collect" id="collect"><div class="article_collect_praise" id="p_collect">0</div></div>
+					<div class="article_comment" id="comment"><div class="article_comment_praise" id="p_comment">0</div></div>
+				</div>
+				 
+				<h4>热门评论</h4>
+				
+			
+				<div id="div_reply" ></div>
+			</div>
+		</div>
+		
+	</div>
+	 
+		
+		<script id="pic-template" type="text/x-handlebars-template">
+			<div class="mui-slider-group mui-slider-loop"  >
+					 
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="{{fisrturl}}">
+						<img src="{{fisrtpic}}">
+					</a>
+				</div>
+			 	{{#each piclist}}
+			 	 
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="{{this}}">
+						</a>
+					</div> 
+				 
+				{{/each}}
+				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="{{fisrturl}}">
+						<img src="{{fisrtpic}}">
+					</a> 
+				</div>
+				 
+			</div>
+			
+			<div class="mui-slider-indicator mui-text-right">
+				{{#each piclist}}
+				<div class="mui-indicator  "></div>
+				{{/each}}
+			</div>
+		</script>
+		
+		
+		<script id="goodlist-template" type="text/x-handlebars-template">
+			{{#each goodlist}} {{goodname}}{{/each}} 等<span class="goodusernum">{{goodusernum}}</span>人觉得很赞 
+		</script>
+		
+		<script id="replylist-template" type="text/x-handlebars-template">
+		 	{{#each replylist}}
+			 
+			<div class="comment-content" id="comment{{id}}">
+				<div class="avatar btn">
+					<img src="{{avater}}">
+				</div>
+				<div class="name">
+					
+					<a href="friend_detail.html?type=telphone&id={{userid}}" open-type="common" title="{{nickname}}" class="btn text-ellipsis">{{nickname}}</a>
+					{{#if replyusername}}
+					<a href="friend_detail.html?type=telphone&id={{replyuserid}}" open-type="common" title="{{replyusername}}" class="btn text-ellipsis">&nbsp;&nbsp;回复&nbsp;&nbsp;{{replyusername}}</a>
+					{{/if}}
+					
+				</div>
+				<div class="content"><span class="btn">{{replymsg}}</span></div>
+				
+				<div class="action_pane_left" >{{time}}</div>
+				<div class="action_pane2" ><h6 class="btn digg2 " type="comment" nickname="{{nickname}}" userid="{{userid}}" replyid="{{id}}" id="reply_commentnum{{id}}">{{commentnum}}</h6></div>
+				<div class="action_pane"><h6 class="btn digg " type="good" nickname="{{nickname}}" userid="{{userid}}" replyid="{{id}}" id="reply_goodnum{{id}}">{{goodnum}}</h6></div> 
+			</div>
+			{{/each}}
+		</script>
+		
+		<script id="friendlist-template" type="text/x-handlebars-template">
+		 	{{#each list}}
+			<div class="oa-contact-reply mui-table-view-cell  mui-text-left">
+				{{nickname}}：距离{{distance}}米
+			</div>
+			{{/each}}
+		</script>
+		<script src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script  src="js/common.js"></script>
+		<script src="js/global.js"></script>
+		<script src="js/md5.js"></script>	
+		
+	 	<script src="js/app.js"></script>
+		
+		<script src="js/fish_cache.js"></script>
+		<script  src="http://api.map.baidu.com/api?v=1.3"></script>
+		<script  charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+	 	<script src="js/fish_interface.js"></script>
+	 	<script src="js/fish_share.js"></script>
+	 	<script  src="js/md5.js"></script>
+	 	
+	 	<script >
+	 	var pid = GetQueryString("id");
+ 		var title = "";
+		var abstract = "";
+		var ptel = "";
+		var paddress = "";
+		 
+		var type = 271;
+		var plongt = 0;
+		var plat  =0;
+		var paddresssmall = "";
+		var picsmall = "";
+		var iscommented = "0";
+		
+ 		//分享操作
+		var shares = {};
+		mui.plusReady(function () {
+			plus.share.getServices(function (s) {
+				if(s&&s.length>0){
+					for (var i = 0; i < s.length; i++) {
+						var t = s[i];
+						shares[t.id] = t;
+					}
+				}
+			},function () {
+				console.log("获取分享服务列表失败");
+			});
+		});
+		
+		//分享链接点击事件
+		document.getElementById("btn_share").addEventListener('tap',function () {
+			var ids= getshareids;
+			var bts= getsharenames;
+			 
+			plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},function(e){
+				var i=e.index;
+				if(i>0){
+					var s_id = ids[i-1].id;
+					var share = shares[s_id];
+					if ( share.authenticated ) {
+						shareMessage(share,ids[i-1].ex);
+					} else {
+						share.authorize( function(){
+								shareMessage(share,ids[i-1].ex);
+							},function(e){
+							console.log( "认证授权失败："+e.code+" - "+e.message );
+						});
+					}
+				}
+			});
+		});
+		
+		function shareMessage(share,ex){
+			
+			if(title=="")
+			{
+				mui.toast("加载中，请稍候！");
+				return;
+			}
+			
+			var msg={extra:{scene:ex}};
+			var addtime = CurentDate();
+			var md5 = hex_md5(pid+addtime+apikey);
+			var msg={extra:{scene:ex}};
+			msg.href=wwwurl+"point/?id="+pid+"&datetime="+addtime+"&md5="+md5;
+			
+			msg.title="推荐钓点："+title+" 位置："+paddress +"，超赞！"+" - "+appname; 
+			msg.content=abstract;
+			if(~share.id.indexOf('weibo')){
+				msg.content += "；地址："+msg.href;
+			}
+			if(picsmall!="")
+			{
+				msg.thumbs=[picsmall];
+			}
+			else{
+				msg.thumbs=["_www/images/logo.png"];
+			}
+			
+			share.send( msg, function(){
+				console.log( "分享到\""+share.description+"\"成功！ " );
+			}, function(e){
+				console.log( "分享到\""+share.description+"\"失败: "+e.code+" - "+e.message );
+			} );
+		}
+		
+		
+		
+	 
+		
+  
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		 
+			
+		mui.plusReady(function() {
+			
+			//分析一下是否需要显示分享
+			if(getisshowshare())
+			{
+				jQuery("#btn_share").show();
+			}
+			
+			//先获取当前页面的参数
+			getlogin();
+			
+			
+			var url=apiurl+"IPondsDetail.ashx?id="+pid+"&uid="+uid;
+			
+			sendtointerface(uid,pid,url,function(responseText,status){
+				var data=eval("("+responseText+")");
+            	//开始写入数据
+            	jQuery(".mui-loader").hide();
+            	
+            	title = data.name;
+            	abstract = decodeURIComponent(data.contents);
+            	ptel = data.telephone;
+            	paddress = data.province + data.city+   data.district +  data.address;
+            	plongt = data.longt;
+            	plat = data.lat;
+            	paddresssmall = data.address;
+            	picsmall = data.pic;
+            	iscommented =  data.iscommented;
+            	
+            	document.body.querySelector('#pname').innerHTML = title;
+            	document.body.querySelector('#pmoney').innerHTML = "收费："+data.money;
+            	document.body.querySelector('#ptime').innerHTML = "时间："+data.time;
+            	document.body.querySelector('#ptype').innerHTML = "类型："+data.typename;
+            	document.body.querySelector('#content').innerHTML = abstract;
+            	document.body.querySelector('#address').innerHTML = "<span class=\"mui-icon mui-icon-paperplane\"></span>"+paddress;
+            	document.body.querySelector('#fishes').innerHTML = "<span class=\"mui-icon mui-icon-flag\"></span>"+data.fishes;
+            	
+            	if(ptel!="")
+            	{
+            		jQuery("#do_tel").show();
+            		document.body.querySelector('#ptelphone').innerHTML = "<span class=\"mui-icon mui-icon-phone\"></span>"+ptel;
+            	}
+            	else{
+            		jQuery("#do_tel").hide();
+            		document.body.querySelector('#ptelphone').innerHTML = "<span class=\"mui-icon mui-icon-phone\"></span>无联系方式"
+            	}
+            	
+            	if(plongt>0 && plat>0)
+            	{
+            		jQuery("#do_map").show();
+            	}else{
+            		jQuery("#do_map").hide();
+            	}
+            	 
+				if(data.piclist.length>0)
+				{
+                	var adSource = document.getElementById("pic-template").innerText;
+                	var myTemplate = Handlebars.compile(adSource);
+                	document.body.querySelector('#picslider').innerHTML = myTemplate(data);
+                	
+                	var slider = mui("#picslider");
+					slider.slider({
+						interval: 2000  
+					}); 
+				}else{
+					jQuery("#picslider").hide(); 
+				}
+				
+				//加载地图
+				initMap(title,ptel,paddress,data.longt,data.lat);
+ 
+				
+				 
+				//回复
+            	var pondsSource = document.getElementById("replylist-template").innerText;
+            	var myTemplate = Handlebars.compile(pondsSource);
+            	jQuery("#div_reply").append(myTemplate(data));
+            	 
+            	 
+            	//设置是否赞过
+            	if(iscommented=="1")
+            	{
+            		jQuery("#p_collect").removeClass("article_collect_praise");
+            		jQuery("#p_collect").addClass("article_collect_praise2");
+            		 
+            	}
+            	
+            	//显示数量
+            	jQuery("#p_collect").html(data.goodusernum);
+            	jQuery("#p_comment").html(data.replynum);
+            	jQuery("#div_replycommand").show();
+
+			});
+			
+			 
+			
+			//获取附近钓友列表
+			var url1=apiurl+"IPondUserSideList.ashx?pondid="+pid;
+			
+			sendtointerface(uid,pid,url1,function(responseText,status){
+				var data=eval("("+responseText+")");
+				//回复
+            	var friendSource = document.getElementById("friendlist-template").innerText;
+            	var myTemplate = Handlebars.compile(friendSource);
+            	jQuery("#div_friend").append(myTemplate(data));
+			});
+			
+			
+			document.getElementById("collect").addEventListener('tap',function (e) {
+		
+				actiongood(e);
+			});
+			
+			document.getElementById("btn_good").addEventListener('tap',function (e) {
+		
+				actiongood(e);
+			});
+			
+			function actiongood(e){
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				var url=apiurl+"IActionGood.ashx?type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname;
+				
+				sendtointerface(uid,pid,url,function(responseText,status){
+					var data=eval("("+responseText+")");
+                	var oldnum = parseInt($(".goodusernum").html());
+                	if(data.retisok==1)
+                	{
+                		//jQuery("#div_good").prepend(nickname+",")
+                		//jQuery(".goodusernum").html(oldnum+1);
+                		
+                		jQuery("#p_collect").html(parseInt(jQuery("#p_collect").html())+1);
+	                		 
+                		jQuery("#p_collect").removeClass("article_collect_praise");
+        				jQuery("#p_collect").addClass("article_collect_praise2");
+                		 
+                		
+                		mui.toast( "点赞成功！" );
+                	}else{
+                		
+                		mui.toast( "不小心失败了，"+data.retmessage );
+                	} 
+				});
+				 
+			}
+			
+			//收藏
+			document.getElementById("btn_collect").addEventListener('tap',function () {
+				
+				 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				var url=apiurl+"IActionCollect.ashx?type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname+"&title="+title;
+				
+				sendtointerface(uid,pid,url,function(responseText,status){
+					var data=eval("("+responseText+")");
+                	if(data.retisok==1)
+                	{
+                		 mui.toast( "收藏成功！"+data.retmessage );
+                	}else{
+                		
+                		mui.toast( "不小心失败了，"+data.retmessage );
+                	}
+				});
+				
+				 
+				
+			});
+			
+			//评论
+			document.getElementById("comment").addEventListener('tap', function(e) {
+				 actioncomment(e);
+			});
+			
+			document.getElementById("btn_prompt").addEventListener('tap', function(e) {
+				actioncomment(e);
+				  
+			});
+			
+			function actioncomment(e){
+			 
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				
+				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+				var btnArray = ['确定', '取消'];
+				mui.prompt('发表评论：', '写点什么吧', "", btnArray, function(e) {
+					if (e.index == 0) {
+						
+						if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+						//发起
+						var url=apiurl+"IActionReply.ashx?type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname+"&msg="+encodeURIComponent(e.value);
+						
+						sendtointerface(uid,pid,url,function(responseText,status){
+							var data=eval("("+ responseText+")");
+		                	if(data.retisok==1)
+		                	{
+		                		 //mui.toast( "评论成功！"+data.retmessage );
+								 //jQuery("#div_reply").prepend("<div class=\"oa-contact-reply mui-table-view-cell  mui-text-left\">"+nickname+" : "+e.value+"</div>");
+		                	
+		                		mui.toast( "评论成功！" );
+		                		 
+		                		 var str2 = { "replylist": [{"time":"刚刚","replyname":nickname,"replymsg":e.value,"nickname":nickname,"userid":uid,"avater":avatarsmall,"replyuserid":"0","replyusername":"","goodnum":"0","commentnum":"0"}] };
+		                		 var pondsSource = document.getElementById("replylist-template").innerText;
+			                	 var myTemplate = Handlebars.compile(pondsSource);
+			                	 jQuery("#div_reply").prepend(myTemplate(str2));
+			                	
+			                	 jQuery("#p_comment").html(parseInt(jQuery("#p_comment").html())+1);
+								 
+		                	}else{
+		                		
+		                		mui.toast( "不小心失败了，"+data.retmessage );
+		                	}
+						});
+						
+						 
+						
+					} else {
+						//info.innerText = '你点了取消按钮';
+					}
+				})
+			}
+			
+			mui('#div_reply').on('tap', 'h6', function(e){
+				 
+				
+				if(uid<=0){
+					mui.toast("请先登陆！");
+					return;
+				}
+				 
+				var replyid =  this.getAttribute('replyid'); 
+				var replaytype = this.getAttribute('type'); 
+				var replaynickname = this.getAttribute('nickname');
+				var replayuserid = this.getAttribute("userid");
+				
+				if(replaytype=="comment")
+				{ 
+			 
+				    if(replayuserid==uid){ 
+				    	mui.toast( "不能自己回复自己！" );
+				    	return;
+				    }
+					
+					e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+					var btnArray = ['确定', '取消'];
+					mui.prompt("回复 "+replaynickname+ "：", '写点什么吧', "", btnArray, function(e) {
+						if (e.index == 0) { 
+							
+							if(e.value == ""){mui.toast( "评论内容不能空！"  ); return; }
+							//发起
+							var url=apiurl+"IActionReply.ashx?replyid="+replyid+"&type="+type+"&id="+pid+"&uid="+uid+"&nickname="+nickname+"&msg="+encodeURIComponent(e.value)+"&reply_id="+replayuserid;
+							
+							sendtointerface(uid,replyid,url,function(responseText,status){
+								var data=eval("("+responseText+")");
+			                	if(data.retisok==1)
+			                	{
+			                		 mui.toast( "评论成功！"  ); 
+			                		 
+			                		 var str2 = { "replylist": [{"time":"刚刚","replyname":nickname,"replymsg":e.value,"nickname":nickname,"userid":uid,"avater":avatarsmall,"replyuserid":replayuserid,"replyusername":replaynickname,"goodnum":"0","commentnum":"0"}] };
+			                		 var pondsSource = document.getElementById("replylist-template").innerText;
+				                	 var myTemplate = Handlebars.compile(pondsSource);
+				                	 jQuery("#div_reply").prepend(myTemplate(str2));
+				                	
+				                	 jQuery("#reply_commentnum"+replyid).html(parseInt(jQuery("#reply_commentnum"+replyid).html())+1);
+			                		  
+									 jQuery("#p_comment").html(parseInt(jQuery("#p_comment").html())+1);
+									 
+			                	}else{
+			                		
+			                		mui.toast( "不小心失败了，"+data.retmessage );
+			                	}
+							});
+							 
+						} else {
+							//info.innerText = '你点了取消按钮';
+						}
+					})
+				}else{
+					
+					jQuery("#reply_goodnum"+replyid).html(parseInt(jQuery("#reply_goodnum"+replyid).html())+1);
+	                		  
+	                		  
+					var url=apiurl+"IActionReplyGoodAdd.ashx?replyid="+replyid+"&type="+type+"&id="+pid+"&uid="+uid;
+							
+					sendtointerface(uid,replyid,url,function(responseText,status){
+						var data=eval("("+responseText+")");
+	                	if(data.retisok==1)
+	                	{
+	                		 //mui.toast( "点赞成功！"  ); 
+	                		  
+	                	}else{
+	                		
+	                		//mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+					});
+				}
+			});
+			
+			
+		
+			document.getElementById("do_tel").addEventListener('tap', function() {
+				 
+				if(ptel!=""){
+					plus.device.dial(ptel);  
+				}
+			});	
+			
+			document.getElementById("do_map").addEventListener('tap', function() {
+				 
+				    getposition();
+					// 设置目标位置坐标点和其实位置坐标点
+					
+					if(GetSystem()=="android"  )
+					{
+						var dst = new plus.maps.Point(parseFloat(plongt)-0.01115,parseFloat(plat)-0.00347);
+						
+						var src = new plus.maps.Point(parseFloat(position_longt)-0.01115,parseFloat(position_lat)-0.00347);  
+  
+						// 调用系统地图显示 
+						plus.maps.openSysMap( dst, "当前钓点："+title, src );   
+					 }else
+					 {
+					 	 
+					 	var dst = new plus.maps.Point(parseFloat(plat)-0.0057,parseFloat(plongt)-0.0066);
+					 	var src = new plus.maps.Point(parseFloat(position_lat)-0.0057,parseFloat(position_longt)-0.0066);  
+					 	
+					 	 
+						//调用系统地图显示 
+						plus.maps.openSysMap(src , "当前钓点："+title, dst );
+						  
+						  
+					 }
+					
+				
+					
+			});	  
+			
+			
+		});
+		
+		 
+		 
+	   //创建和初始化地图函数：
+	   function initMap(name,tel,address,longt,lat){
+	   	
+		   	var markerArr = [  
+		        { title: name, point: longt+","+lat, address: address, tel: tel } 
+		    ];  
+	   	 
+	       var map = new BMap.Map("container");//在百度地图容器中创建一个地图
+	       var point = new BMap.Point(longt,lat);//定义一个中心点坐标
+	       map.centerAndZoom(point,15);//设定地图的中心点和坐标并将地图显示在地图容器中
+	       //map.enableScrollWheelZoom(true);
+		   //map.disableDragging();     //禁止拖拽
+	      
+	        //向地图中添加缩放控件  
+	        var ctrlNav = new window.BMap.NavigationControl({  
+	            anchor: BMAP_ANCHOR_TOP_LEFT,  
+	            type: BMAP_NAVIGATION_CONTROL_LARGE  
+	        });   
+	        map.addControl(ctrlNav);  
+	  
+	                   
+	  
+	        //向地图中添加比例尺控件  
+	        var ctrlSca = new window.BMap.ScaleControl({  
+	            anchor: BMAP_ANCHOR_BOTTOM_LEFT  
+	        });  
+	        map.addControl(ctrlSca);  
+	  
+	        var point = new Array(); //存放标注点经纬信息的数组  
+	        var marker = new Array(); //存放标注点对象的数组  
+	        var info = new Array(); //存放提示信息窗口对象的数组  
+	        for (var i = 0; i < markerArr.length; i++) {  
+	            var p0 = markerArr[i].point.split(",")[0]; //  
+	            var p1 = markerArr[i].point.split(",")[1]; //按照原数组的point格式将地图点坐标的经纬度分别提出来  
+	            point[i] = new window.BMap.Point(p0, p1); //循环生成新的地图点  
+	            marker[i] = new window.BMap.Marker(point[i]); //按照地图点坐标生成标记  
+	            map.addOverlay(marker[i]);  
+	            marker[i].setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画  
+	            var label = new window.BMap.Label(markerArr[i].title, { offset: new window.BMap.Size(20, -10) });  
+	            marker[i].setLabel(label);  
+	            info[i] = new window.BMap.InfoWindow("<p style=’font-size:12px;lineheight:1.8em;’>" + markerArr[i].title + "</br>地址：" + markerArr[i].address + "</br> 电话：" + markerArr[i].tel + "</br></p>"); // 创建信息窗口对象  
+	        
+	        	
+	        }
+        
+        	marker[0].addEventListener("mouseover", function () {  
+	            this.openInfoWindow(info[0]);  
+	        });  
+	        marker[0].addEventListener("click", function () {  
+	            this.openInfoWindow(info[0]);  
+	        });  
+   		} 
+   
+  
+   
+ 
+			
+		
+	</script>
+</body>
+</html>

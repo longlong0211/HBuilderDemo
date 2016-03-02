@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			.ts-col-main {
+				float: left;
+				width: 100%;
+				/* bug fix: 主栏没有内容时，在 Firefox 和 Chrome 等浏览器下，布局不对 */
+				
+				min-height: 1px;
+			}
+			.ts-col-sub {
+				float: left;
+			}
+			/** 清除浮动 **/
+			
+			.ts-layout:after,
+			.ts-main-wrap:after,
+			.ts-col-sub:after {
+				content: '\20';
+				display: block;
+				height: 0;
+				clear: both;
+			}
+			.ts-layout,
+			.ts-main-wrap,
+			.ts-col-sub {
+				*zoom: 1;
+			}
+			.ts-grid-m0s2 .ts-main-wrap {
+				margin-left: 80px;
+				position: relative;
+			}
+			.ts-grid-m0s2 .ts-col-sub {
+				width: 80px;
+				margin-left: -100%;
+				position: relative;
+			}
+			.mui-bar-header-secondary {
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+			}
+			.mui-bar-header-secondary~.mui-content {
+				padding-top: 74px;
+			}
+			.mui-fullscreen .ts-layout,
+			.mui-fullscreen .ts-col-main,
+			.mui-fullscreen .ts-main-wrap,
+			.mui-fullscreen .ts-col-sub {
+				height: 100%;
+			}
+			#category {
+				margin: 0;
+				padding: 0;
+			}
+			#category li {
+				list-style: none;
+				position: relative;
+				padding: 10px 5px;
+				font-size: 14px;
+				border-top: 1px solid #b8b8b8;
+				border-bottom: 1px solid #b8b8b8;
+				margin-top: -1px;
+			}
+			#category li .ts-count {
+				position: absolute;
+				right: 2px;
+				bottom: 2px;
+				color: #fff;
+				background-color: #ff5d3a;
+				padding: 1px 4px;
+				font-size: 11px;
+			}
+			#category li.mui-active {
+				color: #ff5d3a;
+				background-color: #fff;
+			}
+			.mui-table-view .mui-media-object {
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+			}
+			.ts-main-wrap {
+				border-left: 1px solid #b8b8b8;
+			}
+			#ts_tip {
+				font-size: 13px;
+				border-bottom: 1px solid #b8b8b8;
+				box-shadow: none;
+				-webkit-box-shadow: none;
+				background-color: #efeff4;
+			}
+			.mui-media-body,
+			.mui-media-body p {
+				font-size: 12px;
+				line-height: 16px;
+			}
+			.mui-bar-tab .ts-bar-desc {
+				width: 70%;
+				background-color: #000;
+				color: #fff!important;
+			}
+			.mui-bar-tab .ts-bar-btn {
+				width: 30%;
+				background-color: #ff5d3a;
+				color: #fff!important;
+			}
+			.mui-toast-container {
+				top: 150px;
+			}
+			.mui-toast-message {
+				width: 200px;
+				background-color: #000;
+				color: #fff;
+			}
+			#price {
+				font-style: normal;
+			}
+			#ts_cart_num {
+				right: 5px;
+				top: 5px;
+				left: auto;
+				line-height: 1;
+				font-size: 13px;
+				padding: 2px 4px 0 4px;
+			}
+			.mui-scroll-wrapper {
+				overflow: auto;
+				-webkit-overflow-scrolling: touch;
+			}
+			#ts_cart_num_animate {
+				position: absolute;
+				top: 5px;
+				right: 5px;
+				line-height: 1;
+				font-size: 13px;
+				padding: 2px 4px 0 4px;
+				z-index: 1000;
+				background-color: #ff5d3a;
+				-webkit-transition-property: -webkit-transform;
+				color: #fff;
+			}
+			body.mui-plus.mui-ios-7 #ts_cart_num_animate,
+			body.mui-plus.mui-ios-8 #ts_cart_num_animate {
+				top: 25px;
+			}
+			.animated {
+				-webkit-animation-duration: 300ms;
+				animation-duration: 300ms;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.pulse {
+				-webkit-animation-name: pulse;
+				animation-name: pulse;
+			}
+			@-webkit-keyframes pulse {
+				0% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+				50% {
+					-webkit-transform: scale(1.2);
+					transform: scale(1.2);
+				}
+				100% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+			}
+			@keyframes pulse {
+				0% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+				50% {
+					-webkit-transform: scale(1.2);
+					transform: scale(1.2);
+				}
+				100% {
+					-webkit-transform: scale(1);
+					transform: scale(1);
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 id="ts_title" class="mui-title"></h1>
+			<a data-href="../cart/cart.html" data-login="true" class="mui-icon ts-icon ts-icon-cart mui-pull-right animated">
+				<span id="ts_cart_num" class="mui-badge mui-hidden">0</span>
+			</a>
+		</header>
+		<div id="ts_tip" class="mui-bar mui-bar-standard mui-bar-header-secondary">
+		</div>
+		<nav id="nav" class="mui-bar mui-bar-tab">
+			<span class="mui-tab-item ts-bar-desc">总额：<i id="price">0</i>元</span>
+			<a id="confirm" class="mui-tab-item ts-bar-btn">立即结算</a>
+		</nav>
+		<div class="mui-content mui-fullscreen">
+			<div class="ts-layout ts-grid-m0s2">
+				<div class="ts-col-main">
+					<div class="ts-main-wrap">
+						<div id="product_scroll" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div id="product">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ts-col-sub">
+					<div id="category_scroll" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul id="category">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<span id="ts_cart_num_animate" class="mui-badge mui-hidden">1</span>
+		<script type="text/javascript" src="../../js/cache.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/supplier/supplier.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/supplier/supplier.min.js"></script>
+		<script>
+			new TS.Init('Supplier');
+		</script>
+	</body>
+
+</html>

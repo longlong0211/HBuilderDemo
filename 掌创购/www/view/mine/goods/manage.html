@@ -1,0 +1,61 @@
+﻿<!--
+    作者：344805262@qq.com
+    时间：2015-06-13
+    描述：我的/商品管理/商品管理.html -> manage.html
+-->
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta charset="utf-8">
+    <title>商品管理</title>
+    <link href="../../../css/icon.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../css/style.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../../../js/common.js"></script>
+    <script type="text/javascript" src="../../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../../js/common/isscroll.js"></script>
+    <script type="text/javascript" src="../../../js/common/lazyload.js"></script>
+    <script type="text/javascript" src="../../../js/config.js"></script>
+    <script type="text/javascript" src="../../../js/goods/manager.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" id="returnto_shop">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2">商品管理</h2>
+        </span>
+        <span class=" tab_mune tab_a t-c">
+            <a class="add-comm " id="addgoods"><i style="font-size: 2.5em; color:#fff; margin:0; margin-top: 8px; opacity: 1;" class="add sign icon"></i></a>
+        </span>
+    </div>
+
+    <div id="content" class="bg-f2">
+        <div class="search-wrap" style="position: relative;">
+            <span class="searchicon"><i class="search icon" class="height:1em;"></i></span>
+            <input type="text" id="searchtext" class=" search-text f-l" placeholder="请输入商品名称" />
+            <input type="button" id="searchgoods" class="search-btn f-r" value="搜索" />
+        </div>
+
+        <div id="wrapper" style="top:110px">
+            <div id="scroller">
+                <div id="pullDown" style="text-align:center;">
+                    <!--<span class="pullDownIcon"></span>-->
+                    <span class="pullDownLabel">下拉即可刷新</span>
+                </div>
+                <div id="goodslist"></div>
+                <div id="pullUp" style="text-align: center;">
+                    <!--<span class="pullUpIcon"></span>-->
+                    <span class="pullUpLabel"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

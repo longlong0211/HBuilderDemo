@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">个人资料</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a href='account_set.html' data-extras='{"input_title":"会员账号","input_name":"name","input_value":""}' class="mui-navigate-right">
+						会员账号
+						<span class="mui-pull-right"></span>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a href='account_set.html' data-extras='{"input_title":"QQ号码","input_name":"qq","input_value":""}' class="mui-navigate-right">
+						QQ号码
+						<span class="mui-pull-right"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href='account_set.html' data-extras='{"input_title":"邮箱地址","input_name":"email","input_value":""}' class="mui-navigate-right">
+						邮箱地址
+						<span class="mui-pull-right"></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">var user=null;var aniShow="pop-in";if(mui.os.android){if(parseFloat(mui.os.version)<4.4){aniShow="slide-in-right"}}mui.init({swipeBack:true});mui.plusReady(function(){loadUserCps()});mui(".mui-content").on("tap","a",function(i){var g=this.getAttribute("href");var h=g;var j={popGesture:"close"};var e=this.getAttribute("data-extras");e=typeof e=="undefined"?{}:JSON.parse(e);mui.openWindow({id:h,url:g,extras:e,styles:j,show:{aniShow:aniShow},waiting:{autoShow:true}})});document.addEventListener("refresh",loadUserCps);function loadUserCps(){user=getCachedUser(true);if(!user){var b=plus.webview.getLaunchWebview();mui.fire(b,"login");mui.back();return}mui.sendRequest(mui.constMap.ROOT_PATH+"/user/cps",{session:user.session,config:{silence:true}},function(a){if(!a.status.succeed){mui.toast(a.status.error_desc);return}console.log(JSON.stringify(a.data));fillUserCps(a.data)})}function fillUserCps(f){var d=document.querySelectorAll("span.mui-pull-right"),e=document.querySelectorAll("a.mui-navigate-right");d[0].innerHTML=f.name;d[1].innerHTML=f.qq;d[2].innerHTML=f.email;setExtras(e[0],f.name);setExtras(e[1],f.qq);setExtras(e[2],f.email)}function setExtras(f,d){var e=JSON.parse(f.getAttribute("data-extras"));e.input_value=d;f.setAttribute("data-extras",JSON.stringify(e))};</script>
+	</body>
+
+</html>

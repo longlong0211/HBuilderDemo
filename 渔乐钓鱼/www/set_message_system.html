@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>系统消息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		
+		<style>
+			p {
+				text-indent: 22px;
+				padding: 5px 8px;
+			}
+			html,body,.mui-content {
+				background-color: #fff;
+			}
+			h4 {
+				margin-left: 5px;
+			}
+			
+			hr{ border:0px; border-bottom:1px solid #C8C7CC;}
+		</style> 
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">系统消息</h1>
+		</header> 
+		 
+		<div class="mui-content">
+			<div id="pullrefresh">
+				<div id="messagelist" class="mui-content-padded">
+					
+					
+					 
+				</div>
+			</div>
+		</div>
+		<script id="messagelist-template" type="text/x-handlebars-template">
+	 		{{#each list}}
+	 	
+	 			<h4 style="margin-top:10px;">{{time}}<small class="syw-time mui-pull-right">{{fromuser}}</small></h4>
+				<p>
+					   {{msg}}
+				</p>
+				<hr />
+	 		{{/each}}
+	 	</script>
+
+		<script src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/global.js"></script>
+		<script src="js/md5.js"></script>
+	 	<script src="js/app.js"></script>
+	 	<script type="text/javascript" src="js/common.js"></script>
+	 	<script type="text/javascript" charset="UTF-8" src="js/handlebars-v2.0.0.js"></script>
+	 	<script src="js/fish_interface.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var pagenum = 0;
+			var everypagenum = 10;
+			//上拉下拉
+			mui.init({
+				
+				swipeBack: true, 
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						contentrefresh: '正在加载...',
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			
+			mui.plusReady(function() {
+				 
+				 initindex();
+				 
+			});
+				 
+			function initindex(){
+			 
+			   var wt=plus.nativeUI.showWaiting();
+				//发起
+				var url_index=apiurl+"ISystemMessageList.ashx?pagenum=0&perpage="+everypagenum;
+				
+				sendtointerface("","",url_index,function(responseText,status){
+					var data=eval("("+responseText+")");
+		                	
+                	var pondsSource = document.getElementById("messagelist-template").innerText;
+                	var myTemplate = Handlebars.compile(pondsSource);
+                	jQuery("#messagelist").append(myTemplate(data));
+                	
+                	 plus.nativeUI.closeWaiting();
+				},function(){
+					mui.toast( "请求失败,请重试" );
+					 plus.nativeUI.closeWaiting();
+				});
+				
+				 
+			 }
+			
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					 
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					refreshdata("down");
+				}, 1000);
+			}
+			 
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					 
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+					 
+					refreshdata("up");
+				}, 1000);
+			}
+			
+			function refreshdata(upordown)
+			{
+			
+			 
+		 
+				
+				
+				if(upordown == "down"){
+					 pagenum = 0;
+					  initindex();
+					   
+				} 
+				else
+				{
+				 
+					
+				 	var url_index=apiurl+"ISystemMessageList.ashx?pagenum="+(++pagenum)+"&perpage="+everypagenum;
+					 
+					   
+					 sendtointerface("","",url_index,function(responseText,status){
+				    	var data=eval("("+ responseText+")");
+			                	 
+			                	var datacount =  data.list.length;
+			                	 
+			                	if(datacount>0)
+			                	{
+			                	 
+				                	var pondsSource = document.getElementById("messagelist-template").innerText;
+				                	var myTemplate = Handlebars.compile(pondsSource);
+				                	
+				                	
+				                	 
+				                	jQuery("#messagelist").append(myTemplate(data));
+				                	 
+			                	
+			                	}
+				    });
+				     
+					 
+			 	}
+			}
+			 
+		</script>
+	</body>
+</html>

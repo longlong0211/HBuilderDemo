@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/app.css" />
+		<script src="js/mui.min.js"></script>
+		<style>
+			#pinglun img {
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view" id="pinglun">
+				</ul>
+				<div id="dianji" style="width:100%;text-align:center;padding: 15px 0;">
+					<h5>====上拉查看更多====</h5>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<nav class="mui-bar mui-bar-tab">
+			<button class="mui-btn mui-btn-negative" id="tijiao" style="float:right;margin-right:20px;padding:7px 25px;">我来评论</button>
+
+		</nav>
+	</body>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		var pageindex = 1;
+		var hasMore = true;
+		if (mui.os.android) {
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',
+						callback: loadMore
+					}
+				},
+				swipeBack: false
+			});
+		} else {
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+		}
+		mui.plusReady(function() {
+			if (!mui.os.android) {
+				$("#pullrefresh").removeClass().addClass("mui-content");
+				$(".mui-scroll").removeClass();
+				$("#dianji h5").remove();
+				$("#dianji").append("<h5>====点击查看更多====</h5>");
+			}
+			mui.ajax('http://www.guoshe.cc/tools/submit_ajax.ashx?action=comment_list&article_id=' + getQueryString("goodsId") + '&page_index=1&page_size=10', {
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 20000, //超时时间设置为10秒；
+				success: function(data) {
+					var content = "";
+					if (data) {
+						for (var i in data) {
+							content += '<li class="mui-table-view-cell mui-media" id="' + data[i].add_time + '">';
+							content += '<img class="mui-media-object mui-pull-left" src="images/user.png">';
+							content += '<div class="mui-media-body">';
+							content += '<p>' + data[i].user_name + '</p><p>' + unescape(data[i].content) + '</p>';
+							content += '<p style="font-size: 12px;text-align: right;">' + data[i].add_time + '</p>'
+							content += '</div></li>';
+						}
+					} else {
+						$('#mui-table-view li').remove();
+						content = "<li class='mui-table-view-cell mui-media mui-col-xs-12' style='text-align:center;'><img src='images/jhs.png' width='50px'><br/>暂无内容</li>";
+					}
+					$("#pinglun").append(content);
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+				}
+			});
+		});
+		function loadMore() {
+			if (hasMore) {
+				pullupRefresh();
+			}
+		}
+		function pullupRefresh() {
+			var add_time = document.querySelector(".mui-table-view li:last-child").getAttribute("id");
+			setTimeout(function() {
+				mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=get_commentlist&article_id=' + getQueryString("goodsId"), {
+					data: {
+						"strWhere": "and add_time<'" + add_time + "'"
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var content = "";
+						if (data) {
+							for (var i in data) {
+								content += '<li class="mui-table-view-cell mui-media" id="' + data[i].add_time + '">';
+								content += '<img class="mui-media-object mui-pull-left" src="images/user.png">';
+								content += '<div class="mui-media-body">';
+								content += '<p>' + data[i].user_name + '</p><p>' + unescape(data[i].content) + '</p>';
+								content += '<p style="font-size: 12px;text-align: right;">' + data[i].add_time + '</p>'
+								content += '</div></li>';
+							}
+							$("#pinglun").append(content);
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+							pageindex++;
+						} else {
+							hasMore = false;
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+						//异常处理；
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					}
+				});
+			}, 1000);
+		}
+
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) return unescape(r[2]);
+			return "";
+		}
+		document.querySelector('#tijiao').addEventListener('tap', function(e) {
+			e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+			var btnArray = ['确定', '取消'];
+			mui.prompt('请输入你的评语：', '', '果社', btnArray, function(e) {
+				if (e.index == 0) {
+					var users = JSON.parse(localStorage.getItem('$users') || '[]');
+					var username = 0;
+					users.some(function(user) {
+						username = user.account;
+					});
+					mui.ajax('http://www.guoshe.cc/tools/index.ashx?action=comment_add', {
+						data: {
+							"article_id": getQueryString("goodsId"),
+							"txtContent": e.value,
+							"accout": username
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 20000, //超时时间设置为10秒；
+						success: function(data) {
+							mui.toast(data.msg);
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							mui.toast(errorThrown);
+						}
+					});
+				}
+			})
+		});
+	</script>
+
+</html>

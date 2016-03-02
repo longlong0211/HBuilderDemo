@@ -1,0 +1,204 @@
+﻿<!--
+    作者：344805262@qq.com
+    时间：2015-07-22
+    描述：订单评价管理 -> appraises.html
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>评价管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="stylesheet" href="../../../css/mui.min.css" />
+    <link href="../../../css/css.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../../../js/common.js"></script>
+    <script type="text/javascript" src="../../../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../../../js/userinfo.js"></script>
+    <script type="text/javascript" src="../../../js/config.js"></script>
+    <script type="text/javascript" src="../../../js/common/isscroll.js"></script>
+    <script type="text/javascript" src="../../../js/common/lazyload.js"></script>
+    <script type="text/javascript" src="../../../js/order/apparaises.js"></script>
+</head>
+<body>
+    <div id="header">
+        <span class=" tab_mune tab_a t-c" onclick="back()">
+            <div class="back"><i class="icon-back"></i></div>
+        </span>
+        <span class=" tab_mune tab_b">
+            <h2 class="hd-tit-h2" style="font-size: 1.5em;">评价管理</h2>
+        </span>
+        <span class=" tab_mune tab_a t-c"></span>
+    </div>
+    <div>
+        <div class="grcon">
+            <div class="sjxqbkbg sjxqckxq" style="border-top: none;margin-top: 0;">
+                <div id="wrapper">
+                    <div id="scroller">
+                        <div id="pullDown" style="text-align:center;">
+                            <!--<span class="pullDownIcon"></span>-->
+                            <span class="pullDownLabel">下拉即可刷新</span>
+                        </div>
+                        <div id="appraiselist"></div>
+                        <div id="pullUp" style="text-align: center;">
+                            <!--<span class="pullUpIcon"></span>-->
+                            <span class="pullUpLabel"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="waitingupload" class="heisebghid">
+        <div style="width:100%;position:fixed; text-align:center;top:20%">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+            <p style="color:#fff;">请稍候...</p>
+        </div>
+    </div>
+</body>
+
+<script src="../../../js/common/mui.min.js"></script>
+<script src="../../../js/common/mui.zoom.js"></script>
+<script src="../../../js/common/mui.previewimage.js"></script>
+<script>
+    mui.previewImage();
+</script>
+<style type="text/css">
+    .mui-fullscreen {
+        position: fixed;
+        z-index: 20;
+        background-color: #000;
+    }
+
+    .mui-preview-header,
+    .mui-preview-footer {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        z-index: 10;
+    }
+
+    .mui-preview-header {
+        height: 44px;
+        top: 0;
+    }
+
+    .mui-preview-footer {
+        height: 50px;
+        bottom: 0px;
+    }
+
+    .mui-preview-header .mui-preview-indicator {
+        display: block;
+        line-height: 25px;
+        color: #fff;
+        text-align: center;
+        margin: 15px auto 4;
+        width: 70px;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 12px;
+        font-size: 16px;
+    }
+
+    .mui-preview-image {
+        display: none;
+    }
+
+        .mui-preview-image.mui-preview-in {
+            display: block;
+        }
+
+        .mui-preview-image.mui-transitioning {
+            background: none;
+        }
+
+            .mui-preview-image.mui-transitioning .mui-preview-header,
+            .mui-preview-image.mui-transitioning .mui-preview-footer {
+                display: none;
+            }
+
+    .mui-zoom-scroller {
+        position: absolute;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .mui-zoom {
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    p img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .mui-slider .mui-slider-group .mui-slider-item img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+        width: 100%;
+    }
+
+    .mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+        display: inline-table;
+    }
+
+    .mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .mui-preview-loading {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        display: none;
+    }
+
+        .mui-preview-loading.mui-active {
+            display: block;
+        }
+
+        .mui-preview-loading .mui-spinner-white {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -25px;
+            margin-top: -25px;
+            height: 50px;
+            width: 50px;
+        }
+
+    .mui-preview-image img.mui-transitioning {
+        -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+</style>
+</html>

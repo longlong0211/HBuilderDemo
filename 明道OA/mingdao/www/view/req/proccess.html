@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<title>list</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mstyles.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fontstyles.css">
+		<script type="text/javascript" src="../../js/modules/jquery.js"></script>
+		<script type="text/javascript" src="../../js/sea.js"></script>
+		<script type="text/javascript" src="../../js/json2.js"></script>
+		<script type="text/javascript" src="../../js/StringBuilder.js"></script>
+		<script type="text/javascript" src="../../js/support.js"></script>
+		<script>
+			seajs.config({
+				base: "../../js/modules/"
+			});
+			seajs.use('view/req/proccess');
+			var setForward=false;
+		</script>
+	</head>
+
+	<body>
+		<div class="view">
+			<header class="header clearfix">
+				<span class="floatleft" id="backAction"><i class="icon-iback font22"></i></span>
+				<span class="mid_name font14 aligncenter" id="title"></span>
+			</header>
+			<section class="main process_main" id="wrapper">
+				<div id="scroller">
+					<ul class="item_list">
+						<li class="choose" id="forwardAction" style="display: none;" uuid="forward">
+							<div class="inner">
+								<div class="	Inmask">
+									<span class="floatleft">请选择转审人员</span>
+								</div>
+								<i class="icon-expand-more"></i>
+							</div>
+							<input type="hidden"  id="forwardId" name="forwardId"/>
+							<input type="hidden"  id="forwardType" name="forwardType"/>
+						</li>
+						<li>
+							<div class="inner">
+								<textarea id="reason" name="reason" placeholder="请填写..."></textarea>
+							</div>
+							<p class="aligncenter color-a p-top5" id="desc"></p>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<span class="btn" id="proccessAction"></span>
+		</div>
+
+	</body>
+
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 个人中心</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			.mui-views,
+			.mui-view,
+			.mui-pages,
+			.mui-page,
+			.mui-page-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			.mui-pages {
+				overflow: hidden;
+			}
+			.mui-navbar~.mui-pages {
+				top: 46px;
+				height: auto;
+			}
+			.mui-page-content>.mui-bar-nav {
+				position: absolute;
+			}
+			.mui-page-content>.mui-bar-nav~.mui-scroll-wrapper {
+				top: 46px;
+			}
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 300ms ease-in-out;
+				transition: transform 300ms ease-in-out;
+			}
+			.mui-page-left {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-page-left {
+				-webkit-transform: translate3d(-16.6666667%, 0, 0);
+				transform: translate3d(-16.6666667%, 0, 0);
+			}
+			.mui-navbar {
+				position: fixed;
+				right: 0;
+				left: 0;
+				z-index: 10;
+				height: 44px;
+				background-color: #f7f7f8;
+			}
+			.mui-navbar .mui-bar {
+				position: absolute;
+				background: transparent;
+				text-align: center;
+			}
+			.mui-android .mui-navbar-inner.mui-navbar-left {
+				opacity: 0;
+			}
+			.mui-ios .mui-navbar-left .mui-left,
+			.mui-ios .mui-navbar-left .mui-center,
+			.mui-ios .mui-navbar-left .mui-right {
+				opacity: 0;
+			}
+			.mui-navbar .mui-btn-nav {
+				-webkit-transition: none;
+				transition: none;
+				-webkit-transition-duration: .0s;
+				transition-duration: .0s;
+			}
+			.mui-navbar .mui-bar .mui-title {
+				display: inline-block;
+				position: static;
+				width: auto;
+			}
+			.mui-page-shadow {
+				position: absolute;
+				right: 100%;
+				top: 0;
+				/*width: 16px;*/
+				
+				width: 1px;
+				height: 100%;
+				z-index: -1;
+				content: '';
+			}
+			.mui-page-shadow {
+				/*background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+				background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);*/
+				
+				background: #c8c7cc;
+			}
+			.mui-navbar-inner.mui-transitioning,
+			.mui-navbar-inner .mui-transitioning {
+				-webkit-transition: opacity 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
+				transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+			}
+			.mui-page {
+				display: none;
+			}
+			.mui-pages .mui-page {
+				display: block;
+			}
+			.parallax-banner-wrapper {
+				height: 270px;
+				position: relative;
+			}
+			.parallax-banner {
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
+				width: 100%;
+				height: 150px;
+				position: relative;
+			}
+			.parallax-banner img {
+				height: 150px;
+			}
+			.parallax-banner-overlay {
+				position: absolute;
+				width: 100%;
+				top: 0;
+				bottom: -50px;
+			}
+			.parallax-banner-title {
+				position: absolute;
+				left: 15px;
+				bottom: 135px;
+				width: 90%;
+				font-size: 16px;
+				font-weight: 400;
+				line-height: 21px;
+				color: white;
+			}
+			.parallax-content {
+				-webkit-transform: translateY(-120px);
+				transform: translateY(-120px);
+				margin-bottom: -120px;
+				background: #efeff4;
+			}
+			#ts_login {
+				display: block;
+				width: 100%;
+				height: 150px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			#ts_login .mui-btn {
+				position: absolute;
+				top: 45px;
+				left: 15px;
+				padding: 8px;
+				background-color: #ff5d3a;
+				color: #fff;
+			}
+			#ts_login>.mui-icon {
+				position: absolute;
+				right: 15px;
+				top: 65px;
+				color: #fff;
+			}
+			#ts_login .mui-btn .mui-icon {
+				font-size: 40px;
+				width: 40px;
+				height: 40px;
+				line-height: 40px;
+			}
+			#ts_phone {
+				position: absolute;
+				left: 80px;
+				top: 65px;
+				color: #fff;
+				font-size: 17px;
+			}
+			.mui-android .mui-pages.ts-pages .mui-page {
+				-webkit-transition: opacity 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
+				transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+			}
+			.mui-android .mui-pages.ts-pages #my {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-android .mui-pages.ts-pages #setting {
+				-webkit-transform: translate3d(100%, 0, 0);
+				transform: translate3d(100%, 0, 0);
+				border-left: 1px solid #c8c7cc;
+			}
+			.mui-android .mui-pages.ts-pages.ts-pages-setting #setting {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-android .mui-pages.ts-pages.ts-pages-setting #my {
+				-webkit-transform: translate3d(-16.6666667%, 0, 0);
+				transform: translate3d(-16.6666667%, 0, 0);
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--页面主结构开始-->
+		<div id="app" class="mui-views">
+			<div class="mui-view">
+				<div class="mui-pages">
+				</div>
+			</div>
+		</div>
+		<!--页面主结构结束-->
+		<!--单页面开始-->
+		<div id="my" class="mui-page">
+			<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				<!--页面标题栏开始-->
+				<div class="mui-bar mui-bar-nav">
+					<h1 class="mui-title">个人中心</h1>
+					<a href="#setting" class="mui-icon ts-icon ts-icon-setting mui-pull-right"></a>
+				</div>
+				<!--页面标题栏结束-->
+				<nav id="nav" class="mui-bar mui-bar-tab mui-plus-hidden"></nav>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="parallax-banner-wrapper">
+							<div id="parallax" class="parallax-banner" style="background-image: url(../../img/background.jpg);">
+							</div>
+							<a id="ts_login" data-href="../login/login.html">
+								<span class="mui-btn mui-fab"><span class="mui-icon mui-icon-person"></span></span>
+								<span id="ts_phone"></span>
+								<span class="mui-icon mui-icon-forward"></span>
+							</a>
+						</div>
+
+						<div class="parallax-content">
+							<ul class="mui-table-view mui-table-view-icon" style="margin-top: 15px;">
+								<li class="mui-table-view-cell">
+									<a data-href="../sites/sites.html?from=my" data-login="true" class="mui-navigate-right">
+										<span class="mui-icon ts-icon ts-icon-geolocation mui-pull-left"></span> 我的地址
+									</a>
+								</li>
+								<li class="mui-table-view-cell">
+									<a data-href="../cart/cart.html" data-login="true" class="mui-navigate-right">
+										<span class="mui-icon ts-icon ts-icon-cart mui-pull-left"></span> 购物车
+									</a>
+								</li>
+								<li class="mui-table-view-cell mui-plus-hidden">
+									<a data-href="../coupon/coupon.html" data-login="true" class="mui-navigate-right">
+										<span class="mui-icon ts-icon ts-icon-coupon mui-pull-left"></span> 优惠券
+									</a>
+								</li>
+								<li class="mui-table-view-cell mui-plus-visible">
+									<a data-href="../coupon/coupon_main.html" data-login="true" class="mui-navigate-right">
+										<span class="mui-icon ts-icon ts-icon-coupon mui-pull-left"></span> 优惠券
+									</a>
+								</li>
+								<li class="mui-table-view-cell mui-plus-visible">
+									<a data-href="../notification/notification.html" data-login="true" class="mui-navigate-right">
+										<span class="mui-icon ts-icon ts-icon-message mui-pull-left"></span> 我的消息
+									</a>
+								</li>
+							</ul>
+							<ul class="mui-table-view mui-table-view-icon" style="margin-top: 15px;margin-bottom: 15px;">
+								<li class="mui-table-view-cell" style="text-align: center;color: #ff5d3a;">
+									<a id="ts_tel" href="tel:4000121777">
+								4000-121-777
+							</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--页面主内容区结束-->
+		</div>
+		<!--单页面结束-->
+		<!--单页面开始-->
+		<div id="setting" class="mui-page">
+			<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				<!--页面标题栏开始-->
+				<div class="mui-bar mui-bar-nav">
+					<button type="button" class="mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+						<span class="mui-icon mui-icon-left-nav"></span>个人中心
+					</button>
+					<h1 class="mui-title">设置</h1>
+				</div>
+				<!--页面标题栏结束-->
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-icon" style="margin-top: 10px;">
+							<li class="mui-table-view-cell">
+								<a data-href="../delivery/delivery.html" class="mui-navigate-right">
+									<span class="mui-icon ts-icon ts-icon-light mui-pull-left"></span> 配送说明
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a data-href="../notice/notice.html" class="mui-navigate-right">
+									<span class="mui-icon ts-icon ts-icon-me mui-pull-left"></span> 用户须知
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a data-href="../about/about.html" class="mui-navigate-right">
+									<span class="mui-icon ts-icon ts-icon-about mui-pull-left"></span> 关于我们
+								</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-icon" style="margin-top: 10px;">
+							<li class="mui-table-view-cell">
+								<a data-href="../feedback/feedback.html" class="mui-navigate-right">
+									<span class="mui-icon ts-icon ts-icon-feed mui-pull-left"></span> 意见反馈
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-plus-visible mui-plus-android-hidden">
+								<a id="ts_rate" class="mui-navigate-right">
+									<span class="mui-icon ts-icon ts-icon-rate mui-pull-left"></span> 给我们评分
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-plus-visible">
+								<a id="ts_cache" class="mui-navigate-right">
+									<span class="mui-icon ts-icon ts-icon-trash mui-pull-left"></span> 清除缓存
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--页面主内容区结束-->
+		</div>
+		<!--单页面结束-->
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.view.min.js"></script>
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/my/my.tpl.min.js"></script>
+		<script type="text/javascript" src="../../js/page/my/my.min.js"></script>
+		<script>
+			new TS.Init('My');
+		</script>
+	</body>
+
+</html>

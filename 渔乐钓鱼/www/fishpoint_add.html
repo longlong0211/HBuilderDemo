@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>发布钓点</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css"/>
+		<link href="css/mui.listpicker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/feedback-page.css" />
+		<style>
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+		 
+			h5 {
+				margin: 5px 7px;
+			}
+		 
+			#pic{
+				width:100px;
+				height:100px;
+				/*border: 1px dashed #CCCCCC;*/
+			}
+			#imagecontrol div{ float: left; }
+			 
+			.mui-popover-pic{
+					height:150px;
+			 }
+				
+			.imageview{position:relative; height:58px; width:58px;}
+			.imageview img{ z-index:1;position:absolute; top:0px ; right: 5px; width:50px; height: 50px;}
+			.imageview span{ z-index:2 ; position:absolute; top:0px; line-height: 16px; height:16px; width:16px; text-align: center; font-size: 16px;border-radius: 50%;     font-weight: bold; right:2px; background-color:red; color: white;}
+				
+			#imagecontrol{ padding-top: 5px; padding-left: 5px;}	
+			#addimages img{ width:50px; height: 50px;} 
+		</style>
+		
+	</head>
+
+	<body>
+ 
+	<header class="mui-bar mui-bar-nav" style=" display:block;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">发布钓点</h1>
+	 </header>
+		<div class="mui-content">
+			<div id="feedback" class="mui-page feedback">
+			<div class="mui-page-content"> 
+				<p>简单描述</p>
+				<div class="row mui-input-row">
+					<textarea id='question' class="mui-input-clear question" placeholder="请简单形容下该钓点..."></textarea>
+				</div>
+				<p>图片</p>
+				<div id="imagecontrol" class="row mui-input-row " >
+					 
+					 <div id="addimages">
+					 	<a href="#middlePopover" ><img src="images/iconfont-tianjia.png" alt="添加图片" ></a>
+					 </div>
+					 <div id="imagelist"></div>
+					  
+				</div> 
+				<p>基本信息</p>
+				<form class="mui-input-group">
+				<input type="hidden" id="province">
+				<input type="hidden" id="city">
+				<input type="hidden" id="district">
+				<input type="hidden" id="longtpos">
+					<input type="hidden" id="latpos">
+					<div class="mui-input-row">
+						<label>钓点名称</label>
+						<input type="text" id="pointname" class="mui-input-speech mui-input-clear" placeholder="鱼塘水库叫啥名">
+					</div>
+					<div class="mui-input-row">
+						<label>所在城市</label>
+						<input type="text" id='showCityPicker3' placeholder="未选择">
+					</div>
+					<div class="mui-input-row">
+						<label>钓点地址</label>
+						<input type="text" id= 'address' class="mui-input-speech mui-input-clear" placeholder="具体地址在哪">
+					</div>
+					<div class="mui-input-row">
+						<label>地图坐标</label>
+						<input type="text" id='selectPos' placeholder="经纬度" readonly="true">
+					</div>
+					<div class="mui-input-row">
+						<label>老板姓名</label>
+						<input type="text" id='bossname' class="mui-input-speech mui-input-clear" placeholder="老板贵姓">
+					</div>
+					<div class="mui-input-row">
+						<label>老板电话</label>
+						<input type="text" id='bosstel'  class="mui-input-speech mui-input-clear" placeholder="老板联系方式">
+					</div>
+					<div class="mui-input-row">
+						<label>收费类型</label>
+						<input type="text" id='showPayPicker' placeholder="未选择">
+					</div>
+					<div class="mui-input-row">
+						<label>收费金额</label>
+						<input type="text"  id='cosmoney'  class="mui-input-speech mui-input-clear" placeholder="钓点如何收费">
+					</div>
+					
+					<div class="mui-input-row">
+						<label>钓点类型</label>
+						<input type="text" id='showUserPicker' placeholder="未选择">
+					</div>
+					
+					<div class="mui-input-row">
+						<label>主要鱼类</label>
+						<input type="text" id='showtypePicker' placeholder="未选择">
+					</div>
+					
+				</form>
+				<p>您的手机</p>
+				<div class="mui-input-row">
+					<input id='contact' type="text" class="mui-input-clear  contact" placeholder="(选填,方便我们联系你 )" />
+				</div>
+				<button id='submit' type="button" class="mui-btn mui-btn-green">提交</button>
+				<p></p>
+			</div>
+		</div>
+				
+		</div>
+		<div id="middlePopover" class="mui-popover mui-popover-pic">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell"><h5 onclick="appendByCamera()">拍照</h5>
+						</li>
+						<li class="mui-table-view-cell"><h5 onclick="appendByGallery()">相册选取单张</h5>
+						</li>
+						<li class="mui-table-view-cell"><h5 onclick="appendByGalleryImgs()">相册选取多张</h5>
+						</li>
+						 
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<script src="js/jquery.js"></script>
+		<script src="js/mui.min.js"></script>	
+		<script src="js/common.js"></script>
+		<script src="js/global.js"></script>
+		<script src="js/md5.js"></script>	
+		<script src="js/mui.listpicker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script src="js/feedback-page.js"></script>
+		<script src="js/fish_interface.js"></script>
+		<script src="js/fish_cache.js"></script>
+		<script src="js/fish_image.js"></script>
+		<script> 
+			 
+			
+			var filenumtotal = 0;
+		    var filesnum = 0;
+			var server=apiurl+"IActionUpload.ashx";
+			var files=[];
+			var pid= GetQueryString("id");
+			 
+			var replyuserid = GetQueryString("replyuserid");
+			var replynickname = GetQueryString("replynickname");
+			var insertid = 0;
+			var pondid = 0;
+			var pondname = "";
+			 
+			(function($, doc) {
+				$.init({swipeBack: true});
+				
+				$.plusReady(function() {
+				
+					getlogin();
+					
+					getPosBaidu();
+					
+				});
+				
+				$.ready(function() {
+					
+					
+					
+					//普通示例
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{
+						value: '池塘',
+						text: '池塘'
+					}, {
+						value: '水库',
+						text: '水库'
+					}, {
+						value: '江河',
+						text: '江河'
+					}, {
+						value: '湖泊',
+						text: '湖泊'
+					}
+					, {
+						value: '海洋',
+						text: '海洋'
+					}, {
+						value: '溪流',
+						text: '溪流'
+					}
+					]);
+					var showUserPickerButton = doc.getElementById('showUserPicker');
+					var userResult = doc.getElementById('showUserPicker');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							userResult.value = items[0].text;
+						});
+					}, false);
+					
+					var userPicker1 = new $.PopPicker();
+					userPicker1.setData([{
+						value: '免费',
+						text: '免费'
+					}, {
+						value: '按天收费',
+						text: '按天收费'
+					}, {
+						value: '按斤收费',
+						text: '按斤收费'
+					}, {
+						value: '按小时收费',
+						text: '按小时收费'
+					}]);
+					var showUserPickerButton1 = doc.getElementById('showPayPicker');
+					var userResult1 = doc.getElementById('showPayPicker');
+					showUserPickerButton1.addEventListener('tap', function(event) {
+						userPicker1.show(function(items) {
+							userResult1.value = items[0].text;
+						});
+					}, false);
+					
+					
+					var userPicker2 = new $.PopPicker();
+					userPicker2.setData([{
+						value: '马口',
+						text: '马口'
+					}, {
+						value: '鲫鱼',
+						text: '鲫鱼'
+					}, {
+						value: '餐条',
+						text: '餐条'
+					}, {
+						value: '鳊鱼',
+						text: '鳊鱼'
+					}, {
+						value: '鲤鱼',
+						text: '鲤鱼'
+					}, {
+						value: '白条',
+						text: '白条'
+					}, {
+						value: '汪刺',
+						text: '汪刺'
+					}, {
+						value: '青鱼',
+						text: '青鱼'
+					}, {
+						value: '草鱼',
+						text: '草鱼'
+					}, {
+						value: '鲶鱼',
+						text: '鲶鱼'
+					}, {
+						value: '鳙鱼',
+						text: '鳙鱼'
+					}, {
+						value: '鲢鱼',
+						text: '鲢鱼'
+					}, {
+						value: '鳗鱼',
+						text: '鳗鱼'
+					}, {
+						value: '鲈鱼',
+						text: '鲈鱼'
+					}, {
+						value: '黑鱼',
+						text: '黑鱼'
+					}]);
+					var showUserPickerButton2 = doc.getElementById('showtypePicker');
+					var userResult2 = doc.getElementById('showtypePicker');
+					showUserPickerButton2.addEventListener('tap', function(event) {
+						userPicker2.show(function(items) {
+							userResult2.value = items[0].text;
+						});
+					}, false);
+					
+					  
+					
+				});
+			})(mui, document);
+			
+			
+		 
+		 function geoInf( position) {
+				
+			var codns = position.coords;//获取地理坐标信息；
+			var lat = codns.latitude;//获取到当前位置的纬度；
+			var longt = codns.longitude;//获取到当前位置的经度
+			
+			var str0 = "";			
+			str0 += position.address.province+position.address.city+position.address.district+"";
+			jQuery("#showCityPicker3").val(str0);
+			
+			var str1 = "";			
+			str1 += position.address.street+"";
+			jQuery("#address").val(str1);
+			
+			var str2 = "";			
+			str2 += longt+"，"+lat+"";
+			jQuery("#selectPos").val(str2);
+			
+			jQuery("#province").val(position.address.province);
+			jQuery("#city").val(position.address.city);
+			jQuery("#district").val(position.address.district);
+			jQuery("#longtpos").val(longt);
+			jQuery("#latpos").val(lat);
+			
+		}
+		
+		function getPosBaidu(){
+			
+			var wt=plus.nativeUI.showWaiting();
+			
+			plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+			},{provider:'baidu'});
+			
+			plus.nativeUI.closeWaiting();
+		}
+		
+
+		function postupload(id){
+			if(files.length<=0){
+				//plus.nativeUI.alert("没有添加上传文件！");
+				return;
+			}
+			
+			console.log("开始上传：")
+			var wt=plus.nativeUI.showWaiting();
+			var task=plus.uploader.createUpload(server,
+				{method:"POST"},
+				function(t,status){ //上传完成
+					if(status==200){
+						
+						//alert(t.responseText);
+						var data=eval("("+t.responseText+")");
+	                	 
+	                	if(data.retisok==1)
+	                	{
+	                		mui.toast('感谢您提交钓点，我们会尽快进行审核！');
+	                		plus.uploader.clear();
+							
+	                	}else{
+	                		
+	                		mui.toast( "不小心失败了，"+data.retmessage );
+	                	}
+	                	
+	                	plus.nativeUI.closeWaiting(); 
+	                	
+	                	
+	                	files=[];
+			 			filesnum = 0;
+			 			filenumtotal = 0;
+			 			
+			 			jQuery("#imagelist").html();
+	                	
+	                	mui.back();
+					}else{
+						console.log("上传失败："+status);
+						mui.toast("上传失败，请重试！"+status);
+						wt.close();
+					}
+				}
+			);
+			
+		 
+		 	 
+			
+			task.addData("id",id.toString());
+			task.addData("client","渔乐上传");
+			task.addData("uid",uid.toString());
+			task.addData("nickname",nickname);
+			task.addData("tableid","9");
+			task.addData("fieldid","88");
+			task.addData("filesnum",filesnum.toString());
+			for(var i=0;i<files.length;i++){
+				var f=files[i];
+				task.addFile(f.path,{key:f.name});
+				
+				 
+			}
+			
+			//加入加密的
+			var md5uid = uid.toString();
+			var md5id= id.toString();
+			var addtime = CurentDate();
+			var md5 = hex_md5(md5uid+md5id+addtime+apikey);
+			
+			task.addData("md5uid",md5uid);
+			task.addData("md5id",md5id);
+			task.addData("datetime",addtime);
+			task.addData("md5",md5);
+			
+			task.start();
+		}
+		// 拍照添加文件
+		function appendByCamera(){
+			
+			if(filesnum>=5){
+				mui.toast("图片数量不能超过五张！");return;
+			}
+			
+			var cmr=plus.camera.getCamera();
+			cmr.captureImage(function(p){
+				plus.io.resolveLocalFileSystemURL(p,function(entry){
+					showImg(entry.toLocalURL());
+				},function(e){
+					mui.toast("读取拍照文件错误："+e.message);
+				} );
+			},function(e){
+				mui.toast( "拍照失败："+e.message );
+			});
+		}
+		 
+	  
+		
+		
+		// 从相册添加文件
+		function appendByGallery(){
+			
+			if(filesnum>=5){
+				
+				mui.toast("图片数量不能超过五张！");return;
+			}
+			
+			plus.gallery.pick(function(p){
+		        showImg(p);
+		         
+		    });
+		}
+ 
+		// 产生一个随机数
+		function getUid(){
+			return Math.floor(Math.random()*100000000+10000000).toString();
+		}
+		
+		function appendByGalleryImgs(){
+			
+			if(filesnum>=5){
+				
+				mui.toast("图片数量不能超过五张！");return;
+			}
+			
+			// 从相册中选择图片
+			console.log("从相册中选择多张图片:");
+		    plus.gallery.pick( function(e){
+		    	for(var i in e.files){
+			    	console.log(e.files[i]);
+			    	
+			    	showImg(e.files[i]);
+		    	} 
+		    }, function ( e ) {
+		    	console.log( "取消选择图片" );
+		    },{filter:"image",multiple:true});
+		    
+		    
+		}
+		
+		function showImg( url ){
+			
+			console.log(url);
+			if(filesnum>=5){
+				mui.toast("图片数量不能超过五张！");return;
+			}
+			
+			// 兼容以“file:”开头的情况
+			if(0!=url.indexOf("file://")){
+				url="file://"+url;
+			}
+			
+			 
+			//压缩
+			var fromimg = url;
+			var toimg = url+"_fishyl_small.jpg";
+			
+			plus.zip.compressImage({
+				src: fromimg,//"_www/img/shake/1.jpg",
+				dst: toimg, //"_doc/cm.jpg",
+				quality:60,
+				overwrite:true,
+				width:'600px',
+				clip:{
+					top:"0%",
+					left:"0%",
+					width:"100%",
+					height:"100%"
+				}
+			},
+			function(i){
+				filesnum++;
+				filenumtotal++;
+				files.push({name:"uploadkey"+filenumtotal,path:toimg});
+				
+				 
+				jQuery("#imagelist").append("<div class='imageview' id='uploadkey"+filenumtotal+"'><h6  onclick=\"javascript:removeimg('uploadkey"+filenumtotal+"')\"><span>X</span><img src='"+toimg+"'></h6></div>");
+
+				//plus.nativeUI.closeWaiting();
+				console.log("压缩图片成功："+JSON.stringify(i));
+			},function(e){
+				mui.toast("添加图片失败，请重试！");
+				//plus.nativeUI.closeWaiting();
+				console.log("压缩图片失败: "+JSON.stringify(e));
+			});
+			
+			
+		}
+		//减文件
+		function removeimg(name2)
+		{
+			 
+			for(var i=0;i<files.length;i++){
+				if(files[i].name==name2){
+					
+					files.splice(i,1);
+					filesnum--;
+					jQuery("#"+name2).remove();
+					break;
+				}
+			}
+			
+			
+		}
+	
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+			
+		</script>
+		
+	</body>
+</html>

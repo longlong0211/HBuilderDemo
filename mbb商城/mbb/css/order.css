@@ -1,0 +1,228 @@
+/* 字体图标 */
+@font-face{
+font-family:"dis-font";
+src:url("../fonts/dis-font.ttf") format('truetype');
+}
+/*clear*/
+.clear:before,
+.clear:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+/*---myorder detail---*/
+.ordersummary{padding:0 15px;margin:55px 0 10px 0;font-size:16px;}
+.ordersummary li{margin:0;padding:0;height:30px;}
+.ordersummary label{float:left;margin:2px 10px 0 0;color:#999;font-size:16px;}
+.ordersummary span{overflow:hidden;display:inline-block;font-size:18px;}
+.ordersummary .red{color:#f37872;}
+.address-myorder{margin:0 15px 10px 15px;padding:10px;border:1px solid #d9d9d9;border-radius:3px;box-shadow:0 2px 2px rgb(230,230,230);font-size:14px;}
+.address-myorder .col-label{float:left;margin-right:10px;font-size:16px;}
+.address-myorder .address{overflow:hidden;margin:0;}
+.address-myorder .name{margin-right:10px;}
+.myorderd-button{margin:20px 0 0 0;padding:0 15px;}
+.myorderd-button .button{margin-bottom:10px;}
+/**----tlt 00616----**/
+.order-detail .order-detail-l{float:left;margin-top:-3px;margin-right:10px;}
+.order-detail .order-detail-l .icon-orders-small,
+.order-detail .order-detail-l .icon-address-small,
+.order-detail .order-detail-l .icon-double-round,
+.order-detail .order-detail-l .icon-talks-small {width:20px;line-height:22px; text-align:center;font-size:25px;}
+.order-detail .order-detail-r{overflow:hidden}
+.order-detail .order-detail-r ul{margin:0;list-style:none;font-size:12px;padding: 0;}
+.order-detail .order-detail-r ul li { padding:0 0 4px 0;}
+.order-detail .order-detail-r ul li:last-child { padding-bottom:0;}
+.order-detail .order-detail-r .name,
+.order-detail .order-detail-r .name .label{line-height:14px;font-size:14px; }
+.order-detail .order-detail-r .label {padding:0;background:none;color:#333; }
+.order-detail .order-detail-r .label.log-title{font-size:14px;}
+
+.order-detail-sum {padding: 10px 15px;background: rgb(255, 255, 255) none repeat scroll 0% 0%;}
+.order-detail-sum .sum-r-ul .status{line-height:14px;font-size:14px; }
+.order-detail-address {padding:0 15px;background:#fff;color:#333;}
+.order-detail-address .address-out {padding:10px 0;border-bottom:1px solid #e3e3e3; }
+.order-detail-logistics{position:relative;padding:0 15px;background:#fff;color:#333;}
+.order-detail-logistics .logistics-out{display:block;padding:10px 0;border-bottom: 1px solid #e3e3e3;}
+.order-detail-logistics .leftpoint{position: absolute;top:15px;left:17px;background:#45a5cf;width:15px;height:15px;border: 2px solid #b6e9ff;border-radius:50%;z-index:2;}
+.order-detail-logistics .leftline{position:absolute;left:24px;width:1px;top:20px;bottom:20px;background:#e5e5e5;z-index:1;}
+.order-detail-logistics .log-r{margin-left:25px;}
+.order-detail-logistics .log-r-ul li .log-time{color:#999;}
+.order-detail-logistics .arrow{position:absolute;top:45%;right:20px;background: url("../images/icon-ps.png") -55px 0;width:6px;height:11px;}
+.order-detail-noLogistics{padding:0 15px;background:#fff;color:#333;}
+.order-detail-noLogistics .noLogistics-out{padding: 10px 0;border-bottom:1px solid #e3e3e3;}
+.order-detail-noLogistics .alert-no{color:#999;}
+.order-detail-remark {padding:0 15px;border-bottom:1px solid #e3e3e3;background:#fff;color:#333;}
+.order-detail-remark .remark-out {padding:10px 0; }
+
+.order-detail .list-myorder{margin:10px 0 65px 0;padding-top:0px;border-top:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;background:#fff;}
+.order-detail .list-myorder .text{font-size:12px;overflow:hidden;}
+.order-detail .list-myorder .pro-name{color:#666;font-size:12px;}
+.order-detail .list-myorder .pro-pric{margin-top:5px;color:#333;font-size:12px;}
+.order-detail .list-myorder .pro-pric span{color:#999;font-size:12px;}
+.order-detail .list-myorder .pro-pec{color:#999;font-size:12px;}
+.order-detail .list-myorder .pro-pec .color{margin-right:5px;font-size:12px;}
+.order-detail .list-myorder .pro-return{font-size:14px;}
+
+.order-detail .money-row{line-height:25px;overflow: hidden;font-size:14px;}
+.order-detail .money-content{padding:0 15px 15px 15px;}
+.order-detail .money-content .name{float:left;}
+.order-detail .money-content .price{float:right;}
+.order-detail .totle-money-row {line-height:30px;overflow: hidden;font-size:18px;}
+.order-detail .totle-money-row .price{color:#f37872;}
+.bottom-btn-row{position:fixed;left:0;bottom:0;margin:0;padding:10px 0;border-top:1px solid rgba(0,0,0,.1);width:100%;background:#fff;z-index:99;}
+.bottom-btn-row a.button{float:right;margin:0 10px 0 0;font-size:14px;height:35px;line-height:35px;width:80px;}
+
+.icon-orders-small, .icon-address-small, .icon-talks-small, .icon-medal, .icon-star-small, .icon-money-small, .icon-dai-small, .icon-shop-small, .icon-double-round {
+    font-family: "dis-font";
+    font-style: normal;
+}
+.icon-orders-small::before {
+    content: "6";
+}
+.icon-address-small::before {
+    content: "7";
+}
+.icon-double-round::before {
+    content: "B";
+}
+.icon-talks-small::before {
+    content: "8";
+}
+.list-myorder {
+	margin: 0 0 10px 0;
+	padding-top: 10px;
+	border-bottom: 1px solid #eee;
+	font-size: 14px;
+	background: #fff;
+}
+.list-myorder .ordernumber {
+	height: 35px;
+	line-height: 35px;
+	margin: 0 15px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.list-myorder .order-num {
+	float: left;
+	color: #333;
+	font-size: 16px;
+}
+.list-myorder .order-date {
+	float: right;
+	color: #999;
+}
+.list-myorder .ul-product {
+	margin: 5px 15px;
+	line-height: 1.2;
+	padding: 0;
+}
+.list-myorder li {
+	padding: 10px 0;
+	list-style: none;
+	border-bottom: 1px dotted #ccc;
+	overflow: hidden;
+}
+.list-myorder .pic {
+	float: left;
+	width: 70px;
+	height: 70px;
+	margin-right: 10px;
+	padding: 1px;
+}
+.list-myorder .pic img {
+	width: 100%;
+	height: 100%;
+}
+.list-myorder .text {
+	overflow: hidden;
+	font-size: 14px;
+}
+.list-myorder .pro-name {
+	color: #333;
+	font-size: 14px;
+}
+.list-myorder .pro-pric {
+	margin-top: 5px;
+	color: #333;
+	font-size: 16px;
+}
+.list-myorder .pro-pric span {
+	font-size: 14px;
+	color: #999;
+}
+.list-myorder .pro-pec {
+	color: #999;
+}
+.list-myorder .pro-pec .color {
+	margin-right: 5px;
+}
+.list-myorder .pro-return {
+	margin-top: 5px;
+}
+.list-myorder .div-return {
+	padding-left: 80px;
+	padding-top: 10px;
+	font-size: 14px;
+}
+.list-myorder .a-return {
+	display: block;
+	border: 0px solid #e3e3e3;
+	background: #fff;
+	color: #45a5cf;
+}
+.list-myorder .status-ing {
+	color: #ff9000;
+}
+.list-myorder .status-over {
+	color: #ccc
+}
+.list-myorder .totle {
+	height: 40px;
+	line-height: 40px;
+	padding: 0 15px;
+	overflow: hidden;
+}
+.list-myorder .totle .status {
+	float: left;
+	color: #999;
+}
+.list-myorder .totle .prc-num {
+	float: right;
+	margin-right: 5px;
+	color: #333;
+}
+.list-myorder .totle .pric-lable {
+	float: right;
+	color: #999;
+}
+.list-myorder .totle .price {
+	float: right;
+	font-size: 20px;
+	color: #f37872;
+}
+.list-myorder .div-button {
+	padding: 10px 0;
+	margin: 0 15px;
+	border-top: 1px solid rgba(0, 0, 0, .1);
+}
+.list-myorder .div-button:before,
+.list-myorder .div-button:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.list-myorder .div-button a.button {
+	float: right;
+	margin-left: 10px;
+	font-size: 14px;
+	height: 35px;
+	line-height: 35px;
+	width: 80px;
+	text-align: center;
+}
+.list-myorder button,
+.list-myorder .button {
+	margin: 0;
+}
+.list-myorder.orderend .totle .price {
+	float: right;
+	font-size: 20px;
+	color: #999;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+   <style type="text/css">
+   	.header-add{
+   		background-color: #FA435E !important;
+   	}
+   	.header-add a{color:#fff}
+   	.mui-table-view-divider{margin-top: 10px;height: 50px;font-size: 18px;line-height: 40px; }
+   	.mui-table-view-divider a{color:#FA435E;font-weight: bold;display: block;}
+   	.mui-title{color:#fff}
+   	.address a{font: 15px/1.5 "微软雅黑";color: #000;}
+   	.address li:first-child{margin-top: 10px;border: none;}
+   	.address li{ width: 100%;background: #fff;padding:10px 20px;position: relative;border-top: 1px solid #ccc;}
+   	.address i{position: absolute;right: 20px;top: 15px;font-size: 30px;color: #FA435E;font-weight: bold;}
+   	.load img{width: 100%;}
+   </style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav header-add">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">我的送餐地址</h1>  
+	</header>
+	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+		<ul class="address">
+			<!--<li>
+				<a>贺生龑</a>
+				<a class="sex">先生</a>
+				<a class="phone">323213213213</a>
+				<p>G座 228</p>
+				
+				<i class="mui-icon mui-icon-compose"></i>
+			</li>
+			<li>
+				<a>贺生龑</a>
+				<a class="sex">先生</a>
+				<a class="phone">323213213213</a>
+				<p>G座 228</p>
+				<i class="mui-icon mui-icon-compose"></i>
+			</li>-->
+		</ul>
+		<p class="mui-table-view-divider mui-text-center addr"><a>+新增送餐地址</a></p>
+		<!--<li class="mui-table-view-divider mui-text-center"></li>-->
+	</div>
+	</div>
+
+    <script src="../js/mui.min.js"></script>
+    <!--<script src="../js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="../js/zepto_1.1.6.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+
+	mui.init()
+		mui.plusReady(function(){
+			mui('.addr').on('tap','a',function(){
+				mui.openWindow({
+				   		url:'address.html',  
+		show: {
+			autoShow: true,
+			aniShow: "slide-in-right",
+			duration: "100ms"
+		},
+		waiting: {
+			autoShow: false
+		} 
+				   		});
+			})
+
+			var name   = plus.storage.getItem('name');
+			var sex    = plus.storage.getItem('sex');
+			var add    = plus.storage.getItem('address');
+			var phone  = plus.storage.getItem('phone');
+			var lenIt  = plus.storage.getLength();
+			var sexn
+			switch(sex){
+				case 'nan':
+					sexn = '先生';
+					break;
+				case 'nv':
+					sexn = '女士';
+					break;
+			}
+//			for (var i = 0; i < lenIt; i++) {
+//				var key = plus.storage.key(i)
+//				alert(key)
+//				alert(plus.storage.getItem(key))
+//			}
+			if(name && sex && add && phone) //判断从storage中取出的数据是否为空
+			{
+			$('.address').append('<li class="app"><a>'+name+'</a><a class="sex">&nbsp;'+sexn+'&nbsp;</a><a class="phone">'+phone+'</a><p>'+add+'</p><i class="mui-icon mui-icon-compose"></i></li>')
+			}else{
+			}
+			$('.app').on('tap','i',function(){
+				mui.openWindow({
+				   		url:'address.html',
+				   		extras:{
+								name: name,
+								sex: sex,
+								phone:phone,
+								add:add
+								},  
+		show: { 
+			autoShow: true,
+			aniShow: "slide-in-right",
+			duration: "100ms"
+		},
+		waiting: {
+			autoShow: false
+		} 
+				   		});
+			})
+		})
+	</script>
+</body>
+</html>

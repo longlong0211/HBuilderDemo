@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>挑食&#183;火锅送 - 完善配送信息</title>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/mui.listpicker.css" />
+		<link rel="stylesheet" href="../../css/mui.dtpicker.css" />
+		<link rel="stylesheet" href="../../css/ts.css" />
+		<style>
+			.mui-input-row label,
+			.mui-input-row input {
+				font-size: 13px;
+			}
+			.mui-input-row label {
+				padding: 13px 0 13px 15px;
+				width: 30%;
+			}
+			.mui-input-row label~input {
+				width: 70%;
+			}
+			.mui-input-group {
+				margin-bottom: 10px;
+			}
+			.mui-content-padded {
+				background-color: #fff;
+				margin: 0;
+				text-align: center;
+				margin-bottom: 10px;
+				color: #ff5d3a;
+				font-size: 17px;
+				height: 40px;
+				line-height: 40px;
+			}
+			.mui-input-group .mui-input-tip {
+				height: auto;
+			}
+			.mui-input-tip p {
+				font-size: 13px;
+				padding: 0 15px;
+				color: #a9a9a9;
+				line-height: 17px;
+			}
+			/*.mui-bar-footer{
+				padding: 0;
+			}
+			.mui-bar-footer .mui-btn{
+				width: 49%;
+				margin: 0;
+				display: inline-block;
+			}*/
+			
+			#offline {
+				background-color: #ffa902;
+				border-color: #ffa902;
+				color: #fff;
+			}
+			#online,
+			#wechat {
+				background-color: #ff5d3a;
+				border-color: #ff5d3a;
+				color: #fff;
+			}
+			[data-type="hour"] .mui-listpicker,
+			[data-type="hour"] .mui-dtpicker-title h5 {
+				width: 20%;
+			}
+			[data-type="hour"] .mui-listpicker[data-id="picker-h"],
+			[data-type="hour"] .mui-dtpicker-title h5[data-id="title-h"] {
+				width: 40%;
+			}
+			.mui-dtpicker .mui-listpicker ul li {
+				padding: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav"></a>
+			<h1 id="ts_title" class="mui-title">完善配送信息</h1>
+		</header>
+		<nav id="nav" class="mui-bar mui-bar-tab">
+			<a id="offline" class="mui-tab-item">餐到付款</a>
+			<a id="online" class="mui-tab-item mui-wechat-hidden">在线支付</a>
+			<a id="wechat" class="mui-tab-item mui-wechat-visible">微信支付</a>
+		</nav>
+		<div id="scroll" class="mui-content">
+			<!--<div class="mui-scroll">-->
+			<div class="mui-input-group">
+				<div class="mui-input-row">
+					<label>客官姓名</label>
+					<input id="consignee_name" type="text" readonly="">
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话</label>
+					<input id="phone" type="number" readonly="">
+				</div>
+				<div class="mui-input-row">
+					<label>详细地址</label>
+					<input id="address" type="text" readonly="">
+				</div>
+			</div>
+			<div class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用餐人数</label>
+					<input id="people_num" type="number" class="mui-input-clear">
+				</div>
+				<div class="mui-input-row">
+					<label>用餐时间</label>
+					<input id="datetime" type="text" placeholder="选择用餐时间" readonly="" class="mui-input-clear">
+					<input id="dinner_time" type="hidden" />
+					<input id="dinner_time_section" type="hidden" />
+				</div>
+				<div class="mui-input-row mui-checkbox">
+					<label>需要发票</label>
+					<input id="invoice_checkbox" type="checkbox">
+				</div>
+				<div class="mui-input-row mui-hidden">
+					<input id="invoice" type="text" class="mui-input-clear" placeholder="请输入发票抬头">
+				</div>
+			</div>
+			<div class="mui-input-group">
+				<div id="coupont_open" class="mui-input-row mui-checkbox mui-input-tip">
+					<label>使用优惠券</label>
+					<input id="coupon_id" type="checkbox" value="">
+					<input id="coupon_num" type="hidden" value="0">
+					<p id="coupon_desc" class="mui-hidden">
+
+					</p>
+				</div>
+			</div>
+			<div class="mui-content-padded">应付金额：<span id="pay_count"></span>
+			</div>
+			<div class="mui-input-group">
+				<div class="mui-input-row mui-checkbox mui-input-tip">
+					<label>是否借用餐具</label>
+					<input id="has_tableware" type="checkbox">
+					<p>
+						包含插线板、电磁炉、锅具、碗筷、汤漏勺等；
+						<br />餐后服务人员会上门回收。
+					</p>
+				</div>
+			</div>
+			<div class="mui-input-row" style="margin: 10px 5px;">
+				<textarea id="remark" placeholder="如有特殊需求请在此处填写"></textarea>
+			</div>
+
+			<!--</div>-->
+		</div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.dtpicker.min.js"></script>
+
+		<script type="text/javascript" src="../../js/ts.min.js"></script>
+		<script type="text/javascript" src="../../js/page/confirmorder/confirmorder.min.js"></script>
+		<script>
+			new TS.Init('Confirmorder');
+		</script>
+	</body>
+
+</html>
